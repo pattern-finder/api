@@ -1,5 +1,4 @@
-import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -16,11 +15,9 @@ export class AppController {
     return this.appService.getOK();
   }
 
-
   @Post('test/post')
-  testPost(@Body() username: String): string {
+  testPost(@Body() username: string): string {
     console.log(username);
     return this.appService.postOK();
   }
-
 }

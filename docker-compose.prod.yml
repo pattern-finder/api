@@ -1,0 +1,24 @@
+# Docker-compose that runs the production.
+version: "3.4"
+
+volumes:
+  postgres:
+  soundhive_minio:
+
+networks:
+  backend:
+  frontend:
+
+services:
+  api:
+    image: registry.qtmsheep.com/vagahbond/pattern-finder/api:latest
+    networks:
+      - backend
+      - frontend
+    ports:
+      - "${API_EXTERNAL_PORT}:${API_INTERNAL_PORT}"
+    depends_on:
+      - db
+      - minio
+    command: sh -c "exec npm run start:dev"
+
