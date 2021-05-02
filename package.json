@@ -1,7 +1,7 @@
 {
-  "name": "pa",
+  "name": "pattern-finder",
   "version": "0.0.1",
-  "description": "",
+  "description": "Api for a platform of pattern finding programming challenges",
   "author": "",
   "private": true,
   "license": "UNLICENSED",

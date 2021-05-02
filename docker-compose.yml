@@ -1,0 +1,22 @@
+version: "3.4"
+
+networks:
+  backend:
+  frontend:
+
+services:
+
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    networks:
+      - backend
+      - frontend
+    environment: 
+      - .env
+    ports:
+      - "${API_EXTERNAL_PORT}:${API_INTERNAL_PORT}"
+    volumes:
+      - ./src:/usr/src/app/src
+    
