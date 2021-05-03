@@ -6,17 +6,46 @@ networks:
 
 services:
 
-  api:
+  picspy-api:
     build: 
       context: .
       dockerfile: Dockerfile.dev
     networks:
       - backend
       - frontend
-    environment: 
+    env_file: 
       - .env
     ports:
       - "${API_EXTERNAL_PORT}:${API_INTERNAL_PORT}"
     volumes:
       - ./src:/usr/src/app/src
+    depends_on: 
+      - picspy-mongo
+    networks: 
+      - backend
     
+  picspy-mongo:
+    restart: always
+    image: mongo:4.2.0
+    volumes:
+      - ./data:/data/db
+    ports: 
+      - "${MONGO_PORT}:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    networks: 
+      - backend
+    
+  # Pratique pour debugger la BDD
+  mongo-express: 
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: "picspy-mongo"
+    networks: 
+      - backend
