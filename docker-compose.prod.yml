@@ -10,7 +10,7 @@ networks:
   frontend:
 
 services:
-  api:
+  picspy-api:
     image: registry.qtmsheep.com/vagahbond/pattern-finder/api:latest
     networks:
       - backend
