@@ -17,10 +17,10 @@ FROM node:14-alpine as builder
 
 ENV NODE_ENV build
 
-USER node
-WORKDIR /home/node
+# USER node
+WORKDIR /usr/src/app
 
-COPY . /home/node
+COPY . /usr/src/app/
 
 RUN npm ci \
     && npm run build
@@ -31,12 +31,12 @@ FROM node:14-alpine
 
 ENV NODE_ENV production
 
-USER node
-WORKDIR /home/node
+# USER node
+WORKDIR /usr/src/app
 
-COPY --from=builder /home/node/package*.json /home/node/
-COPY --from=builder /home/node/dist/ /home/node/dist/
+COPY --from=builder /usr/src/app/package*.json /usr/src/app/
+COPY --from=builder /usr/src/app/dist/ /usr/src/app/
 
 RUN npm ci
 
-CMD ["node", "dist/server.js"]
+CMD ["node", "main"]

@@ -7,15 +7,15 @@ networks:
 
 services:
   picspy-api:
-    image: registry.qtmsheep.com/vagahbond/picspy-api:latest
+    image: registry.qtmsheep.com/vagahbond/picspy/api:latest
     ports:
       - "${API_EXTERNAL_PORT}:${API_INTERNAL_PORT}"
-      depends_on: 
-        - picspy-mongo
-      networks: 
-        - backend
-      env_file: 
-        - .env
+    depends_on: 
+      - picspy-mongo
+    networks: 
+      - backend
+    env_file: 
+      - .env
 
   picspy-mongo:
     restart: always
@@ -29,4 +29,6 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     networks: 
       - backend
+    env_file: 
+      - .env
 
