@@ -1,26 +1,35 @@
-import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
-import { AppService } from './app.service';
+import { Controller, Get, Request, Post, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { LocalAuthGuard } from './auth/local-auth.guard';
+import { AuthService } from './auth/auth.service';
+import { UsersService } from './users/users.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private authService: AuthService, private UsersService: UsersService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @UseGuards(LocalAuthGuard)
+  @Post('auth/login')
+  async login(@Request() req) {
+    return this.authService.login(req.user);
   }
 
-  @Get('test/get')
-  testGet(): string {
-    return this.appService.getOK();
+  @UseGuards(LocalAuthGuard)
+  @Post('user/create')
+  async createUser(@Request() req) {
+    return this.UsersService.addOne(req.user);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Post('user/update')
+  async updateUser(@Request() req) {
 
-  @Post('test/post')
-  testPost(@Body() username: String): string {
-    console.log(username);
-    return this.appService.postOK();
+    return this.UsersService.updateOne(req.user, req.body);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('user/profile')
+  getProfile(@Request() req) {
+    return req.user;
+  }
 }
