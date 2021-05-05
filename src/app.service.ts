@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-
   getHello(): string {
     return 'Hello World!';
   }
@@ -11,8 +10,6 @@ export class AppService {
     return 'Hello World! getHelloTest';
   }
 
-
-
   getOK(): string {
     return 'GET Valid!';
   }
@@ -20,7 +17,4 @@ export class AppService {
   postOK(): string {
     return 'POST Valid!';
   }
-
 }
-
-

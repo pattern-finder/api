@@ -23,6 +23,7 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app/
 
 RUN npm ci \
+    npm run prebuild \
     && npm run build
 
 # ---
