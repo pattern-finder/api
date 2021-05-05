@@ -1,5 +1,6 @@
-[![Actions Status](https://github.com/pattern-finder/api/workflows/test%20and%20build%20on%20commit%20on%20main/badge.svg)](https://github.com/pattern-finder/api/actions)
-[![Actions Status](https://github.com/pattern-finder/api/workflows/test/badge.svg)](https://github.com/pattern-finder/api/actions)
+[![Actions Status](https://github.com/pattern-finder/api/workflows/build/badge.svg)](https://github.com/pattern-finder/api/actions)
+[![Actions Status](https://github.com/pattern-finder/api/workflows/tests/badge.svg)](https://github.com/pattern-finder/api/actions)
+[![Actions Status](https://github.com/pattern-finder/api/workflows/release/badge.svg)](https://github.com/pattern-finder/api/actions)
 
 # Pattern finder
 
