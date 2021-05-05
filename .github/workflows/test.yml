@@ -1,4 +1,4 @@
-name: Test and build on commit on main
+name: Test code and lint when a pull request is issued
 
 on:
   pull_request:
