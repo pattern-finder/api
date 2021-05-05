@@ -1,3 +1,6 @@
+[![Actions Status](https://github.com/{pattern-finder}/{api}/workflows/{build}/badge.svg)](https://github.com/{pattern-finder}/{api}/actions)
+[![Actions Status](https://github.com/{pattern-finder}/{api}/workflows/{test}/badge.svg)](https://github.com/{pattern-finder}/{api}/actions)
+
 # Pattern finder
 
 This is the API for the app Pattern-finder, which consists of coding challenges focused on pattern detection in images.
