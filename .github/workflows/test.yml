@@ -1,4 +1,4 @@
-name: Test code and lint when a pull request is issued
+name: tests
 
 on:
   pull_request:
