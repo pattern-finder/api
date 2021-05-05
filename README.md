@@ -2,7 +2,7 @@
 [![Actions Status](https://github.com/pattern-finder/api/workflows/tests/badge.svg)](https://github.com/pattern-finder/api/actions)
 [![Actions Status](https://github.com/pattern-finder/api/workflows/release/badge.svg)](https://github.com/pattern-finder/api/actions)
 
-# Pattern finder
+# PicSpy
 
 This is the API for the app Pattern-finder, which consists of coding challenges focused on pattern detection in images.
 
@@ -36,4 +36,13 @@ It will start a stack (database, minio...) based on the Dockerfile.dev, which is
 To run the production version, run docker-compose.prod.yml or paste it in the  configuration of Portainer.
 This will pull an image from a private registry, that was build during CI using Dockerfile, and run it.
 
+## CI/CD
+CI/CD is automated via github actions.
+### Tests
+Before merging a pull request, pipeline runs tests , eslint, and prettier via test.yml
 
+### Build
+Whenever a change is pushed to the main branch, tests, eslint and prettier are run, followed by a build. This allows us to unsure the code is safe before deploying it.
+
+### Release
+When a release is published, a docker image is built and pushed into a docker registry, for it to then be pulled by the production server. Then, a webhook is called on the production server for it to pull the new image.
