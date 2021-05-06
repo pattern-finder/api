@@ -10,39 +10,36 @@ This is the API for the app Pattern-finder, which consists of coding challenges 
 The intent behind having different docker configuration is to have one optimized with development (JIT) and one optimized for production(no watching, 2 stage dockerfile...)
 
 The setup needs an environment, provided in `.env`.
-.env should look like this : 
-```
-API_EXTERNAL_HOST=localhost
-API_EXTERNAL_PORT=3031
+.env should look like `.env.example`
 
-API_INTERNAL_PORT=3000
-
-API_EXTERNAL_HOST=localhost
-API_EXTERNAL_PORT=3031
-
-API_INTERNAL_PORT=3000
-
-MONGO_USER=docker
-MONGO_PASSWORD=password
-MONGO_PORT=27017
-MONGO_DB=picspy
-```
 
 ## Dev
 To run the dev version, go to root of project and run `docker-compose up`.
 It will start a stack (database, minio...) based on the Dockerfile.dev, which is prepared to run NestJs with JIT and the watcher up.
 
+Other programs from the stack (frontend...) will be added as images to pull from the registry, so you will have the latest release to work with
+
 ## Prod
 To run the production version, run docker-compose.prod.yml or paste it in the  configuration of Portainer.
 This will pull an image from a private registry, that was build during CI using Dockerfile, and run it.
 
-## CI/CD
+# Contribute
+
+1) Assing yourself an issue, so everyone is aware that this issue is being taken care of.
+2) Create a branch locally and eventually push it.
+3) Once you think the code is ready, you can test prettier and eslint on it to check that the code is clean, and try running tests. Or you can commit it, and then create a pull requestfrom your branch to main/master.
+4) Wait for the pipeline to run if you are not sure that your code passes tests.
+5) Once the pipeline has run, merge the PR and preferably delete your branch.
+6) If your issue remains open, close it.
+7) get yourself a coffee and enjoy a well deserved break
+
+# CI/CD
 CI/CD is automated via github actions.
-### Tests
+## Tests
 Before merging a pull request, pipeline runs tests , eslint, and prettier via test.yml
 
-### Build
+## Build
 Whenever a change is pushed to the main branch, tests, eslint and prettier are run, followed by a build. This allows us to unsure the code is safe before deploying it.
 
-### Release
+## Release
 When a release is published, a docker image is built and pushed into a docker registry, for it to then be pulled by the production server. Then, a webhook is called on the production server for it to pull the new image.
