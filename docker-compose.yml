@@ -23,7 +23,17 @@ services:
       - picspy-mongo
     networks: 
       - backend
-    
+      - frontend
+
+  picspy-front:
+    image: registry.qtmsheep.com/vagahbond/picspy/frontend:latest
+    ports:
+      - 3000:3000
+    networks: 
+      - frontend
+    env_file: 
+      - .env
+
   picspy-mongo:
     restart: always
     image: mongo:4.2.0
