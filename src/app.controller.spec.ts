@@ -16,7 +16,7 @@ describe('AppController', () => {
     appService = app.get<AppService>(AppService);
   });
 
-  describe('login with bad creds', () => {
+  describe('home route', () => {
     it('should return an unauthorized response', async () => {
       const result = 'Welcome to PicSpy API !';
       jest.spyOn(appService, 'getHome').mockImplementation(() => result);
