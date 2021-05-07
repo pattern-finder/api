@@ -4,8 +4,14 @@ networks:
   backend:
   frontend:
 
-services:
+x-logging:
+  &default-logging
+  logging:
+    driver: json-file
+    options:
+      max-size: 100m
 
+services:
   picspy-api:
     build: 
       context: .
@@ -28,7 +34,7 @@ services:
   picspy-front:
     image: registry.qtmsheep.com/vagahbond/picspy/frontend:latest
     ports:
-      - 3000:3000
+      - 3000:80
     networks: 
       - frontend
     env_file: 
@@ -38,7 +44,7 @@ services:
     restart: always
     image: mongo:4.2.0
     volumes:
-      - ./data:/data/db
+      - data:/data/db
     ports: 
       - "${MONGO_PORT}:27017"
     environment:
@@ -46,16 +52,51 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     networks: 
       - backend
-    
-  # Pratique pour debugger la BDD
-  mongo-express: 
-    image: mongo-express
-    restart: always
+      - frontend
+    env_file: 
+      - .env
+
+  judge-server:
+    image: judge0/judge0:1.13.0
+    volumes:
+      - ./judge0.conf:/judge0.conf:ro
     ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
-      ME_CONFIG_MONGODB_SERVER: "picspy-mongo"
-    networks: 
-      - backend
+      - "2358:2358"
+    privileged: true
+    <<: *default-logging
+    restart: always
+
+  judge-workers:
+    image: judge0/judge0:1.13.0
+    command: ["./scripts/workers"]
+    volumes:
+      - ./judge0.conf:/judge0.conf:ro
+    privileged: true
+    <<: *default-logging
+    restart: always
+
+  judge-db:
+    image: postgres:13.0
+    env_file: judge0.conf
+    volumes:
+      - postgres-data:/var/lib/postgresql/data/
+    <<: *default-logging
+    restart: always
+
+  judge-redis:
+    image: redis:6.0
+    command: [
+      "bash", "-c",
+      'docker-entrypoint.sh --appendonly yes --requirepass "$$REDIS_PASSWORD"'
+    ]
+    env_file: judge0.conf
+    volumes:
+      - redis-data:/data
+    <<: *default-logging
+    restart: always
+
+volumes:
+  postgres-data:
+  redis-data:
+  data:
+    
