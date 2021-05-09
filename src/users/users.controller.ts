@@ -10,13 +10,13 @@ export class UsersController {
   @UseGuards(LocalAuthGuard)
   @Post('create')
   async createUser(@Request() req) {
-    return this.usersService.addOne(req.user);
+    return this.usersService.create(req.user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('update')
   async updateUser(@Request() req) {
-    return this.usersService.updateOne(req.user, req.body);
+    return this.usersService.update(req.user, req.body);
   }
 
   @UseGuards(JwtAuthGuard)

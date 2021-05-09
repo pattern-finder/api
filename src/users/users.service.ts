@@ -1,74 +1,45 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import {
-  Category,
   CategoryServiceFactory,
   CategoryConfiguration,
   LogLevel,
 } from 'typescript-logging';
+import { CreateUserDTO } from './dto/create-user.dto';
+import { UpdateUserDTO } from './dto/update-user.dto';
+import { User, UserDocument } from './user.schema';
 
 CategoryServiceFactory.setDefaultConfiguration(
   new CategoryConfiguration(LogLevel.Info),
 );
 
-// Create categories, they will autoregister themselves, one category without parent (root) and a child category.
-export const catService = new Category('service');
-export const catProd = new Category('product', catService);
-
-// This should be a real class/interface representing a user entity
-export type User = any;
-
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+  ) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+  async findAll(): Promise<User[]> {
+    return await this.userModel.find().exec();
   }
 
-  async addOne(user: any): Promise<User | undefined> {
-    const newUser = {
-      userId: this.users.length + 1,
-      username: user.username,
-      password: user.password,
-    };
-
-    const userExistCheck = this.findOne(user.username);
-
-    if (userExistCheck == null) {
-      this.users.push(newUser);
-      return 'User ' + newUser.password + 'create';
-    } else {
-      return 'This name already exists';
-    }
+  async findOne(id: string): Promise<User> {
+    return await this.userModel.findById(id).exec();
   }
 
-  async updateOne(user: any, newUser: any): Promise<User | undefined> {
-    //test si le nouveau mon d'utilisateur n'est pas déja utilisé par qq d'autre
-    if (user.username != newUser.username) {
-      const userExistCheck = this.findOne(newUser.username);
+  async create(creacreateUserDTO: CreateUserDTO): Promise<User> {
+    return await new this.userModel({
+      ...creacreateUserDTO,
+      createdAt: new Date(),
+    }).save();
+  }
 
-      if (userExistCheck != null) {
-        return 'This username already exist, ';
-      }
-    }
+  async update(id: string, updateUserDTO: UpdateUserDTO): Promise<User> {
+    return await this.userModel.findByIdAndUpdate(id, updateUserDTO).exec();
+  }
 
-    const index = this.users.findIndex(
-      (user) => user.userId === newUser.userId,
-    );
-
-    Object.assign(this.users[index], newUser);
-
-    return this.users[index];
+  async delete(id: string): Promise<User> {
+    return await this.userModel.findByIdAndDelete(id).exec();
   }
 }
