@@ -32,9 +32,13 @@ export class UsersService {
     },
   ];
 
+  
+
   async findOne(username: string): Promise<User | undefined> {
     return this.users.find((user) => user.username === username);
   }
+
+
 
   async addOne(user: any): Promise<User | undefined> {
     const newUser = {
@@ -52,6 +56,8 @@ export class UsersService {
       return 'This name already exists';
     }
   }
+
+
 
   async updateOne(user: any, newUser: any): Promise<User | undefined> {
     //test si le nouveau mon d'utilisateur n'est pas déja utilisé par qq d'autre
@@ -71,4 +77,93 @@ export class UsersService {
 
     return this.users[index];
   }
+
+
+
+
+
+
+
+
+  async  getToken(code: string): Promise<any> {
+
+    let data = code["code"];
+    let buff = new Buffer(data);
+    let codesend = buff.toString('base64');
+
+    const request = require('request');
+
+    const options = {
+      method: 'POST',
+      url: 'https://judge0-ce.p.rapidapi.com/submissions',
+      qs: {base64_encoded: 'true', fields: '*'},
+      headers: {
+        'content-type': 'application/json',
+        'x-rapidapi-key': 'af875d9c5emsh6138eed765b10d6p1fb641jsnb4bcea73c579',
+        'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
+        useQueryString: true
+      },
+      body: {
+        language_id: 46,
+        source_code: codesend,
+        stdin: 'SnVkZ2Uw'
+      },
+      json: true
+    };
+
+    return new Promise ((resolve, reject, ) =>{
+
+    request(options, function (error, response, body)  {
+      if (error) throw new Error(error);
+       console.log(body);
+       let json_body = JSON.stringify(body);
+       console.log(json_body);
+       resolve(json_body);
+    });
+  });
+
+}
+
+
+
+
+
+
+
+  async  getCompile(tokenJSON: any): Promise<any> {
+
+    const request = require('request');
+    let token = tokenJSON["token"]
+    const options = {
+      method: 'GET',
+      url: 'https://judge0-ce.p.rapidapi.com/submissions/'+token,
+      qs: {base64_encoded: 'true', fields: '*'},
+      headers: {
+        'x-rapidapi-key': 'af875d9c5emsh6138eed765b10d6p1fb641jsnb4bcea73c579',
+        'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
+        useQueryString: true
+      }
+    };
+    
+    return new Promise ((resolve, reject, ) =>{
+    request(options, function (error, response, body) {
+      if (error) throw new Error(error);
+    
+      let jsonbody = JSON.parse(body);
+      let data = jsonbody["stdout"]
+      let buff = new Buffer(data, 'base64');
+      let codeCompile = buff.toString('ascii');
+
+      console.log(data);
+      resolve(codeCompile)
+    });
+  });
+  
+  }
+
+
+
+
+
+
 }
