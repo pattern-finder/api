@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-var-requires: "off" */
 import { Injectable } from '@nestjs/common';
 import {
   Category,
