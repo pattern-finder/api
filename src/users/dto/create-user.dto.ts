@@ -1,5 +1,12 @@
-export class CreateUserDTO {
-  username: string;
+import { IsNotEmpty, Matches } from 'class-validator';
 
-  password: string;
+export class CreateUserDTO {
+  @IsNotEmpty()
+  username: String;
+
+  @IsNotEmpty()
+  @Matches(
+    /^(?=.{8,})(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$ %^&*-])([a-zA-Z#?!@$ %^&*-]*\d){3,}/,
+  )
+  password: String;
 }
