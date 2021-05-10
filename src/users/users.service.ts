@@ -6,6 +6,9 @@ import {
   LogLevel,
 } from 'typescript-logging';
 
+
+const request = require('request');
+
 CategoryServiceFactory.setDefaultConfiguration(
   new CategoryConfiguration(LogLevel.Info),
 );
@@ -91,7 +94,6 @@ export class UsersService {
     let buff = new Buffer(data);
     let codesend = buff.toString('base64');
 
-    const request = require('request');
     let apiKeyJudge = process.env["API_KEY_JUDGEZERO"];
 
     const options = {
@@ -133,7 +135,6 @@ export class UsersService {
 
   async  getCompile(tokenJSON: string): Promise<String> {
 
-    const request = require('request');
     let token = tokenJSON["token"]
     let apiKeyJudge = process.env["API_KEY_JUDGEZERO"];
     const options = {
