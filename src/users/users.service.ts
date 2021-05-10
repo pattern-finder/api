@@ -59,7 +59,7 @@ export class UsersService {
 
 
 
-  async updateOne(user: any, newUser: any): Promise<User | undefined> {
+  async updateOne(user: any, newUser: any): Promise<User> {
     //test si le nouveau mon d'utilisateur n'est pas déja utilisé par qq d'autre
     if (user.username != newUser.username) {
       const userExistCheck = this.findOne(newUser.username);
@@ -85,7 +85,7 @@ export class UsersService {
 
 
 
-  async  getToken(code: string): Promise<any> {
+  async  getToken(code: string): Promise<String> {
 
     let data = code["code"];
     let buff = new Buffer(data);
@@ -112,13 +112,13 @@ export class UsersService {
       json: true
     };
 
-    return new Promise ((resolve, reject, ) =>{
+    return new Promise ((resolve, ) =>{
 
     request(options, function (error, response, body)  {
       if (error) throw new Error(error);
-       console.log(body);
+      // console.log(body);
        let json_body = JSON.stringify(body);
-       console.log(json_body);
+      // console.log(json_body);
        resolve(json_body);
     });
   });
@@ -131,7 +131,7 @@ export class UsersService {
 
 
 
-  async  getCompile(tokenJSON: any): Promise<any> {
+  async  getCompile(tokenJSON: string): Promise<String> {
 
     const request = require('request');
     let token = tokenJSON["token"]
@@ -147,7 +147,7 @@ export class UsersService {
       }
     };
     
-    return new Promise ((resolve, reject, ) =>{
+    return new Promise ((resolve, ) =>{
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
     
@@ -156,7 +156,7 @@ export class UsersService {
       let buff = new Buffer(data, 'base64');
       let codeCompile = buff.toString('ascii');
 
-      console.log(data);
+      //console.log(data);
       resolve(codeCompile)
     });
   });
