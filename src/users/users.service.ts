@@ -7,7 +7,7 @@ import {
 } from 'typescript-logging';
 
 
-var request = require('request');
+import request = require('request');
 
 CategoryServiceFactory.setDefaultConfiguration(
   new CategoryConfiguration(LogLevel.Info),
