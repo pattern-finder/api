@@ -92,6 +92,7 @@ export class UsersService {
     let codesend = buff.toString('base64');
 
     const request = require('request');
+    let apiKeyJudge = process.env["API_KEY_JUDGEZERO"];
 
     const options = {
       method: 'POST',
@@ -99,7 +100,7 @@ export class UsersService {
       qs: {base64_encoded: 'true', fields: '*'},
       headers: {
         'content-type': 'application/json',
-        'x-rapidapi-key': 'af875d9c5emsh6138eed765b10d6p1fb641jsnb4bcea73c579',
+        'x-rapidapi-key': apiKeyJudge,
         'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
         useQueryString: true
       },
@@ -134,12 +135,13 @@ export class UsersService {
 
     const request = require('request');
     let token = tokenJSON["token"]
+    let apiKeyJudge = process.env["API_KEY_JUDGEZERO"];
     const options = {
       method: 'GET',
       url: 'https://judge0-ce.p.rapidapi.com/submissions/'+token,
       qs: {base64_encoded: 'true', fields: '*'},
       headers: {
-        'x-rapidapi-key': 'af875d9c5emsh6138eed765b10d6p1fb641jsnb4bcea73c579',
+        'x-rapidapi-key': apiKeyJudge,
         'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
         useQueryString: true
       }
