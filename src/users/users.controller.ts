@@ -20,16 +20,16 @@ export class UsersController {
   }
 
 
-  //curl -X POST http://localhost:3000/user/sendCode -d '{"code": "echo hello world"}' -H "Content-Type: application/json"  
+  //curl -X POST http://localhost:3000/user/get/token -d '{"code": "echo hello world"}' -H "Content-Type: application/json"  
   @UseGuards(JwtAuthGuard)
-  @Post('systeme/getToken')
+  @Post('get/token')
   async getToken(@Request() req) {
       return this.usersService.getToken(req.body);
   }
 
-  //curl -X POST http://localhost:3000/systeme/getCompile -d '{"token": "TOKEN"}' -H "Content-Type: application/json"
+  //curl -X POST http://localhost:3000/user/get/compile -d '{"token": "TOKEN"}' -H "Content-Type: application/json"
   @UseGuards(JwtAuthGuard)
-  @Post('systeme/getCompile')
+  @Post('get/compile')
   async getCompile(@Request() req) {
     return this.usersService.getCompile(req.body);
   }
