@@ -1,5 +1,4 @@
-import { UserDocument } from 'src/users/user.schema';
-
-export interface SessionUser {
-  user: UserDocument;
+export interface SessionUserDTO {
+  userId: string;
+  username: string;
 }

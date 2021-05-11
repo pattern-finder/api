@@ -1,6 +1,7 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { encrypt } from 'src/common/crypt.handler';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { User, UserDocument } from './user.schema';
@@ -32,6 +33,7 @@ export class UsersService {
     return await new this.userModel({
       ...createUserDTO,
       createdAt: new Date(),
+      password: await encrypt(createUserDTO.password),
     }).save();
   }
 
@@ -39,7 +41,16 @@ export class UsersService {
     id: string,
     updateUserDTO: UpdateUserDTO,
   ): Promise<UserDocument> {
-    return await this.userModel.findByIdAndUpdate(id, updateUserDTO).exec();
+    console.log(id);
+    return await this.userModel
+      .findByIdAndUpdate(id, {
+        ...updateUserDTO,
+        editedAt: new Date(),
+        password: updateUserDTO.password
+          ? await encrypt(updateUserDTO.password)
+          : undefined,
+      })
+      .exec();
   }
 
   async delete(id: string): Promise<UserDocument> {

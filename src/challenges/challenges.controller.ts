@@ -7,14 +7,14 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { SessionUser } from 'src/auth/dtos/session-user.dto';
+import { SessionUserDTO } from 'src/auth/dtos/session-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Challenge, ChallengeDocument } from './challenge.schema';
 import { ChallengesService } from './challenges.service';
 import { CreateChallengeDTO } from './dto/create-challenge.dto';
 import { UpdateChallengeDTO } from './dto/update-challenge.dto';
 
-@Controller('challenges')
+@Controller('/challenges')
 export class ChallengesController {
   constructor(private readonly challengesService: ChallengesService) {}
 
@@ -23,6 +23,7 @@ export class ChallengesController {
     return req.challenge;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async createChallenge(
     @Body() challengeDTO: CreateChallengeDTO,
@@ -33,13 +34,10 @@ export class ChallengesController {
   @UseGuards(JwtAuthGuard)
   @Put()
   async updateChallenge(
-    @Request() sessionuserObject: SessionUser,
+    @Request() req: { user: SessionUserDTO },
     @Body() updateChallengeDTO: UpdateChallengeDTO,
   ) {
-    return this.challengesService.update(
-      sessionuserObject.user.id,
-      updateChallengeDTO,
-    );
+    return this.challengesService.update(req.user.userId, updateChallengeDTO);
   }
 
   @Get()

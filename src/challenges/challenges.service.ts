@@ -29,7 +29,7 @@ export class ChallengesService {
   ): Promise<ChallengeDocument> {
     if (await this.findByName(createChallengeDTO.name)) {
       throw new UnprocessableEntityException(
-        `Challengename ${createChallengeDTO.name} already taken.`,
+        `Challenge name ${createChallengeDTO.name} already taken.`,
       );
     }
     return await new this.challengeModel({
@@ -43,7 +43,7 @@ export class ChallengesService {
     updateChallengeDTO: UpdateChallengeDTO,
   ): Promise<ChallengeDocument> {
     return await this.challengeModel
-      .findByIdAndUpdate(id, updateChallengeDTO)
+      .findByIdAndUpdate(id, { ...updateChallengeDTO, editedAt: new Date() })
       .exec();
   }
 

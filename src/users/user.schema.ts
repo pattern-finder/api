@@ -12,7 +12,7 @@ export class User {
   password: string;
 
   @Prop()
-  completedAt?: Date;
+  editedAt?: Date;
 
   @Prop({ required: true })
   createdAt: Date;
