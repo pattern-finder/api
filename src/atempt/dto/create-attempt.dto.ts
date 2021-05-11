@@ -1,4 +1,4 @@
-import { IsBase64, IsEnum, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 import { Language } from '../attempt.schema';
 
 export class CreateAttemptDTO {

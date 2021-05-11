@@ -35,7 +35,9 @@ export class AttemptsService {
   }
 
   async findOne(findAttemptDTO: FindByIdDTO): Promise<FetchedAttemptDTO> {
-    const attempt: AttemptDocument = await this.attemptModel.findById(findAttemptDTO.id).exec();
+    const attempt: AttemptDocument = await this.attemptModel
+      .findById(findAttemptDTO.id)
+      .exec();
 
     const judgeAttempt = await this.judgeZeroRepository.get(attempt.token);
     return {

@@ -1,5 +1,5 @@
-import { Challenge } from "src/challenges/challenge.schema";
-import { User } from "src/users/user.schema";
+import { Challenge } from 'src/challenges/challenge.schema';
+import { User } from 'src/users/user.schema';
 
 export class FetchedAttemptDTO {
   id?: string;

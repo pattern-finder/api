@@ -1,7 +1,7 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { User } from "src/users/user.schema";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { User } from 'src/users/user.schema';
 import { Document, Types } from 'mongoose';
-import { Challenge } from "src/challenges/challenge.schema";
+import { Challenge } from 'src/challenges/challenge.schema';
 
 export enum Language {
   CPP = 'c++',

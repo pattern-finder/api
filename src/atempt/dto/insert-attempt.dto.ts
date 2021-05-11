@@ -1,4 +1,4 @@
-import { Language } from "../attempt.schema";
+import { Language } from '../attempt.schema';
 
 export class InsertAttemptDTO {
   user: string;

@@ -2,7 +2,6 @@ import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Challenge, ChallengeDocument } from './challenge.schema';
-import { CreateChallengeDTO } from './dto/create-challenge.dto';
 import { InsertChallengeDTO } from './dto/insert-challenge.dto';
 import { UpdateChallengeDTO } from './dto/update-challenge.dto';
 

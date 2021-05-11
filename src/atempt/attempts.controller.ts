@@ -60,7 +60,6 @@ export class AttemptsController {
     return attempt;
   }
 
-
   @Get()
   async getAttempts(): Promise<AttemptDocument[]> {
     return await this.attemptsService.findAll();
