@@ -4,9 +4,8 @@ import { JwtService } from '@nestjs/jwt';
 import { crypt_compare } from 'src/common/crypt.handler';
 import { SanitizedUserDTO } from 'src/users/dto/sanitized-user.dto';
 import { UsersService } from '../users/users.service';
-import { LoginPayloadDTO } from './dtos/login-payload.dto';
-import { LoginResponseDTO } from './dtos/login-response.dto';
-import { LoginDTO } from './dtos/login.dto';
+import { LoginResponseDTO } from './dto/login-response.dto';
+import { LoginDTO } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {

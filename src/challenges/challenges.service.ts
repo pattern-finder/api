@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Challenge, ChallengeDocument } from './challenge.schema';
 import { CreateChallengeDTO } from './dto/create-challenge.dto';
+import { InsertChallengeDTO } from './dto/insert-challenge.dto';
 import { UpdateChallengeDTO } from './dto/update-challenge.dto';
 
 @Injectable()
@@ -25,7 +26,7 @@ export class ChallengesService {
   }
 
   async create(
-    createChallengeDTO: CreateChallengeDTO,
+    createChallengeDTO: InsertChallengeDTO,
   ): Promise<ChallengeDocument> {
     if (await this.findByName(createChallengeDTO.name)) {
       throw new UnprocessableEntityException(

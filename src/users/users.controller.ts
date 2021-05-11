@@ -3,16 +3,17 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { SessionUserDTO } from 'src/auth/dtos/session-user.dto';
+import { SessionUserDTO } from 'src/auth/dto/session-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateUserDTO } from './dto/create-user.dto';
-import { FindUserDTO } from './dto/find-user.dto';
+import { FindByIdDTO } from '../common/dto/find-by-id.dto';
 import { SanitizedUserDTO } from './dto/sanitized-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { UsersService } from './users.service';
@@ -22,30 +23,20 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get(':id')
-  async getUser(@Param() idObject: FindUserDTO): Promise<SanitizedUserDTO> {
-    return await this.usersService.findOne(idObject.id);
+  async getUser(@Param() idObject: FindByIdDTO): Promise<SanitizedUserDTO> {
+    const user = await this.usersService.findOne(idObject.id);
+
+    if (!user) {
+      throw new NotFoundException('User with specified ID does not exist.');
+    }
+
+    return user;
   }
 
   @Post()
   async createUser(@Body() userDTO: CreateUserDTO): Promise<SanitizedUserDTO> {
     return await this.usersService.create(userDTO);
   }
-
-
-  //curl -X POST http://localhost:3000/user/get/token -d '{"code": "echo hello world"}' -H "Content-Type: application/json"  
-  @UseGuards(JwtAuthGuard)
-  @Post('get/token')
-  async getToken(@Request() req) {
-      return this.usersService.getToken(req.body);
-  }
-
-  //curl -X POST http://localhost:3000/user/get/compile -d '{"token": "TOKEN"}' -H "Content-Type: application/json"
-  @UseGuards(JwtAuthGuard)
-  @Post('get/compile')
-  async getCompile(@Request() req) {
-    return this.usersService.getCompile(req.body);
-  }
-
 
   @UseGuards(JwtAuthGuard)
   @Put()
