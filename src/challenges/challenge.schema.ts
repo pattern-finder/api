@@ -1,5 +1,5 @@
-import { Prop, SchemaFactory, Schema } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
 export type ChallengeDocument = Challenge & Document;
 

@@ -1,8 +1,4 @@
-import {
-  IsNotEmpty,
-  IsOptional,
-  Matches,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, Matches } from 'class-validator';
 
 export class UpdateUserDTO {
   @IsOptional()

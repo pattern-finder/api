@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Put, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Put,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { SessionUser } from 'src/auth/dtos/session-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Challenge, ChallengeDocument } from './challenge.schema';

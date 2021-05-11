@@ -1,14 +1,15 @@
-import { Injectable, UnprocessableEntityException } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { Challenge, ChallengeDocument } from "./challenge.schema";
-import { CreateChallengeDTO } from "./dto/create-challenge.dto";
-import { UpdateChallengeDTO } from "./dto/update-challenge.dto";
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Challenge, ChallengeDocument } from './challenge.schema';
+import { CreateChallengeDTO } from './dto/create-challenge.dto';
+import { UpdateChallengeDTO } from './dto/update-challenge.dto';
 
 @Injectable()
 export class ChallengesService {
   constructor(
-    @InjectModel(Challenge.name) private readonly challengeModel: Model<ChallengeDocument>,
+    @InjectModel(Challenge.name)
+    private readonly challengeModel: Model<ChallengeDocument>,
   ) {}
 
   async findAll(): Promise<ChallengeDocument[]> {
