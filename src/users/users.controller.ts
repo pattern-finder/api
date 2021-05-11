@@ -7,14 +7,21 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+import { SessionUser } from 'src/auth/dtos/session-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateUserDTO } from './dto/create-user.dto';
-import { User } from './user.schema';
+import { UpdateUserDTO } from './dto/update-user.dto';
+import { User, UserDocument } from './user.schema';
 import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Get(':id')
+  getUser(@Request() req) {
+    return req.user;
+  }
 
   @Post()
   async createUser(@Body() userDTO: CreateUserDTO): Promise<User> {
@@ -22,14 +29,18 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put('')
-  async updateUser(@Request() req) {
-    return this.usersService.update(req.user, req.body);
+  @Put()
+  async updateUser(
+    @Request() sessionuserObject: SessionUser,
+    @Body() updateUserDTO: UpdateUserDTO,
+  ) {
+    console.log(sessionuserObject);
+
+    return this.usersService.update(sessionuserObject.user.id, updateUserDTO);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('')
-  getProfile(@Request() req) {
-    return req.user;
+  @Get()
+  async getUsers(): Promise<UserDocument[]> {
+    return this.usersService.findAll();
   }
 }

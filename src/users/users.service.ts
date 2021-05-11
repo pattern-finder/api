@@ -1,18 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import {
-  CategoryServiceFactory,
-  CategoryConfiguration,
-  LogLevel,
-} from 'typescript-logging';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { User, UserDocument } from './user.schema';
-
-CategoryServiceFactory.setDefaultConfiguration(
-  new CategoryConfiguration(LogLevel.Info),
-);
 
 @Injectable()
 export class UsersService {
@@ -20,26 +11,38 @@ export class UsersService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserDocument[]> {
     return await this.userModel.find().exec();
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOne(id: string): Promise<UserDocument> {
     return await this.userModel.findById(id).exec();
   }
 
-  async create(creacreateUserDTO: CreateUserDTO): Promise<User> {
+  async findByUsername(username: string): Promise<UserDocument> {
+    return await this.userModel.findOne({ username });
+  }
+
+  async create(createUserDTO: CreateUserDTO): Promise<UserDocument> {
+    if (await this.findByUsername(createUserDTO.username)) {
+      throw new UnprocessableEntityException(
+        `Username ${createUserDTO.username} already taken.`,
+      );
+    }
     return await new this.userModel({
-      ...creacreateUserDTO,
+      ...createUserDTO,
       createdAt: new Date(),
     }).save();
   }
 
-  async update(id: string, updateUserDTO: UpdateUserDTO): Promise<User> {
+  async update(
+    id: string,
+    updateUserDTO: UpdateUserDTO,
+  ): Promise<UserDocument> {
     return await this.userModel.findByIdAndUpdate(id, updateUserDTO).exec();
   }
 
-  async delete(id: string): Promise<User> {
+  async delete(id: string): Promise<UserDocument> {
     return await this.userModel.findByIdAndDelete(id).exec();
   }
 }
