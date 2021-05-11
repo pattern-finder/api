@@ -56,4 +56,93 @@ export class UsersService {
   async delete(id: string): Promise<UserDocument> {
     return await this.userModel.findByIdAndDelete(id).exec();
   }
+
+
+
+
+
+
+
+
+  // async  getToken(code: string): Promise<String> {
+
+  //   let data = code["code"];
+  //   let buff = new Buffer(data);
+  //   let codesend = buff.toString('base64');
+
+  //   let apiKeyJudge = process.env["API_KEY_JUDGEZERO"];
+
+  //   const options = {
+  //     method: 'POST',
+  //     url: 'https://judge0-ce.p.rapidapi.com/submissions',
+  //     qs: {base64_encoded: 'true', fields: '*'},
+  //     headers: {
+  //       'content-type': 'application/json',
+  //       'x-rapidapi-key': apiKeyJudge,
+  //       'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
+  //       useQueryString: true
+  //     },
+  //     body: {
+  //       language_id: 46,
+  //       source_code: codesend,
+  //       stdin: 'SnVkZ2Uw'
+  //     },
+  //     json: true
+  //   };
+
+  //   return new Promise ((resolve, ) =>{
+
+  //   request(options, function (error, response, body)  {
+  //     if (error) throw new Error(error);
+  //     // console.log(body);
+  //      let json_body = JSON.stringify(body);
+  //     // console.log(json_body);
+  //      resolve(json_body);
+  //   });
+  // });
+
 }
+
+
+
+
+
+
+
+  // async  getCompile(tokenJSON: string): Promise<String> {
+
+  //   let token = tokenJSON["token"]
+  //   let apiKeyJudge = process.env["API_KEY_JUDGEZERO"];
+  //   const options = {
+  //     method: 'GET',
+  //     url: 'https://judge0-ce.p.rapidapi.com/submissions/'+token,
+  //     qs: {base64_encoded: 'true', fields: '*'},
+  //     headers: {
+  //       'x-rapidapi-key': apiKeyJudge,
+  //       'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
+  //       useQueryString: true
+  //     }
+  //   };
+    
+  //   return new Promise ((resolve, ) =>{
+  //   request(options, function (error, response, body) {
+  //     if (error) throw new Error(error);
+    
+  //     let jsonbody = JSON.parse(body);
+  //     let data = jsonbody["stdout"]
+  //     let buff = new Buffer(data, 'base64');
+  //     let codeCompile = buff.toString('ascii');
+
+  //     //console.log(data);
+  //     resolve(codeCompile)
+  //   });
+  // });
+  
+  // }
+
+
+
+
+
+
+// }

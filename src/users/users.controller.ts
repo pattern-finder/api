@@ -31,6 +31,22 @@ export class UsersController {
     return await this.usersService.create(userDTO);
   }
 
+
+  //curl -X POST http://localhost:3000/user/get/token -d '{"code": "echo hello world"}' -H "Content-Type: application/json"  
+  @UseGuards(JwtAuthGuard)
+  @Post('get/token')
+  async getToken(@Request() req) {
+      return this.usersService.getToken(req.body);
+  }
+
+  //curl -X POST http://localhost:3000/user/get/compile -d '{"token": "TOKEN"}' -H "Content-Type: application/json"
+  @UseGuards(JwtAuthGuard)
+  @Post('get/compile')
+  async getCompile(@Request() req) {
+    return this.usersService.getCompile(req.body);
+  }
+
+
   @UseGuards(JwtAuthGuard)
   @Put()
   async updateUser(
