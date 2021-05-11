@@ -14,6 +14,9 @@ The setup needs an environment, provided in `.env`.
 
 
 ## Dev
+First, clone the project recursively, in order for the frontend project to be downloaded: `git clone --recursive git@github.com:pattern-finder/api.git`
+If you already have the projetct cloned and want to add properly the frontend, use this command: ` git submodule update --init --recursive`
+
 To run the dev version, go to root of project and run `docker-compose up`.
 It will start a stack (database, minio...) based on the Dockerfile.dev, which is prepared to run NestJs with JIT and the watcher up.
 

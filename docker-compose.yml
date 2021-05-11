@@ -33,10 +33,14 @@ services:
       - frontend
 
   picspy-front:
-    image: registry.qtmsheep.com/vagahbond/picspy/frontend:latest
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.dev
     ports:
-      - 3000:80
-    networks: 
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+    networks:
       - frontend
     env_file: 
       - .env
