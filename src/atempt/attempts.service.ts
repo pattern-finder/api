@@ -25,8 +25,7 @@ export class AttemptsService {
     );
 
     const attempt = await new this.attemptModel({
-      user: insertAttemptDTO.user,
-      challenge: insertAttemptDTO.challenge,
+      ...insertAttemptDTO,
       token: execResults.token,
       createdAt: new Date(),
     }).save();
