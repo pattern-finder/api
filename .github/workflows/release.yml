@@ -36,7 +36,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_REGISTRY }}/vagahbond/picspy/api
             ${{ secrets.DOCKER_REGISTRY }}/vagahbond/picspy/api:${{ steps.tag_name.outputs.TAG_NAME }}
-          secrets: GIT_AUTH_TOKEN=${{ REPOS_ACCESS_TOKEN }}
+          secrets: GIT_AUTH_TOKEN=${{ secrets.REPOS_ACCESS_TOKEN }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
         
