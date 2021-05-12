@@ -36,7 +36,13 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_REGISTRY }}/vagahbond/picspy/api
             ${{ secrets.DOCKER_REGISTRY }}/vagahbond/picspy/api:${{ steps.tag_name.outputs.TAG_NAME }}
-            
+
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+      - name: Deploy Stage
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secret.PROD_WEBHOOK }}
+          method: 'POST'
         
