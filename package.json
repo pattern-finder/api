@@ -83,5 +83,9 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "exclude": [
+    "frontend/"
+  ]
 }
+
