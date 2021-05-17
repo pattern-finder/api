@@ -109,6 +109,41 @@ services:
     networks: 
       - judgezero
 
+  picspy-minio:
+    image: minio/minio
+    volumes:
+    - soundhive_minio:/data
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET}
+    command: server /data
+    ports:
+      - 127.0.0.1:9001:9000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+    # restart: always
+    networks: 
+      - backend
+
+  picspy-createbuckets:
+      image: minio/mc
+      depends_on:
+        - minio
+      ports:
+        - 7999:9000
+      entrypoint: >
+        /bin/sh -c "
+        /usr/bin/mc config host add myminio http://minio:9000 miniokey miniosecret;
+        /usr/bin/mc mb -p myminio/picspy_pps;
+        /usr/bin/mc policy download myminio/picspy_pps;
+        /usr/bin/mc mb -p myminio/picspy_challenges;
+        /usr/bin/mc policy download myminio/picspy_challenges;
+        exit 0;
+        "
+      networks: 
+        - backend
+    
+
 volumes:
   postgres-data:
   redis-data:
