@@ -112,7 +112,7 @@ services:
   picspy-minio:
     image: minio/minio
     volumes:
-    - soundhive_minio:/data
+    - picspy_minio:/data
     environment:
       MINIO_ACCESS_KEY: ${MINIO_KEY}
       MINIO_SECRET_KEY: ${MINIO_SECRET}
