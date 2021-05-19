@@ -16,7 +16,4 @@ export class UpdateUserDTO {
   @IsNotEmpty()
   @IsEmail()
   email?: string;
-
-
-  
 }
