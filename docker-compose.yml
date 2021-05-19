@@ -128,7 +128,7 @@ services:
   picspy-createbuckets:
       image: minio/mc
       depends_on:
-        - minio
+        - picspy-minio
       ports:
         - 7999:9000
       entrypoint: >
@@ -148,4 +148,5 @@ volumes:
   postgres-data:
   redis-data:
   data:
+  picspy_minio:
     

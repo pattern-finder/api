@@ -49,8 +49,10 @@ When a release is published, a docker image is built and pushed into a docker re
 
 ## Architecture
 
+### business routes
 Here is the data flow when creating a user. Same goes for a challenge.
 ![User creation FlowChart](./doc/user_creation.svg)
 
+### execution routes
 Here is the data flow when attempting to solve a challenge, and then fetching again the data.
-![User creation FlowChart](./doc/user_creation.svg)
+![User creation FlowChart](./doc/attempt_cycle.svg)
