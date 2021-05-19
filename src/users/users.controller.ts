@@ -35,6 +35,7 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() userDTO: CreateUserDTO): Promise<SanitizedUserDTO> {
+    console.log(await this.usersService.findAll());
     return await this.usersService.create(userDTO);
   }
 
@@ -44,6 +45,10 @@ export class UsersController {
     @Request() req: { user: SessionUserDTO },
     @Body() updateUserDTO: UpdateUserDTO,
   ): Promise<SanitizedUserDTO> {
+
+    console.log(updateUserDTO.email);
+    console.log(updateUserDTO.password);
+    
     if (Object.keys(updateUserDTO).length === 0) {
       throw new BadRequestException('No changes were specified.');
     }
