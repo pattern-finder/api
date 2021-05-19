@@ -42,6 +42,7 @@ export class UsersService {
     updateUserDTO: UpdateUserDTO,
   ): Promise<UserDocument> {
     console.log(id);
+
     return await this.userModel
       .findByIdAndUpdate(id, {
         ...updateUserDTO,
