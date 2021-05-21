@@ -12,6 +12,9 @@ export class User {
   password: string;
 
   @Prop()
+  avatarUrl?: string;
+
+  @Prop()
   editedAt?: Date;
 
   @Prop({ required: true })
