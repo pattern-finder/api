@@ -70,6 +70,7 @@ export class UsersService {
     }
 
     return await this.userModel.findByIdAndUpdate(id, userObject).exec();
+
   }
 
   async delete(id: string): Promise<UserDocument> {
