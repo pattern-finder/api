@@ -1,6 +1,6 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, UpdateQuery } from 'mongoose';
+import { Model } from 'mongoose';
 import { BufferedFile } from 'src/common/BufferedFile';
 import { encrypt } from 'src/common/crypt.handler';
 import ObjectStorageService, {
