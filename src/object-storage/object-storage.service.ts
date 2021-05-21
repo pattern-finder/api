@@ -4,15 +4,22 @@ import { BufferedFile } from 'src/common/BufferedFile';
 import * as crypto from 'crypto';
 import * as path from 'path';
 import * as fs from 'fs';
+import { config } from './object-storage.config';
 
 export enum PicspyBucket {
-  PROFILE = 'picspy_pps',
-  CHALLENGE = 'picspy_challenges',
+  PROFILE = 'picspy-pps',
+  CHALLENGE = 'picspy-challenges',
 }
 
 @Injectable()
 export default class ObjectStorageService {
   constructor(private readonly minioService: MinioService) {}
+
+  public static generateServerAddress(endOfLink: string) {
+    `http${config.MINIO_USESSL && 's'}://${config.MINIO_ENDPOINT}:${
+      config.MINIO_PORT
+    }/${endOfLink}`;
+  }
 
   public async upload(
     file: BufferedFile,
@@ -28,7 +35,7 @@ export default class ObjectStorageService {
       file.originalname.length,
     );
     const fileName = hashedFileName + ext;
-    const filePath = `${subFolder}/${fileName}`;
+    const filePath = `${baseBucket.valueOf()}/${subFolder}/${fileName}`;
 
     const metaData = {
       'Content-Type': file.mimetype,
@@ -43,7 +50,7 @@ export default class ObjectStorageService {
       );
     } catch (e) {
       throw new HttpException(
-        `Error uploading file: ${e.code}`,
+        `Error uploading file: ${e}`,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

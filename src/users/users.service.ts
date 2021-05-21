@@ -1,6 +1,6 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, UpdateQuery } from 'mongoose';
 import { BufferedFile } from 'src/common/BufferedFile';
 import { encrypt } from 'src/common/crypt.handler';
 import ObjectStorageService, {
@@ -47,28 +47,29 @@ export class UsersService {
     updateUserDTO: UpdateUserDTO,
     file?: BufferedFile,
   ): Promise<UserDocument> {
-    const url = await this.objectStorageService.upload(
-      file,
-      'raw',
-      PicspyBucket.PROFILE,
-    )
-    console.log(url)
-    return await this.userModel
-      .findByIdAndUpdate(id, {
-        ...updateUserDTO,
-        editedAt: new Date(),
-        avatarUrl: file
-          ? await this.objectStorageService.upload(
-              file,
-              'raw',
-              PicspyBucket.PROFILE,
-            )
-          : undefined,
-        password: updateUserDTO.password
-          ? await encrypt(updateUserDTO.password)
-          : undefined,
-      })
-      .exec();
+    // TODO : create DTOs for updates, with the editedAt field specified ?
+    const userObject: {
+      password?: string;
+      avatarUrl?: string;
+      editedAt: Date;
+    } = {
+      ...updateUserDTO,
+      editedAt: new Date(),
+    };
+
+    if (updateUserDTO.password) {
+      userObject.password = await encrypt(updateUserDTO.password);
+    }
+
+    if (file) {
+      userObject.avatarUrl = await this.objectStorageService.upload(
+        file,
+        'raw',
+        PicspyBucket.PROFILE,
+      );
+    }
+
+    return await this.userModel.findByIdAndUpdate(id, userObject).exec();
   }
 
   async delete(id: string): Promise<UserDocument> {
