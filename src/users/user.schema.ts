@@ -15,6 +15,9 @@ export class User {
   email: string;
 
   @Prop()
+  avatarUrl?: string;
+
+  @Prop()
   editedAt?: Date;
 
   @Prop({ required: true })

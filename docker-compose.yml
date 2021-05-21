@@ -22,6 +22,10 @@ services:
       - frontend
     env_file: 
       - .env
+    environment: 
+      MINIO_ACCESS_KEY: ${MINIO_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET}
+      MINIO_USESSL: ${MINIO_USESSL}
     ports:
       - "${API_EXTERNAL_PORT}:${API_INTERNAL_PORT}"
     volumes:
@@ -109,8 +113,46 @@ services:
     networks: 
       - judgezero
 
+  picspy-minio:
+    image: minio/minio
+    volumes:
+    - picspy_minio:/data
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET}
+      MINIO_USESSL: ${MINIO_USESSL}
+    command: server /data
+    ports:
+      - 9001:9000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+    # restart: always
+    networks: 
+      - backend
+
+  # Create buckets in minio server to welcome our files. Otherwise we'd have to do it manually and I'm too damn lazy for that.
+  picspy-createbuckets:
+      image: minio/mc
+      depends_on:
+        - picspy-minio
+      ports:
+        - 7999:9000
+      entrypoint: >
+        /bin/sh -c "
+        /usr/bin/mc config host add myminio http://picspy-minio:9000 ${MINIO_KEY} ${MINIO_SECRET}; 
+        /usr/bin/mc mb -p myminio/picspy-pps;
+        /usr/bin/mc policy set download myminio/picspy-pps;
+        /usr/bin/mc mb -p myminio/picspy-challenges;
+        /usr/bin/mc policy set download myminio/picspy-challenges;
+        exit 0;
+        "
+      networks: 
+        - backend
+    
+
 volumes:
   postgres-data:
   redis-data:
   data:
+  picspy_minio:
     

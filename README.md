@@ -46,3 +46,13 @@ Whenever a change is pushed to the main branch, tests, eslint and prettier are r
 
 ## Release
 When a release is published, a docker image is built and pushed into a docker registry, for it to then be pulled by the production server. Then, a webhook is called on the production server for it to pull the new image.
+
+## Architecture
+
+### business routes
+Here is the data flow when creating a user. Same goes for a challenge.
+![User creation FlowChart](./doc/user_creation.svg)
+
+### execution routes
+Here is the data flow when attempting to solve a challenge, and then fetching again the data.
+![User creation FlowChart](./doc/attempt_cycle.svg)

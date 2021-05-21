@@ -8,7 +8,9 @@ import {
   Post,
   Put,
   Request,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { SessionUserDTO } from 'src/auth/dto/session-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -17,6 +19,8 @@ import { FindByIdDTO } from '../common/dto/find-by-id.dto';
 import { SanitizedUserDTO } from './dto/sanitized-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { UsersService } from './users.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { BufferedFile } from 'src/common/BufferedFile';
 
 @Controller('users')
 export class UsersController {
@@ -39,19 +43,22 @@ export class UsersController {
     return await this.usersService.create(userDTO);
   }
 
+  @UseInterceptors(FileInterceptor('profile_picture'))
   @UseGuards(JwtAuthGuard)
   @Put()
   async updateUser(
     @Request() req: { user: SessionUserDTO },
     @Body() updateUserDTO: UpdateUserDTO,
+    @UploadedFile() profilePicture: BufferedFile,
   ): Promise<SanitizedUserDTO> {
-    console.log(updateUserDTO.email);
-    console.log(updateUserDTO.password);
-
-    if (Object.keys(updateUserDTO).length === 0) {
+    if (Object.keys(updateUserDTO).length === 0 && !profilePicture) {
       throw new BadRequestException('No changes were specified.');
     }
-    return this.usersService.update(req.user.userId, updateUserDTO);
+    return this.usersService.update(
+      req.user.userId,
+      updateUserDTO,
+      profilePicture,
+    );
   }
 
   @Get()
