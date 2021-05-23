@@ -3,6 +3,10 @@ export class SanitizedUserDTO {
 
   username: string;
 
+  avatarUrl?: string;
+
+  email: string;
+
   editedAt?: Date;
 
   createdAt: Date;

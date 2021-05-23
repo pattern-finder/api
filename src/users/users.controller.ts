@@ -20,7 +20,7 @@ import { SanitizedUserDTO } from './dto/sanitized-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { BufferedFile } from 'src/common/BufferedFile';
+import { BufferedFile } from 'src/common/dto/buffered-file.dto';
 
 @Controller('users')
 export class UsersController {
