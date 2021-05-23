@@ -1,7 +1,7 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { BufferedFile } from 'src/common/BufferedFile';
+import { BufferedFile } from 'src/common//dto/buffered-file.dto';
 import { encrypt } from 'src/common/crypt.handler';
 import ObjectStorageService, {
   PicspyBucket,

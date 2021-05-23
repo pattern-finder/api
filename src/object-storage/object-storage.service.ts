@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { MinioService } from 'nestjs-minio-client';
-import { BufferedFile } from 'src/common/BufferedFile';
+import { BufferedFile } from 'src/common/dto/buffered-file.dto';
 import * as crypto from 'crypto';
 import * as path from 'path';
 import * as fs from 'fs';
