@@ -7,15 +7,18 @@ import {
   Put,
   Request,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { SessionUserDTO } from 'src/auth/dto/session-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
+import { WrapperInterceptor } from 'src/common/responses/wrapper.interceptor';
 import { Challenge, ChallengeDocument } from './challenge.schema';
 import { ChallengesService } from './challenges.service';
 import { CreateChallengeDTO } from './dto/create-challenge.dto';
 import { UpdateChallengeDTO } from './dto/update-challenge.dto';
 
+@UseInterceptors(WrapperInterceptor)
 @Controller('/challenges')
 export class ChallengesController {
   constructor(private readonly challengesService: ChallengesService) {}
