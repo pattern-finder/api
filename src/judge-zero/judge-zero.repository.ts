@@ -9,7 +9,9 @@ import axios from 'axios';
 import { Language } from 'src/atempt/attempt.schema';
 
 const languages = {
-  'c++': 50,
+  'c++': 76,
+  rust: 73,
+  python: 71,
   bash: 46,
 };
 
