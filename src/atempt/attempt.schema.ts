@@ -5,6 +5,8 @@ import { Challenge } from 'src/challenges/challenge.schema';
 
 export enum Language {
   CPP = 'c++',
+  RUST = 'rust',
+  PYTHON = 'python',
   BASH = 'bash',
 }
 
