@@ -1,0 +1,68 @@
+import {
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+} from '@nestjs/common';
+import { isMongoId } from 'class-validator';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import HTTPMethod from './http-methods.enum';
+
+@Injectable()
+export class LinkifyInterceptor<T_response> implements NestInterceptor {
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler,
+  ): Observable<T_response | string> {
+    const request = context.switchToHttp().getRequest();
+
+    return next.handle().pipe(
+      map((flow) => {
+        switch (request.method as HTTPMethod) {
+          case HTTPMethod.GET:
+            return this.linkifyResource(
+              flow,
+              this.stripOriginalUrl(request.originalUrl),
+            );
+          case HTTPMethod.POST || HTTPMethod.PUT:
+            this.generateUrl(request.originalUrl, flow._id || undefined);
+          default:
+            return flow;
+        }
+      }),
+    );
+  }
+
+  private stripOriginalUrl(originalUrl: string): string {
+    return originalUrl.split('/')[1];
+  }
+
+  private generateUrl(route: string, id: string): string {
+    return `http${process.env.USE_SSL ? 's' : ''}://${
+      process.env.API_EXTERNAL_HOST || 'http://localhost'
+    }:${process.env.API_EXTERNAL_PORT || '3000'}/${route}${id ? `/${id}` : ''}`;
+  }
+
+  private linkifyResource(obj: any, route: string): any {
+    console.log(Object.keys(obj));
+    if (Array.isArray(obj)) {
+      return obj.map((o) => {
+        this.linkifyResource(o, route);
+      });
+    }
+
+    const res = {};
+    for (const k in obj) {
+      // if (typeof obj[k] === 'object' && obj[k] !== null) {
+      //   res[k] = this.linkifyResource(obj[k], route);
+      // } else
+      if (isMongoId(obj[k])) {
+        res[k] = this.generateUrl(typeof k, obj[k]);
+      } else {
+        res[k] = obj[k];
+      }
+    }
+    return res;
+  }
+}

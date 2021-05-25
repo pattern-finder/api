@@ -6,39 +6,40 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CreatedOrModifiedResponseObject } from './dto/created-or-modified-response.object';
-import { GetResourceResponseObject } from './dto/get-resource-response.object';
-enum HTTPMethod {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'put',
-}
+import { WrappedResponseDTO } from './dto/wrapped-response.dto';
+import HTTPMethod from './http-methods.enum';
 
 @Injectable()
 export class WrapperInterceptor<T_response> implements NestInterceptor {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler,
+  ): Observable<WrappedResponseDTO<T_response>> {
     const request = context.switchToHttp().getRequest();
+
+    const status = request.res.statusCode;
+
     return next.handle().pipe(
       map((flow) => {
         switch (request.method as HTTPMethod) {
           case HTTPMethod.GET:
-            return new GetResourceResponseObject(
-              flow as T_response,
-            ) as GetResourceResponseObject<T_response>;
+            return {
+              content: flow,
+              message: 'OK',
+              statusCode: status,
+            } as WrappedResponseDTO<T_response>;
           case HTTPMethod.POST:
-            return new CreatedOrModifiedResponseObject(
-              request.originalUrl,
-              flow._id || undefined,
-              request.status,
-              'Object created.',
-            );
+            return {
+              content: flow,
+              message: 'Created',
+              statusCode: status,
+            } as WrappedResponseDTO<T_response>;
           case HTTPMethod.PUT:
-            return new CreatedOrModifiedResponseObject(
-              request.originalUrl,
-              flow._id || undefined,
-              request.status,
-              'Object modified.',
-            );
+            return {
+              content: flow,
+              message: 'Modified',
+              statusCode: status,
+            } as WrappedResponseDTO<T_response>;
           default:
             return flow;
         }

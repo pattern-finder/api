@@ -12,42 +12,46 @@ export class ChallengesService {
     private readonly challengeModel: Model<ChallengeDocument>,
   ) {}
 
-  async findAll(): Promise<ChallengeDocument[]> {
-    return await this.challengeModel.find().exec();
+  async findAll(): Promise<Challenge[]> {
+    return (await this.challengeModel.find().exec()).map((challenge) =>
+      challenge.toObject(),
+    );
   }
 
-  async findOne(id: string): Promise<ChallengeDocument> {
-    return await this.challengeModel.findById(id).exec();
+  async findOne(id: string): Promise<Challenge> {
+    return (await this.challengeModel.findById(id).exec())?.toObject();
   }
 
-  async findByName(name: string): Promise<ChallengeDocument> {
-    return await this.challengeModel.findOne({ name });
+  async findByName(name: string): Promise<Challenge> {
+    return (await this.challengeModel.findOne({ name }))?.toObject();
   }
 
-  async create(
-    createChallengeDTO: InsertChallengeDTO,
-  ): Promise<ChallengeDocument> {
+  async create(createChallengeDTO: InsertChallengeDTO): Promise<Challenge> {
     if (await this.findByName(createChallengeDTO.name)) {
       throw new UnprocessableEntityException(
         `Challenge name ${createChallengeDTO.name} already taken.`,
       );
     }
-    return await new this.challengeModel({
-      ...createChallengeDTO,
-      createdAt: new Date(),
-    }).save();
+    return (
+      await new this.challengeModel({
+        ...createChallengeDTO,
+        createdAt: new Date(),
+      }).save()
+    ).toObject();
   }
 
   async update(
     id: string,
     updateChallengeDTO: UpdateChallengeDTO,
-  ): Promise<ChallengeDocument> {
-    return await this.challengeModel
-      .findByIdAndUpdate(id, { ...updateChallengeDTO, editedAt: new Date() })
-      .exec();
+  ): Promise<Challenge> {
+    return (
+      await this.challengeModel
+        .findByIdAndUpdate(id, { ...updateChallengeDTO, editedAt: new Date() })
+        .exec()
+    )?.toObject();
   }
 
-  async delete(id: string): Promise<ChallengeDocument> {
-    return await this.challengeModel.findByIdAndDelete(id).exec();
+  async delete(id: string): Promise<void> {
+    await this.challengeModel.findByIdAndDelete(id).exec();
   }
 }
