@@ -7,20 +7,17 @@ import {
   Post,
   Request,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { SessionUserDTO } from 'src/auth/dto/session-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ChallengesService } from 'src/challenges/challenges.service';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
-import { WrapperInterceptor } from 'src/common/responses/wrapper.interceptor';
-import { AttemptDocument } from './attempt.schema';
+import { Attempt } from './attempt.schema';
 import { AttemptsService } from './attempts.service';
 import { CreateAttemptDTO } from './dto/create-attempt.dto';
 import { ExecutionResultsDTO } from './dto/execution-results.dto';
 import { FetchedAttemptDTO } from './dto/fetched-attempt.dto';
 
-@UseInterceptors(WrapperInterceptor)
 @Controller('/attempts')
 export class AttemptsController {
   constructor(
@@ -64,7 +61,7 @@ export class AttemptsController {
   }
 
   @Get()
-  async getAttempts(): Promise<AttemptDocument[]> {
+  async getAttempts(): Promise<Attempt[]> {
     return await this.attemptsService.findAll();
   }
 }

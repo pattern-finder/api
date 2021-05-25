@@ -21,9 +21,7 @@ import { UpdateUserDTO } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { BufferedFile } from 'src/common/dto/buffered-file.dto';
-import { WrapperInterceptor } from 'src/common/responses/wrapper.interceptor';
 
-@UseInterceptors(WrapperInterceptor)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

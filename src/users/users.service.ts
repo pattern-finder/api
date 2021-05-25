@@ -17,37 +17,38 @@ export class UsersService {
     private readonly objectStorageService: ObjectStorageService,
   ) {}
 
-  async findAll(): Promise<UserDocument[]> {
-    return await this.userModel.find().exec();
+  async findAll(): Promise<User[]> {
+    return (await this.userModel.find().exec()).map((user) => user.toObject());
   }
 
-  async findOne(id: string): Promise<UserDocument> {
-    return await this.userModel.findById(id).exec();
+  async findOne(id: string): Promise<User> {
+    return (await this.userModel.findById(id).exec())?.toObject();
   }
 
-  async findByUsername(username: string): Promise<UserDocument> {
-    return await this.userModel.findOne({ username });
+  async findByUsername(username: string): Promise<User> {
+    return await (await this.userModel.findOne({ username }))?.toObject();
   }
 
-  async create(createUserDTO: CreateUserDTO): Promise<UserDocument> {
+  async create(createUserDTO: CreateUserDTO): Promise<User> {
     if (await this.findByUsername(createUserDTO.username)) {
       throw new UnprocessableEntityException(
         `Username ${createUserDTO.username} already taken.`,
       );
     }
-    return await new this.userModel({
-      ...createUserDTO,
-      createdAt: new Date(),
-      password: await encrypt(createUserDTO.password),
-    }).save();
+    return (
+      await new this.userModel({
+        ...createUserDTO,
+        createdAt: new Date(),
+        password: await encrypt(createUserDTO.password),
+      }).save()
+    ).toObject();
   }
 
   async update(
     id: string,
     updateUserDTO: UpdateUserDTO,
     file?: BufferedFile,
-  ): Promise<UserDocument> {
-    // TODO : create DTOs for updates, with the editedAt field specified ?
+  ): Promise<User> {
     const userObject: {
       password?: string;
       avatarUrl?: string;
@@ -69,10 +70,12 @@ export class UsersService {
       );
     }
 
-    return await this.userModel.findByIdAndUpdate(id, userObject).exec();
+    return (
+      await this.userModel.findByIdAndUpdate(id, userObject).exec()
+    )?.toObject();
   }
 
-  async delete(id: string): Promise<UserDocument> {
-    return await this.userModel.findByIdAndDelete(id).exec();
+  async delete(id: string): Promise<void> {
+    await this.userModel.findByIdAndDelete(id).exec();
   }
 }

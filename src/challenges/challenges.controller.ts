@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   NotFoundException,
+  Param,
   Post,
   Put,
   Request,
@@ -12,21 +13,19 @@ import {
 import { SessionUserDTO } from 'src/auth/dto/session-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
-import { WrapperInterceptor } from 'src/common/responses/wrapper.interceptor';
-import { Challenge, ChallengeDocument } from './challenge.schema';
+import { LinkifyInterceptor } from 'src/common/responses/linkify.interceptor';
+import { Challenge } from './challenge.schema';
 import { ChallengesService } from './challenges.service';
 import { CreateChallengeDTO } from './dto/create-challenge.dto';
 import { UpdateChallengeDTO } from './dto/update-challenge.dto';
 
-@UseInterceptors(WrapperInterceptor)
+@UseInterceptors(LinkifyInterceptor)
 @Controller('/challenges')
 export class ChallengesController {
   constructor(private readonly challengesService: ChallengesService) {}
 
   @Get(':id')
-  async getChallenge(
-    @Body() findByIdDTO: FindByIdDTO,
-  ): Promise<ChallengeDocument> {
+  async getChallenge(@Param() findByIdDTO: FindByIdDTO): Promise<Challenge> {
     const challenge = await this.challengesService.findOne(findByIdDTO.id);
     if (!challenge) {
       throw new NotFoundException(
@@ -58,7 +57,7 @@ export class ChallengesController {
   }
 
   @Get()
-  async getChallenges(): Promise<ChallengeDocument[]> {
+  async getChallenges(): Promise<Challenge[]> {
     return this.challengesService.findAll();
   }
 }

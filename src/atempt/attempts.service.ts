@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
@@ -24,19 +24,25 @@ export class AttemptsService {
       insertAttemptDTO.language,
     );
 
-    const attempt = await new this.attemptModel({
-      ...insertAttemptDTO,
-      token: execResults.token,
-      createdAt: new Date(),
-    }).save();
+    const attempt = (
+      await new this.attemptModel({
+        ...insertAttemptDTO,
+        token: execResults.token,
+        createdAt: new Date(),
+      }).save()
+    ).toObject();
 
     return { ...execResults, id: attempt.id };
   }
 
   async findOne(findAttemptDTO: FindByIdDTO): Promise<FetchedAttemptDTO> {
-    const attempt: AttemptDocument = await this.attemptModel
-      .findById(findAttemptDTO.id)
-      .exec();
+    const attempt: Attempt = (
+      await this.attemptModel.findById(findAttemptDTO.id).exec()
+    )?.toObject();
+
+    if (!attempt) {
+      throw new NotFoundException('This attempt does not exist.');
+    }
 
     const judgeAttempt = await this.judgeZeroRepository.get(attempt.token);
     return {
@@ -48,7 +54,9 @@ export class AttemptsService {
     };
   }
 
-  async findAll(): Promise<AttemptDocument[]> {
-    return await this.attemptModel.find().exec();
+  async findAll(): Promise<Attempt[]> {
+    return (await this.attemptModel.find().exec()).map((attempt) =>
+      attempt.toObject(),
+    );
   }
 }
