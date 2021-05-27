@@ -45,20 +45,20 @@ export class LinkifyInterceptor<T_response> implements NestInterceptor {
   }
 
   private linkifyResource(obj: any, route: string): any {
-    console.log(Object.keys(obj));
     if (Array.isArray(obj)) {
-      return obj.map((o) => {
-        this.linkifyResource(o, route);
-      });
+      return obj.map((o) => this.linkifyResource(o, route));
     }
 
     const res = {};
     for (const k in obj) {
-      // if (typeof obj[k] === 'object' && obj[k] !== null) {
-      //   res[k] = this.linkifyResource(obj[k], route);
-      // } else
-      if (isMongoId(obj[k])) {
-        res[k] = this.generateUrl(typeof k, obj[k]);
+      if (k === 'id') return;
+
+      if (obj[k] instanceof Date) {
+        res[k] = obj[k];
+      } else if (isMongoId(obj[k]).toString()) {
+        res[k] = this.generateUrl(route, obj[k]);
+      } else if (obj[k] != undefined && typeof obj[k] === 'object') {
+        res[k] = this.linkifyResource(obj[k], route);
       } else {
         res[k] = obj[k];
       }
