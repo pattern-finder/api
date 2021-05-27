@@ -45,7 +45,6 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() userDTO: CreateUserDTO): Promise<SanitizedUserDTO> {
-    console.log(await this.usersService.findAll());
     return await this.usersService.create(userDTO);
   }
 
