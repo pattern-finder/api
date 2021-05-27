@@ -16,12 +16,18 @@ import { SessionUserDTO } from 'src/auth/dto/session-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { FindByIdDTO } from '../common/dto/find-by-id.dto';
-import { SanitizedUserDTO } from './dto/sanitized-user.dto';
+import {
+  SanitizedUserDTO,
+  sanitizedUserTemplate,
+} from './dto/sanitized-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { BufferedFile } from 'src/common/dto/buffered-file.dto';
+import { LinkifyInterceptor } from 'src/common/responses/linkify.interceptor';
+import { sanitize } from 'src/common/responses/generic_sanitizer';
 
+@UseInterceptors(LinkifyInterceptor)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -34,7 +40,7 @@ export class UsersController {
       throw new NotFoundException('User with specified ID does not exist.');
     }
 
-    return user;
+    return sanitize<SanitizedUserDTO>(user, sanitizedUserTemplate);
   }
 
   @Post()
@@ -54,15 +60,19 @@ export class UsersController {
     if (Object.keys(updateUserDTO).length === 0 && !profilePicture) {
       throw new BadRequestException('No changes were specified.');
     }
-    return this.usersService.update(
+    const user = this.usersService.update(
       req.user.userId,
       updateUserDTO,
       profilePicture,
     );
+
+    return sanitize<SanitizedUserDTO>(user, sanitizedUserTemplate);
   }
 
   @Get()
   async getUsers(): Promise<SanitizedUserDTO[]> {
-    return this.usersService.findAll();
+    return (await this.usersService.findAll()).map((user) =>
+      sanitize<SanitizedUserDTO>(user, sanitizedUserTemplate),
+    );
   }
 }

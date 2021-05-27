@@ -1,5 +1,5 @@
 export class SanitizedUserDTO {
-  id?: string;
+  _id?: string;
 
   username: string;
 
@@ -13,3 +13,13 @@ export class SanitizedUserDTO {
 
   deletedAt?: Date;
 }
+
+export const sanitizedUserTemplate: SanitizedUserDTO = {
+  _id: '',
+  username: '',
+  avatarUrl: '',
+  email: '',
+  editedAt: new Date(),
+  createdAt: new Date(),
+  deletedAt: new Date(),
+};
