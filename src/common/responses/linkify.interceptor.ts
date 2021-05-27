@@ -58,7 +58,7 @@ export class LinkifyInterceptor<T_response> implements NestInterceptor {
 
       if (obj[k] instanceof Date) {
         res[k] = obj[k];
-      } else if (isMongoId(obj[k].toString())) {
+      } else if (obj[k] && isMongoId(obj[k].toString())) {
         res[k] = this.generateUrl(route, obj[k]);
       } else if (obj[k] != undefined && typeof obj[k] === 'object') {
         res[k] = this.linkifyResource(obj[k], route);
