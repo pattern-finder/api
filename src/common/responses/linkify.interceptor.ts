@@ -26,7 +26,10 @@ export class LinkifyInterceptor<T_response> implements NestInterceptor {
               this.stripOriginalUrl(request.originalUrl),
             );
           case HTTPMethod.POST || HTTPMethod.PUT:
-            this.generateUrl(request.originalUrl, flow._id || undefined);
+            return this.generateUrl(
+              this.stripOriginalUrl(request.originalUrl),
+              flow._id || undefined,
+            );
           default:
             return flow;
         }
@@ -55,7 +58,7 @@ export class LinkifyInterceptor<T_response> implements NestInterceptor {
 
       if (obj[k] instanceof Date) {
         res[k] = obj[k];
-      } else if (isMongoId(obj[k]).toString()) {
+      } else if (isMongoId(obj[k].toString())) {
         res[k] = this.generateUrl(route, obj[k]);
       } else if (obj[k] != undefined && typeof obj[k] === 'object') {
         res[k] = this.linkifyResource(obj[k], route);
