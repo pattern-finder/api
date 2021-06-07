@@ -1,16 +1,24 @@
-import { IsAlphanumeric, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsAlphanumeric,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class UpdateChallengeDTO {
   @IsNotEmpty()
   @IsString()
   @IsAlphanumeric()
+  @IsOptional()
   name?: string;
 
   @IsNotEmpty()
+  @IsOptional()
   @IsString()
   instructions?: string;
 
   @IsNotEmpty()
+  @IsOptional()
   @IsString()
   imageUrl?: string;
 }
