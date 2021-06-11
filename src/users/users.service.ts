@@ -18,28 +18,62 @@ export class UsersService {
   ) {}
 
   async findAll(): Promise<User[]> {
-    return (await this.userModel.find().exec()).map((user) => user.toObject());
+    return (await this.userModel.find().exec()).map((user) => {
+      const userObject = user.toObject();
+      return {
+        ...userObject,
+        avatarUrl:
+          userObject.avatarUrl &&
+          this.objectStorageService.generateExternalServerAddress(
+            userObject.avatarUrl,
+          ),
+      };
+    });
   }
 
   async findOne(id: string): Promise<User> {
-    return (await this.userModel.findById(id).exec())?.toObject();
+    const userObject = (await this.userModel.findById(id).exec())?.toObject();
+
+    return {
+      ...userObject,
+      avatarUrl:
+        userObject.avatarUrl &&
+        this.objectStorageService.generateExternalServerAddress(
+          userObject.avatarUrl,
+        ),
+    };
   }
 
   async findByUsername(username: string): Promise<User> {
     return await (await this.userModel.findOne({ username }))?.toObject();
   }
 
-  async create(createUserDTO: CreateUserDTO): Promise<User> {
+  async create(
+    createUserDTO: CreateUserDTO,
+    file?: BufferedFile,
+  ): Promise<User> {
     if (await this.findByUsername(createUserDTO.username)) {
       throw new UnprocessableEntityException(
         `Username ${createUserDTO.username} already taken.`,
       );
     }
+
+    let avatarUrl = undefined;
+
+    if (file) {
+      avatarUrl = await this.objectStorageService.upload(
+        file,
+        'raw',
+        PicspyBucket.PROFILE,
+      );
+    }
+
     return (
       await new this.userModel({
         ...createUserDTO,
         createdAt: new Date(),
         password: await encrypt(createUserDTO.password),
+        avatarUrl,
       }).save()
     ).toObject();
   }

@@ -13,9 +13,6 @@ export class Picture {
   @Prop({ type: Types.ObjectId, ref: 'User' })
   owner: User;
 
-  @Prop({ require: true })
-  alt: string;
-
   @Prop()
   editedAt?: Date;
 

@@ -77,6 +77,8 @@ services:
     networks: 
       - judgezero
       - backend
+    depends_on: 
+      - judge-db
 
   judge-workers:
     image: judge0/judge0:1.13.0
@@ -88,6 +90,8 @@ services:
     restart: always
     networks: 
       - judgezero
+    depends_on: 
+      - judge-db
 
   judge-db:
     image: postgres:13.0

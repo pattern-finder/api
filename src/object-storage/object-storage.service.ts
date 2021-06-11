@@ -15,10 +15,16 @@ export enum PicspyBucket {
 export default class ObjectStorageService {
   constructor(private readonly minioService: MinioService) {}
 
-  public static generateServerAddress(endOfLink: string) {
-    `http${config.MINIO_USESSL && 's'}://${config.MINIO_ENDPOINT}:${
-      config.MINIO_PORT
-    }/${endOfLink}`;
+  public generateInternalServerAddress(endOfLink: string) {
+    return `http${config.MINIO_USESSL ? 's' : ''}://${
+      config.MINIO_INTERNAL_ENDPOINT
+    }:${config.MINIO_INTERNAL_PORT}/${endOfLink}`;
+  }
+
+  public generateExternalServerAddress(endOfLink: string) {
+    return `http${config.MINIO_USESSL ? 's' : ''}://${
+      config.MINIO_EXTERNAL_ENDPOINT
+    }:${config.MINIO_EXTERNAL_PORT}/${endOfLink}`;
   }
 
   public async upload(
@@ -34,8 +40,9 @@ export default class ObjectStorageService {
       file.originalname.lastIndexOf('.'),
       file.originalname.length,
     );
+
     const fileName = hashedFileName + ext;
-    const filePath = `${baseBucket.valueOf()}/${subFolder}/${fileName}`;
+    const filePath = `${subFolder}/${fileName}`;
 
     const metaData = {
       'Content-Type': file.mimetype,
@@ -55,7 +62,7 @@ export default class ObjectStorageService {
       );
     }
 
-    return filePath;
+    return `${baseBucket.valueOf()}/${filePath}`;
   }
 
   delete(objetName: string, baseBucket: PicspyBucket): void {
