@@ -6,6 +6,7 @@ import ObjectStorageService, {
   PicspyBucket,
 } from 'src/object-storage/object-storage.service';
 import { InsertPictureDTO } from './dto/insert-picture.dto';
+import { PictureUrlDTO } from './dto/picture-url.dto';
 import { UpdatePictureDTO } from './dto/update-picture.dto';
 import { Picture, PictureDocument } from './picture.schema';
 
@@ -31,6 +32,21 @@ export class PicturesService {
     return (await this.pictureModel.findOne({ filename }))?.toObject();
   }
 
+  async findUrlsByChallenge(challenge: string): Promise<PictureUrlDTO[]> {
+    const pictures = (
+      await this.pictureModel.find({ challenge }, 'url').exec()
+    ).map((picture) => {
+      const pictureObject = picture.toObject();
+      return {
+        _id: pictureObject._id,
+        url: this.objectStorageService.generateExternalServerAddress(
+          pictureObject.url,
+        ),
+      };
+    });
+    return pictures;
+  }
+
   async create(
     createPictureDTO: InsertPictureDTO,
     file: BufferedFile,
@@ -51,6 +67,7 @@ export class PicturesService {
     return (
       await new this.pictureModel({
         ...createPictureDTO,
+        url: filename,
         createdAt: new Date(),
       }).save()
     ).toObject();

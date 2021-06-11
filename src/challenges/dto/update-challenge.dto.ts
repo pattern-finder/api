@@ -16,9 +16,4 @@ export class UpdateChallengeDTO {
   @IsOptional()
   @IsString()
   instructions?: string;
-
-  @IsNotEmpty()
-  @IsOptional()
-  @IsString()
-  imageUrl?: string;
 }
