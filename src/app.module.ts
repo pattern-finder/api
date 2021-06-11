@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ChallengesModule } from './challenges/challenges.module';
-import { AttemptsModule } from './atempt/attempts.module';
+import { AttemptsModule } from './attempt/attempts.module';
 @Module({
   imports: [
     MongooseModule.forRoot(

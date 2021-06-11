@@ -17,10 +17,15 @@ import { SessionUserDTO } from 'src/auth/dto/session-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { BufferedFile } from 'src/common/dto/buffered-file.dto';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
+import { sanitize } from 'src/common/responses/generic_sanitizer';
 import { LinkifyInterceptor } from 'src/common/responses/linkify.interceptor';
 import { Challenge } from './challenge.schema';
 import { ChallengesService } from './challenges.service';
 import { CreateChallengeDTO } from './dto/create-challenge.dto';
+import {
+  SanitizedChallengeDTO,
+  sanitizedChallengeTemplate,
+} from './dto/sanitized-challenge.dto';
 import { UpdateChallengeDTO } from './dto/update-challenge.dto';
 
 @UseInterceptors(LinkifyInterceptor)
@@ -29,14 +34,19 @@ export class ChallengesController {
   constructor(private readonly challengesService: ChallengesService) {}
 
   @Get(':id')
-  async getChallenge(@Param() findByIdDTO: FindByIdDTO): Promise<Challenge> {
+  async getChallenge(
+    @Param() findByIdDTO: FindByIdDTO,
+  ): Promise<SanitizedChallengeDTO> {
     const challenge = await this.challengesService.findOne(findByIdDTO.id);
     if (!challenge) {
       throw new NotFoundException(
         'Challenge with specified ID does not exist.',
       );
     }
-    return challenge;
+    return sanitize<SanitizedChallengeDTO>(
+      challenge,
+      sanitizedChallengeTemplate,
+    );
   }
 
   @UseGuards(JwtAuthGuard)
@@ -71,7 +81,9 @@ export class ChallengesController {
   }
 
   @Get()
-  async getChallenges(): Promise<Challenge[]> {
-    return this.challengesService.findAll();
+  async getChallenges(): Promise<SanitizedChallengeDTO[]> {
+    return (await this.challengesService.findAll()).map((challenge) =>
+      sanitize<SanitizedChallengeDTO>(challenge, sanitizedChallengeTemplate),
+    );
   }
 }

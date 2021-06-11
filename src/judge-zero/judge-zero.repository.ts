@@ -6,7 +6,7 @@ import {
 import { judgeConfig } from './configuration/judge-zero-server.conf';
 import { JudgeZeroSubmissionDTO } from './dto/judge-zero-submission.dto';
 import axios from 'axios';
-import { Language } from 'src/atempt/attempt.schema';
+import { Language } from 'src/attempt/attempt.schema';
 
 const languages = {
   'c++': 50,
