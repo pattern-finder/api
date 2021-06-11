@@ -1,17 +1,16 @@
-import { Prop, Schema } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { User } from 'src/users/user.schema';
+import { Challenge } from 'src/challenges/challenge.schema';
 
 export type PictureDocument = Picture & Document;
 
 @Schema()
 export class Picture {
   @Prop({ required: true, unique: true })
-  filename: string;
+  url: string;
 
-  //challenges without any owners are the default challenges.
-  @Prop({ type: Types.ObjectId, ref: 'User' })
-  owner: User;
+  @Prop({ type: Types.ObjectId, ref: Challenge.name })
+  challenge: string;
 
   @Prop()
   editedAt?: Date;
@@ -22,3 +21,5 @@ export class Picture {
   @Prop()
   deletedAt?: Date;
 }
+
+export const PictureSchema = SchemaFactory.createForClass(Picture);

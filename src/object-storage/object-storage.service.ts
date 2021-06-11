@@ -62,7 +62,9 @@ export default class ObjectStorageService {
       );
     }
 
-    return `${baseBucket.valueOf()}/${filePath}`;
+    return baseBucket.valueOf()
+      ? `${baseBucket.valueOf()}/${filePath}`
+      : filePath;
   }
 
   delete(objetName: string, baseBucket: PicspyBucket): void {

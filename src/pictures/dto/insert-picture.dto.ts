@@ -1,3 +1,3 @@
 export class InsertPictureDTO {
-  owner: string;
+  challenge: string;
 }

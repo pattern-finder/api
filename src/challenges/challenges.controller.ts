@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -7,11 +8,14 @@ import {
   Post,
   Put,
   Request,
+  UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { SessionUserDTO } from 'src/auth/dto/session-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { BufferedFile } from 'src/common/dto/buffered-file.dto';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
 import { LinkifyInterceptor } from 'src/common/responses/linkify.interceptor';
 import { Challenge } from './challenge.schema';
@@ -36,15 +40,25 @@ export class ChallengesController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FilesInterceptor('pictures'))
   @Post()
   async createChallenge(
     @Request() req: { user: SessionUserDTO },
     @Body() challengeDTO: CreateChallengeDTO,
+    @UploadedFiles() pictures: Array<BufferedFile>,
   ): Promise<Challenge> {
-    return this.challengesService.create({
-      ...challengeDTO,
-      owner: req.user.userId,
-    });
+    if (!pictures || pictures.length < 1) {
+      throw new BadRequestException(
+        'please provide pictures for this challenge.',
+      );
+    }
+    return this.challengesService.create(
+      {
+        ...challengeDTO,
+        owner: req.user.userId,
+      },
+      pictures,
+    );
   }
 
   @UseGuards(JwtAuthGuard)

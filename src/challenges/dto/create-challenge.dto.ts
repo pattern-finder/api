@@ -8,8 +8,4 @@ export class CreateChallengeDTO {
   @IsNotEmpty()
   @IsString()
   instructions: string;
-
-  @IsNotEmpty()
-  @IsString()
-  imageUrl: string;
 }
