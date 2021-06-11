@@ -2,7 +2,9 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BufferedFile } from 'src/common/dto/buffered-file.dto';
-import ObjectStorageService from 'src/object-storage/object-storage.service';
+import ObjectStorageService, {
+  PicspyBucket,
+} from 'src/object-storage/object-storage.service';
 import { InsertPictureDTO } from './dto/insert-picture.dto';
 import { UpdatePictureDTO } from './dto/update-picture.dto';
 import { Picture, PictureDocument } from './picture.schema';
@@ -13,7 +15,6 @@ export class PicturesService {
     @InjectModel(Picture.name)
     private readonly pictureModel: Model<PictureDocument>,
     private readonly objectStorageService: ObjectStorageService,
-
   ) {}
 
   async findAll(): Promise<Picture[]> {
@@ -30,9 +31,17 @@ export class PicturesService {
     return (await this.pictureModel.findOne({ filename }))?.toObject();
   }
 
-  async create(createPictureDTO: InsertPictureDTO, file: BufferedFile): Promise<Picture> {
-
-    const filename = await this.objectStorageService.upload(file, ) // setup a types enum for different types of pics.
+  async create(
+    createPictureDTO: InsertPictureDTO,
+    file: BufferedFile,
+    subfolderName: string,
+    baseBucket: PicspyBucket,
+  ): Promise<Picture> {
+    const filename = await this.objectStorageService.upload(
+      file,
+      subfolderName,
+      baseBucket,
+    ); // setup a types enum for different types of pics.
 
     if (await this.findByName(filename)) {
       throw new InternalServerErrorException(

@@ -5,8 +5,8 @@ import { config } from './object-storage.config';
 @Module({
   imports: [
     MinioModule.register({
-      endPoint: config.MINIO_ENDPOINT,
-      port: config.MINIO_PORT,
+      endPoint: config.MINIO_INTERNAL_ENDPOINT,
+      port: config.MINIO_INTERNAL_PORT,
       useSSL: config.MINIO_USESSL,
       accessKey: config.MINIO_ACCESSKEY,
       secretKey: config.MINIO_SECRETKEY,
