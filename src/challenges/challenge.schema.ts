@@ -16,7 +16,7 @@ export class Challenge {
   imageUrl: string;
 
   //challenges without any owners are the default challenges.
-  @Prop({ type: Types.ObjectId, ref: 'User' })
+  @Prop({ type: Types.ObjectId, ref: User.name })
   owner: User;
 
   @Prop()
