@@ -69,7 +69,7 @@ export class UsersController {
       avatarPicture,
     );
 
-    return sanitize<SanitizedUserDTO>(user, sanitizedUserTemplate);
+    return user;
   }
 
   @Get()

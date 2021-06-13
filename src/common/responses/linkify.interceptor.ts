@@ -43,9 +43,14 @@ export class LinkifyInterceptor<T_response> implements NestInterceptor {
 
   private generateUrl(route: string, id: string): string {
     return `${
-      process.env.API_EXTERNAL_HOST ||
-      `http://localhost${process.env.API_EXTERNAL_PORT || '3000'}`
-    }:/${route}${id ? `/${id}` : ''}`;
+      process.env.API_EXTERNAL_HOST
+        ? process.env.API_EXTERNAL_HOST
+        : `http://localhost`
+    }${
+      process.env.API_EXTERNAL_PORT
+        ? `:${process.env.API_EXTERNAL_PORT}`
+        : ':3000'
+    }/${route}${id ? `/${id}` : ''}`;
   }
 
   private linkifyResource(obj: any, route: string): any {
@@ -53,20 +58,23 @@ export class LinkifyInterceptor<T_response> implements NestInterceptor {
       return obj.map((o) => this.linkifyResource(o, route));
     }
 
-    const res = {};
-    for (const k in obj) {
-      if (k === 'id') return;
-
-      if (obj[k] instanceof Date) {
-        res[k] = obj[k];
-      } else if (obj[k] && isMongoId(obj[k].toString())) {
-        res[k] = this.generateUrl(route, obj[k]);
-      } else if (obj[k] != undefined && typeof obj[k] === 'object') {
-        res[k] = this.linkifyResource(obj[k], route);
-      } else {
-        res[k] = obj[k];
-      }
+    if (obj instanceof Date) {
+      return obj;
     }
-    return res;
+
+    if (obj && isMongoId(obj.toString())) {
+      return this.generateUrl(route, obj);
+    }
+
+    if (obj != undefined && typeof obj === 'object') {
+      const res = {};
+      for (const k in obj) {
+        res[k] = this.linkifyResource(obj[k], route);
+      }
+
+      return res;
+    }
+
+    return obj;
   }
 }
