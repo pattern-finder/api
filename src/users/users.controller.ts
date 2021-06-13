@@ -26,7 +26,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { BufferedFile } from 'src/common/dto/buffered-file.dto';
 import { LinkifyInterceptor } from 'src/common/responses/linkify.interceptor';
 import { sanitize } from 'src/common/responses/generic_sanitizer';
-import { User } from './user.schema';
 
 @UseInterceptors(LinkifyInterceptor)
 @Controller('users')
