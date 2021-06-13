@@ -43,9 +43,14 @@ export class LinkifyInterceptor<T_response> implements NestInterceptor {
 
   private generateUrl(route: string, id: string): string {
     return `${
-      process.env.API_EXTERNAL_HOST ||
-      `http://localhost${process.env.API_EXTERNAL_PORT || '3000'}`
-    }:/${route}${id ? `/${id}` : ''}`;
+      process.env.API_EXTERNAL_HOST
+        ? process.env.API_EXTERNAL_HOST
+        : `http://localhost`
+    }${
+      process.env.API_EXTERNAL_PORT
+        ? `:${process.env.API_EXTERNAL_PORT}`
+        : ':3000'
+    }/${route}${id ? `/${id}` : ''}`;
   }
 
   private linkifyResource(obj: any, route: string): any {

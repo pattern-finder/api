@@ -1,6 +1,7 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Challenge } from 'src/challenges/challenge.schema';
 import { CreateSerieDTO } from './dtos/create-serie.dto';
 import { UpdateSerieDTO } from './dtos/update-serie.dto';
 import { Serie, SerieDocument } from './series.schema';
@@ -43,7 +44,13 @@ export class SeriesService {
   async update(id: string, updateSerieDTO: UpdateSerieDTO): Promise<Serie> {
     return (
       await this.seriesModel
-        .findByIdAndUpdate(id, { ...updateSerieDTO, editedAt: new Date() })
+        .findByIdAndUpdate(id, {
+          ...updateSerieDTO,
+          challenges: updateSerieDTO.challenges.map(
+            (challenge) => challenge._id,
+          ),
+          editedAt: new Date(),
+        })
         .exec()
     )?.toObject();
   }

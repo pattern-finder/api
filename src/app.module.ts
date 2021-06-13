@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ChallengesModule } from './challenges/challenges.module';
 import { AttemptsModule } from './attempt/attempts.module';
+import { SeriesModule } from './series/series.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
@@ -15,6 +16,7 @@ import { AttemptsModule } from './attempt/attempts.module';
     AuthModule,
     ChallengesModule,
     AttemptsModule,
+    SeriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

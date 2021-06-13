@@ -1,14 +1,34 @@
+import { Type } from 'class-transformer';
 import {
-  IsAlphanumeric,
+  ArrayMinSize,
+  IsArray,
+  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsString,
+  ValidateNested,
 } from 'class-validator';
+import { Types } from 'mongoose';
 
+export class ChallengeIdObject {
+  @IsMongoId()
+  @IsNotEmpty()
+  _id: string;
+}
 export class UpdateSerieDTO {
   @IsNotEmpty()
   @IsString()
-  @IsAlphanumeric()
   @IsOptional()
-  name: string;
+  name?: string;
+
+  @IsArray()
+  @ArrayMinSize(1)
+  @ValidateNested({ each: true })
+  @Type(() => Types.ObjectId)
+  @IsOptional()
+  challenges?: ChallengeIdObject[];
+
+  @IsNotEmpty()
+  @IsMongoId()
+  _id: string;
 }

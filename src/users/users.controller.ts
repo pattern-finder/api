@@ -26,6 +26,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { BufferedFile } from 'src/common/dto/buffered-file.dto';
 import { LinkifyInterceptor } from 'src/common/responses/linkify.interceptor';
 import { sanitize } from 'src/common/responses/generic_sanitizer';
+import { User } from './user.schema';
 
 @UseInterceptors(LinkifyInterceptor)
 @Controller('users')
@@ -55,7 +56,7 @@ export class UsersController {
     @Request() req: { user: SessionUserDTO },
     @Body() updateUserDTO: UpdateUserDTO,
     @UploadedFile() profilePicture: BufferedFile,
-  ): Promise<SanitizedUserDTO> {
+  ): Promise<User> {
     if (Object.keys(updateUserDTO).length === 0 && !profilePicture) {
       throw new BadRequestException('No changes were specified.');
     }
@@ -65,7 +66,7 @@ export class UsersController {
       profilePicture,
     );
 
-    return sanitize<SanitizedUserDTO>(user, sanitizedUserTemplate);
+    return user;
   }
 
   @Get()
