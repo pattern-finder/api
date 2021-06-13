@@ -1,6 +1,8 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { CreateSerieDTO } from './dtos/create-serie.dto';
+import { UpdateSerieDTO } from './dtos/update-serie.dto';
 import { Serie, SerieDocument } from './series.schema';
 
 @Injectable()
@@ -24,24 +26,24 @@ export class SeriesService {
     return await this.seriesModel.findOne({ name });
   }
 
-  async create(createSeriesDTO: CreateSeriesDTO): Promise<Serie> {
-    if (await this.findByName(createSeriesDTO.name)) {
+  async create(createSerieDTO: CreateSerieDTO): Promise<Serie> {
+    if (await this.findByName(createSerieDTO.name)) {
       throw new UnprocessableEntityException(
-        `Serie name ${createSeriesDTO.name} has already been taken.`,
+        `Serie name ${createSerieDTO.name} has already been taken.`,
       );
     }
     return (
       await new this.seriesModel({
-        ...createSeriesDTO,
+        ...createSerieDTO,
         createdAt: new Date(),
       }).save()
     ).toObject();
   }
 
-  async update(id: string, updateSeriesDTO: UpdateSeriesDTO): Promise<Serie> {
+  async update(id: string, updateSerieDTO: UpdateSerieDTO): Promise<Serie> {
     return (
       await this.seriesModel
-        .findByIdAndUpdate(id, { ...updateSeriesDTO, editedAt: new Date() })
+        .findByIdAndUpdate(id, { ...updateSerieDTO, editedAt: new Date() })
         .exec()
     )?.toObject();
   }
