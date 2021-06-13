@@ -8,7 +8,6 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { Types } from 'mongoose';
 
 export class ChallengeIdObject {
   @IsMongoId()
@@ -21,14 +20,14 @@ export class UpdateSerieDTO {
   @IsOptional()
   name?: string;
 
-  @IsArray()
-  @ArrayMinSize(1)
-  @ValidateNested({ each: true })
-  @Type(() => Types.ObjectId)
-  @IsOptional()
-  challenges?: ChallengeIdObject[];
-
   @IsNotEmpty()
   @IsMongoId()
   _id: string;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ValidateNested({ each: true })
+  @Type(() => ChallengeIdObject)
+  challenges?: ChallengeIdObject[];
 }

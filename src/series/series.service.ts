@@ -1,9 +1,8 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Challenge } from 'src/challenges/challenge.schema';
 import { CreateSerieDTO } from './dtos/create-serie.dto';
-import { UpdateSerieDTO } from './dtos/update-serie.dto';
+import { PopulatedUpdateSerieDTO } from './dtos/populated-update-series.dto';
 import { Serie, SerieDocument } from './series.schema';
 
 @Injectable()
@@ -20,7 +19,7 @@ export class SeriesService {
   }
 
   async findOne(id: string): Promise<Serie> {
-    return (await this.seriesModel.findById(id).exec()).toObject();
+    return (await this.seriesModel.findById(id).exec())?.toObject();
   }
 
   async findByName(name: string): Promise<Serie> {
@@ -41,18 +40,20 @@ export class SeriesService {
     ).toObject();
   }
 
-  async update(id: string, updateSerieDTO: UpdateSerieDTO): Promise<Serie> {
-    return (
-      await this.seriesModel
-        .findByIdAndUpdate(id, {
+  async update(
+    id: string,
+    updateSerieDTO: PopulatedUpdateSerieDTO,
+  ): Promise<void> {
+
+    await this.seriesModel
+      .updateOne(
+        { _id: id },
+        {
           ...updateSerieDTO,
-          challenges: updateSerieDTO.challenges.map(
-            (challenge) => challenge._id,
-          ),
           editedAt: new Date(),
-        })
-        .exec()
-    )?.toObject();
+        },
+      )
+      .exec();
   }
 
   async delete(id: string): Promise<void> {
