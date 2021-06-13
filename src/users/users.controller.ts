@@ -44,26 +44,30 @@ export class UsersController {
     return sanitize<SanitizedUserDTO>(user, sanitizedUserTemplate);
   }
 
+  @UseInterceptors(FileInterceptor('avatar'))
   @Post()
-  async createUser(@Body() userDTO: CreateUserDTO): Promise<SanitizedUserDTO> {
-    return await this.usersService.create(userDTO);
+  async createUser(
+    @Body() userDTO: CreateUserDTO,
+    @UploadedFile() avatarPicture?: BufferedFile,
+  ): Promise<SanitizedUserDTO> {
+    return await this.usersService.create(userDTO, avatarPicture);
   }
 
-  @UseInterceptors(FileInterceptor('profile_picture'))
+  @UseInterceptors(FileInterceptor('avatar'))
   @UseGuards(JwtAuthGuard)
   @Put()
   async updateUser(
     @Request() req: { user: SessionUserDTO },
     @Body() updateUserDTO: UpdateUserDTO,
-    @UploadedFile() profilePicture: BufferedFile,
-  ): Promise<User> {
-    if (Object.keys(updateUserDTO).length === 0 && !profilePicture) {
+    @UploadedFile() avatarPicture: BufferedFile,
+  ): Promise<SanitizedUserDTO> {
+    if (Object.keys(updateUserDTO).length === 0 && !avatarPicture) {
       throw new BadRequestException('No changes were specified.');
     }
     const user = this.usersService.update(
       req.user.userId,
       updateUserDTO,
-      profilePicture,
+      avatarPicture,
     );
 
     return user;

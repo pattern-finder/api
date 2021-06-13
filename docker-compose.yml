@@ -77,6 +77,8 @@ services:
     networks: 
       - judgezero
       - backend
+    depends_on: 
+      - judge-db
 
   judge-workers:
     image: judge0/judge0:1.13.0
@@ -88,6 +90,8 @@ services:
     restart: always
     networks: 
       - judgezero
+    depends_on: 
+      - judge-db
 
   judge-db:
     image: postgres:13.0
@@ -132,22 +136,22 @@ services:
 
   # Create buckets in minio server to welcome our files. Otherwise we'd have to do it manually and I'm too damn lazy for that.
   picspy-createbuckets:
-      image: minio/mc
-      depends_on:
-        - picspy-minio
-      ports:
-        - 7999:9000
-      entrypoint: >
-        /bin/sh -c "
-        /usr/bin/mc config host add myminio http://picspy-minio:9000 ${MINIO_KEY} ${MINIO_SECRET}; 
-        /usr/bin/mc mb -p myminio/picspy-pps;
-        /usr/bin/mc policy set download myminio/picspy-pps;
-        /usr/bin/mc mb -p myminio/picspy-challenges;
-        /usr/bin/mc policy set download myminio/picspy-challenges;
-        exit 0;
-        "
-      networks: 
-        - backend
+    image: minio/mc
+    depends_on:
+      - picspy-minio
+    ports:
+      - 7999:9000
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add myminio http://picspy-minio:9000 ${MINIO_KEY} ${MINIO_SECRET}; 
+      /usr/bin/mc mb -p myminio/picspy-pps;
+      /usr/bin/mc policy set download myminio/picspy-pps;
+      /usr/bin/mc mb -p myminio/picspy-challenges;
+      /usr/bin/mc policy set download myminio/picspy-challenges;
+      exit 0;
+      "
+    networks: 
+      - backend
     
 
 volumes:

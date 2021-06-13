@@ -3,7 +3,5 @@ export class InsertChallengeDTO {
 
   instructions: string;
 
-  imageUrl: string;
-
   owner: string;
 }
