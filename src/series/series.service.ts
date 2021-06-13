@@ -44,6 +44,12 @@ export class SeriesService {
     id: string,
     updateSerieDTO: PopulatedUpdateSerieDTO,
   ): Promise<void> {
+    if (updateSerieDTO.name && (await this.findByName(updateSerieDTO.name))) {
+      throw new UnprocessableEntityException(
+        `Serie name ${updateSerieDTO.name} has already been taken.`,
+      );
+    }
+
     await this.seriesModel
       .updateOne(
         { _id: id },
