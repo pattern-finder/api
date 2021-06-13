@@ -44,7 +44,6 @@ export class SeriesService {
     id: string,
     updateSerieDTO: PopulatedUpdateSerieDTO,
   ): Promise<void> {
-
     await this.seriesModel
       .updateOne(
         { _id: id },
