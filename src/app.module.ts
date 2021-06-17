@@ -10,7 +10,7 @@ import { SeriesModule } from './series/series.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      `${process.env.MONGO_HOST}://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@picspy-mongo:${process.env.MONGO_PORT}`,
+      `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`,
     ),
     UsersModule,
     AuthModule,
