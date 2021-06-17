@@ -10,7 +10,7 @@ import { SeriesModule } from './series/series.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`,
+      `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`,
     ),
     UsersModule,
     AuthModule,
