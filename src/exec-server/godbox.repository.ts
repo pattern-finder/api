@@ -1,14 +1,11 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import axios from 'axios';
-import { randomUUID } from 'crypto';
 import { Language } from 'src/attempt/attempt.schema';
 import { PictureUrlDTO } from 'src/pictures/dto/picture-url.dto';
 import { godboxConfig } from './configuration/godbox.conf';
 import { GodboxPhaseOutputDTO } from './dto/godbox-phase-output.dto';
 import { promises as fs, createWriteStream } from 'fs';
-import * as archiver from 'archiver';
-
-const TEMP_DIR = '/temp';
+import * as AdmZip from 'adm-zip';
 
 @Injectable()
 export class GodBoxRepository {
@@ -27,61 +24,25 @@ export class GodBoxRepository {
   }
 
   async extractZipFileBase64(archivePath: string): Promise<string> {
+    console.log('readfile');
     return (await fs.readFile(archivePath)).toString('base64');
   }
 
   /*
    * Create a directory, download the pictures and code files in it, and hand back the base64 for the zip.
    */
-  async bundleExec(pictures: PictureUrlDTO[], code: string): Promise<string> {
-    const fullTempDir = `${TEMP_DIR}/${randomUUID()}`;
+  async bundleExec(pictures: PictureUrlDTO[], code: string) {
+    const zip = new AdmZip();
 
-    fs.mkdir(fullTempDir, { recursive: true }).catch((err) => {
-      throw new InternalServerErrorException(err.message);
+    zip.addFile('main.c', Buffer.from(code));
+
+    const imageBuffers = await this.fetchImagesBuffers(pictures);
+    // later add some format extension or something
+    imageBuffers.map((image, index) => {
+      zip.addFile(`pictures/picture-${index}`, image);
     });
 
-    const archivePath = fullTempDir + '/exec_bundle.zip';
-
-    const output = createWriteStream(archivePath);
-    const archive = archiver('zip', {
-      zlib: { level: 9 }, // Sets the compression level.
-    });
-
-    archive.on('warning', function (err) {
-      if (err.code === 'ENOENT') {
-        console.log(err);
-      } else {
-        throw new InternalServerErrorException(err);
-      }
-    });
-
-    archive.on('error', function (err) {
-      throw new InternalServerErrorException(err);
-    });
-
-    archive.pipe(output);
-
-    (await this.fetchImagesBuffers(pictures)).forEach((picture, index) => {
-      archive.append(picture, { name: `pictures/picture-${index}` });
-    });
-
-    archive.append(code, { name: 'main.c' });
-
-    await new Promise<void>((resolve) => {
-      output.on('close', () => {
-        resolve();
-      });
-      return archive.finalize();
-    });
-
-    archive.unpipe();
-    const res = this.extractZipFileBase64(archivePath);
-
-    fs.rmdir(fullTempDir, { recursive: true }).catch((err) => {
-      throw new InternalServerErrorException(err);
-    });
-
-    return res;
+    return zip.toBuffer().toString('base64');
   }
 
   async execute(
