@@ -65,11 +65,13 @@ services:
     env_file: 
       - .env
 
-  godbox:
+  picspy-godbox:
     image: quantumsheep/godbox:2
     privileged: true
     ports:
       - 8080:8080
+    networks: 
+      - backend
 
   picspy-minio:
     image: minio/minio
@@ -83,7 +85,7 @@ services:
     ports:
       - 9001:9000
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      test: ["CMD", "curl", "-f", "http://localhost:9001/minio/health/live"]
     # restart: always
     networks: 
       - backend
