@@ -31,10 +31,10 @@ export class Attempt {
   @Prop({ required: true })
   status: number;
 
-  @Prop({ required: true })
+  @Prop()
   stdout: string;
 
-  @Prop({ required: true })
+  @Prop()
   stderr: string;
 
   @Prop({ required: true })
