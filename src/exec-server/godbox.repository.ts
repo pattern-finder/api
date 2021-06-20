@@ -4,7 +4,7 @@ import { Language } from 'src/attempt/attempt.schema';
 import { PictureUrlDTO } from 'src/pictures/dto/picture-url.dto';
 import { godboxConfig } from './configuration/godbox.conf';
 import { GodboxPhaseOutputDTO } from './dto/godbox-phase-output.dto';
-import { promises as fs, createWriteStream } from 'fs';
+import { promises as fs } from 'fs';
 import * as AdmZip from 'adm-zip';
 
 @Injectable()
