@@ -65,57 +65,11 @@ services:
     env_file: 
       - .env
 
-  judge-server:
-    image: judge0/judge0:1.13.0
-    volumes:
-      - ./judge0.conf:/judge0.conf:ro
+  godbox:
+    image: quantumsheep/godbox:2
+    privileged: true
     ports:
-      - "2358:2358"
-    privileged: true
-    <<: *default-logging
-    restart: always
-    networks: 
-      - judgezero
-      - backend
-    depends_on: 
-      - judge-db
-
-  judge-workers:
-    image: judge0/judge0:1.13.0
-    command: ["./scripts/workers"]
-    volumes:
-      - ./judge0.conf:/judge0.conf:ro
-    privileged: true
-    <<: *default-logging
-    restart: always
-    networks: 
-      - judgezero
-    depends_on: 
-      - judge-db
-
-  judge-db:
-    image: postgres:13.0
-    env_file: judge0.conf
-    volumes:
-      - postgres-data:/var/lib/postgresql/data/
-    <<: *default-logging
-    restart: always
-    networks: 
-      - judgezero
-
-  judge-redis:
-    image: redis:6.0
-    command: [
-      "bash", "-c",
-      'docker-entrypoint.sh --appendonly yes --requirepass "$$REDIS_PASSWORD"'
-    ]
-    env_file: judge0.conf
-    volumes:
-      - redis-data:/data
-    <<: *default-logging
-    restart: always
-    networks: 
-      - judgezero
+      - 8080:8080
 
   picspy-minio:
     image: minio/minio

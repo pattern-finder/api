@@ -14,6 +14,8 @@ export type AttemptDocument = Attempt & Document;
 
 @Schema()
 export class Attempt {
+  _id?: string;
+
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   user: User;
 
@@ -27,7 +29,28 @@ export class Attempt {
   language: Language;
 
   @Prop({ required: true })
-  token: string;
+  status: number;
+
+  @Prop({ required: true })
+  stdout: string;
+
+  @Prop({ required: true })
+  stderr: string;
+
+  @Prop({ required: true })
+  time: number;
+
+  @Prop({ required: true })
+  time_wall: number;
+
+  @Prop({ required: true })
+  used_memory: number;
+
+  @Prop({ required: true })
+  csw_voluntary: number;
+
+  @Prop({ required: true })
+  csw_forced: number;
 
   @Prop()
   editedAt?: Date;

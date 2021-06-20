@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { JudgeZeroRepository } from 'src/judge-zero/judge-zero.repository';
 import { AttemptsController } from './attempts.controller';
 import { Attempt, AttemptSchema } from './attempt.schema';
 import { AttemptsService } from './attempts.service';
 import { ChallengesModule } from 'src/challenges/challenges.module';
+import { ExecServerModule } from 'src/exec-server/exec-server.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Attempt.name, schema: AttemptSchema }]),
     ChallengesModule,
+    ExecServerModule,
   ],
-  providers: [JudgeZeroRepository, AttemptsService],
+  providers: [AttemptsService],
   exports: [AttemptsService],
   controllers: [AttemptsController],
 })
