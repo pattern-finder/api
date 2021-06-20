@@ -78,6 +78,17 @@ export default class ObjectStorageService {
     }
   }
 
+  async downLoadWithLink(
+    downloadPath: string,
+    remoteUrl: string,
+  ): Promise<void> {
+    const urlArray = remoteUrl.split('/');
+    const bucket = urlArray[3] as PicspyBucket;
+    const filename = urlArray.splice(4).join('/');
+
+    await this.download(downloadPath, filename, bucket);
+  }
+
   async download(
     downloadPath: string,
     objetName: string,

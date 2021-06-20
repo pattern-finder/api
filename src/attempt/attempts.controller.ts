@@ -47,8 +47,9 @@ export class AttemptsController {
     }
 
     return this.attemptsService.create({
-      user: req.user.userId,
       ...createAttemptDTO,
+      user: req.user.userId,
+      challenge: challenge,
     });
   }
 

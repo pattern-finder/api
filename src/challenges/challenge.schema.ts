@@ -6,6 +6,8 @@ export type ChallengeDocument = Challenge & Document;
 
 @Schema()
 export class Challenge {
+  _id?: string;
+  
   @Prop({ required: true, unique: true })
   name: string;
 
