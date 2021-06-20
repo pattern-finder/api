@@ -1,9 +1,7 @@
-import { createParamDecorator, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { randomUUID } from 'crypto';
-import { writeFileSync } from 'fs';
 import { Language } from 'src/attempt/attempt.schema';
-import ObjectStorageService from 'src/object-storage/object-storage.service';
 import { PictureUrlDTO } from 'src/pictures/dto/picture-url.dto';
 import { godboxConfig } from './configuration/godbox.conf';
 import { GodboxPhaseOutputDTO } from './dto/godbox-phase-output.dto';
@@ -14,8 +12,6 @@ const TEMP_DIR = '/temp';
 
 @Injectable()
 export class GodBoxRepository {
-  constructor(private readonly objectStorageService: ObjectStorageService) {}
-
   /*
    * Create a directory, download the pictures and code files in it, and hand back the base64 for the zip.
    *
