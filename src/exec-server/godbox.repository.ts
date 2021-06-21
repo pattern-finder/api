@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import axios from 'axios';
 import { Language } from 'src/attempt/attempt.schema';
 import { PictureUrlDTO } from 'src/pictures/dto/picture-url.dto';
@@ -6,6 +10,12 @@ import { godboxConfig } from './configuration/godbox.conf';
 import { GodboxPhaseOutputDTO } from './dto/godbox-phase-output.dto';
 import { promises as fs } from 'fs';
 import * as AdmZip from 'adm-zip';
+import {
+  CPP_PHASES,
+  PhaseEntity,
+  PYTHON_PHASES,
+  RUST_PHASES,
+} from './languages-phases';
 
 @Injectable()
 export class GodBoxRepository {
@@ -31,10 +41,14 @@ export class GodBoxRepository {
   /*
    * Create a directory, download the pictures and code files in it, and hand back the base64 for the zip.
    */
-  async bundleExec(pictures: PictureUrlDTO[], code: string) {
+  async bundleExec(
+    pictures: PictureUrlDTO[],
+    code: string,
+    language: Language,
+  ) {
     const zip = new AdmZip();
 
-    zip.addFile('main.c', Buffer.from(code));
+    this.addCodeFiles(zip, language, code);
 
     const imageBuffers = await this.fetchImagesBuffers(pictures);
     // later add some format extension or something
@@ -45,23 +59,30 @@ export class GodBoxRepository {
     return zip.toBuffer().toString('base64');
   }
 
+  addCodeFiles(zip: AdmZip, language: Language, code: string) {
+    switch (language) {
+      case Language.PYTHON:
+        zip.addFile('main.py', Buffer.from(code));
+        return;
+      case Language.CPP:
+        zip.addFile('main.cpp', Buffer.from(code));
+        return;
+      case Language.RUST:
+        zip.addFile('main.rs', Buffer.from(code));
+        return;
+      default:
+        throw new UnprocessableEntityException('Invalid language given.');
+    }
+  }
+
   async execute(
     code: string,
     language: Language,
     pictures: PictureUrlDTO[],
   ): Promise<GodboxPhaseOutputDTO> {
     const payload = {
-      phases: [
-        {
-          name: 'Compilation',
-          script: '/usr/local/gcc-11.1.0/bin/gcc main.c -o out',
-        },
-        {
-          name: 'Execution',
-          script: './out',
-        },
-      ],
-      files: await this.bundleExec(pictures, code),
+      phases: this.getPhases(language),
+      files: await this.bundleExec(pictures, code, language),
     };
 
     try {
@@ -73,6 +94,19 @@ export class GodBoxRepository {
       throw new InternalServerErrorException(
         err?.response?.data?.message || err?.message || 'Unkown reason.',
       );
+    }
+  }
+
+  getPhases(language: Language): PhaseEntity[] {
+    switch (language) {
+      case Language.PYTHON:
+        return PYTHON_PHASES;
+      case Language.CPP:
+        return CPP_PHASES;
+      case Language.RUST:
+        return RUST_PHASES;
+      default:
+        throw new UnprocessableEntityException('Invalid language given.');
     }
   }
 }
