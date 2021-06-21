@@ -28,7 +28,7 @@ export class Attempt {
   @Prop({ required: true, type: String, enum: Object.values(Language) })
   language: Language;
 
-  @Prop({ required: true })
+  @Prop()
   status: number;
 
   @Prop()
@@ -37,25 +37,25 @@ export class Attempt {
   @Prop()
   stderr: string;
 
-  @Prop({ required: true })
+  @Prop()
   time: number;
 
-  @Prop({ required: true })
+  @Prop()
   time_wall: number;
 
-  @Prop({ required: true })
+  @Prop()
   used_memory: number;
 
-  @Prop({ required: true })
+  @Prop()
   csw_voluntary: number;
 
-  @Prop({ required: true })
+  @Prop()
   csw_forced: number;
 
   @Prop()
   editedAt?: Date;
 
-  @Prop({ required: true })
+  @Prop()
   createdAt: Date;
 
   @Prop()
