@@ -18,7 +18,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { BufferedFile } from 'src/common/dto/buffered-file.dto';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
 import { sanitize } from 'src/common/responses/generic_sanitizer';
-import { LinkifyInterceptor } from 'src/common/responses/linkify.interceptor';
+import { ParameterizedLinkifier } from 'src/common/responses/parametrized-linkify.interceptor';
 import { Challenge } from './challenge.schema';
 import { ChallengesService } from './challenges.service';
 import { CreateChallengeDTO } from './dto/create-challenge.dto';
@@ -28,7 +28,14 @@ import {
 } from './dto/sanitized-challenge.dto';
 import { UpdateChallengeDTO } from './dto/update-challenge.dto';
 
-@UseInterceptors(LinkifyInterceptor)
+@UseInterceptors(
+  ParameterizedLinkifier([
+    {
+      attribute: 'owner',
+      resource: 'users',
+    },
+  ]),
+)
 @Controller('/challenges')
 export class ChallengesController {
   constructor(private readonly challengesService: ChallengesService) {}

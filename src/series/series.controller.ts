@@ -27,9 +27,7 @@ import { UpdateSerieDTO } from './dtos/update-serie.dto';
 import { Serie } from './series.schema';
 import { SeriesService } from './series.service';
 import * as _ from 'lodash';
-import { LinkifyInterceptor } from 'src/common/responses/linkify.interceptor';
 
-@UseInterceptors(LinkifyInterceptor)
 @Controller('series')
 export class SeriesController {
   constructor(

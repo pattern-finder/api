@@ -24,10 +24,7 @@ import { UpdateUserDTO } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { BufferedFile } from 'src/common/dto/buffered-file.dto';
-import { LinkifyInterceptor } from 'src/common/responses/linkify.interceptor';
 import { sanitize } from 'src/common/responses/generic_sanitizer';
-
-@UseInterceptors(LinkifyInterceptor)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

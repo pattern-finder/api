@@ -36,18 +36,18 @@ services:
       - backend
       - frontend
 
-  picspy-front:
-    build: 
-      context: ./frontend
-      dockerfile: Dockerfile.dev
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend/src:/usr/src/app/src
-    networks:
-      - frontend
-    env_file: 
-      - .env
+  # picspy-front:
+  #   build: 
+  #     context: ./frontend
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./frontend/src:/usr/src/app/src
+  #   networks:
+  #     - frontend
+  #   env_file: 
+  #     - .env
 
   picspy-mongo:
     restart: always
@@ -69,7 +69,7 @@ services:
     image: quantumsheep/godbox:2
     privileged: true
     ports:
-      - 8080:8080
+      - 8081:8080
     environment: 
       API_MAX_PAYLOAD_SIZE: ${API_MAX_PAYLOAD_SIZE}
     networks: 
