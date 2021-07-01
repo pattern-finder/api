@@ -7,14 +7,12 @@ import {
   Post,
   Request,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { SessionUserDTO } from 'src/auth/dto/session-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ChallengesService } from 'src/challenges/challenges.service';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
 import { sanitize } from 'src/common/responses/generic_sanitizer';
-import { LinkifyInterceptor } from 'src/common/responses/linkify.interceptor';
 import { AttemptsService } from './attempts.service';
 import { CreateAttemptDTO } from './dto/create-attempt.dto';
 import { ExecutionResultsDTO } from './dto/execution-results.dto';
@@ -53,7 +51,7 @@ export class AttemptsController {
     });
   }
 
-  @UseInterceptors(LinkifyInterceptor)
+  // @UseInterceptors(LinkifyInterceptor)
   @Get(':id')
   async getAttempt(
     @Param() findAttemptDTO: FindByIdDTO,
@@ -67,7 +65,7 @@ export class AttemptsController {
     return sanitize<SanitizedAttemptDTO>(attempt, sanitizedAttemptTemplate);
   }
 
-  @UseInterceptors(LinkifyInterceptor)
+  // @UseInterceptors(LinkifyInterceptor)
   @Get()
   async getAttempts(): Promise<SanitizedAttemptDTO[]> {
     return (await this.attemptsService.findAll()).map((attempt) =>
