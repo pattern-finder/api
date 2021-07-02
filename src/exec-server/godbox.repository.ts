@@ -34,7 +34,6 @@ export class GodBoxRepository {
   }
 
   async extractZipFileBase64(archivePath: string): Promise<string> {
-    console.log('readfile');
     return (await fs.readFile(archivePath)).toString('base64');
   }
 
