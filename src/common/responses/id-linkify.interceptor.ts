@@ -23,7 +23,7 @@ export class IdLinkifierInterceptor
             return this.applyLinkifyFunction(
               flow,
               request.originalUrl,
-              this.linkifyId,
+              (o, url) => this.linkifyId(o, url),
             );
           case HTTPMethod.POST || HTTPMethod.PUT:
             return {
