@@ -31,10 +31,8 @@ export function ParameterizedLinkifier(
         map((flow) => {
           switch (request.method as HTTPMethod) {
             case HTTPMethod.GET:
-              return this.applyLinkifyFunction(
-                flow,
-                request.originalUrl,
-                this.linkifyResources,
+              return this.applyLinkifyFunction(flow, request.originalUrl, (o) =>
+                this.linkifyResources(o),
               );
             default:
               return flow;
@@ -46,7 +44,8 @@ export function ParameterizedLinkifier(
     private linkifyResources(object: any) {
       const res = { ...object };
 
-      const applyFunction = this.applyLinkifyFunction;
+      const generateUrl = this.generateUrl;
+
       linkableAttributes.forEach((attr) => {
         if (
           !res[attr.attribute] ||
@@ -58,12 +57,10 @@ export function ParameterizedLinkifier(
           );
         }
 
-        res[attr.attribute] = applyFunction(
+        res[attr.attribute] = this.applyLinkifyFunction(
           res,
           attr.resource,
-          (res, resource) => {
-            return this.generateUrl(resource, res);
-          },
+          (res, resource) => generateUrl(resource, res),
         );
       });
 

@@ -10,7 +10,6 @@ import {
   Request,
   UnprocessableEntityException,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { SessionUserDTO } from 'src/auth/dto/session-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
