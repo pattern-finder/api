@@ -60,7 +60,7 @@ export function ParameterizedLinkifier(
         res[attr.attribute] = this.applyLinkifyFunction(
           res,
           attr.resource,
-          (res, resource) => generateUrl(resource, res),
+          (res, resource) => generateUrl(resource, res[attr.attribute]),
         );
       });
 
