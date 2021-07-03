@@ -4,7 +4,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import axios from 'axios';
-import { Language } from 'src/attempt/attempt.schema';
+import { Language } from 'src/attempts/attempt.schema';
 import { PictureUrlDTO } from 'src/pictures/dto/picture-url.dto';
 import { godboxConfig } from './configuration/godbox.conf';
 import { GodboxPhaseOutputDTO } from './dto/godbox-phase-output.dto';
