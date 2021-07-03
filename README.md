@@ -49,6 +49,21 @@ When a release is published, a docker image is built and pushed into a docker re
 
 ## Architecture
 
+### Database
+```mermaid
+erDiagram
+    USER }o--||CHALLENGE : creates
+    USER }o--|| ATTEMPT : issues
+    ATTEMPT }o--|| CHALLENGE : belongs
+    SERIE }o--|| USER : creates
+    CHALLENGE }o--|| SERIE : belongs
+    PICTURE }|--|| CHALLENGE : belongs
+    LANGUAGE ||--|| ATTEMPT : written
+    LANGUAGE }|--|| CHALLENGE : available
+    LANGUAGE ||--|| BOOTSTRAP : written
+    BOOTSTRAP }|--||CHALLENGE : belongs
+```
+
 ### business routes
 Here is the data flow when creating a user. Same goes for a challenge.
 ![User creation FlowChart](./doc/user_creation.svg)
