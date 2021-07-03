@@ -36,18 +36,18 @@ services:
       - backend
       - frontend
 
-  # picspy-front:
-  #   build: 
-  #     context: ./frontend
-  #     dockerfile: Dockerfile.dev
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - ./frontend/src:/usr/src/app/src
-  #   networks:
-  #     - frontend
-  #   env_file: 
-  #     - .env
+  picspy-front:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+    networks:
+      - frontend
+    env_file: 
+      - .env
 
   picspy-mongo:
     restart: always
