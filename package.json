@@ -21,7 +21,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "seed:languages": "nestjs-command seed:languages"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.15",
@@ -37,6 +38,7 @@
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "mongoose": "^5.12.7",
+    "nestjs-command": "^2.0.0",
     "nestjs-minio-client": "^1.0.6",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",

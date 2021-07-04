@@ -7,16 +7,17 @@ import { AuthModule } from './auth/auth.module';
 import { ChallengesModule } from './challenges/challenges.module';
 import { AttemptsModule } from './attempts/attempts.module';
 import { SeriesModule } from './series/series.module';
+import { dbConfig } from './db/db.config';
+import { LanguagesModule } from './languages/languages.module';
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`,
-    ),
+    MongooseModule.forRoot(dbConfig.url),
     UsersModule,
     AuthModule,
     ChallengesModule,
     AttemptsModule,
     SeriesModule,
+    LanguagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
