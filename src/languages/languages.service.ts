@@ -22,6 +22,10 @@ export class LanguagesService {
     )?.toObject();
   }
 
+  async deleteAll(): Promise<void> {
+    await this.languageModel.deleteMany({}).exec();
+  }
+
   async findAll(): Promise<Language[]> {
     return (await this.languageModel.find().exec()).map((language) =>
       language.toObject(),
