@@ -15,7 +15,7 @@ export class Challenge {
   instructions: string;
 
   @Prop({ type: Types.ObjectId, ref: User.name })
-  owner: User;
+  owner: string;
 
   @Prop()
   editedAt?: Date;

@@ -79,9 +79,9 @@ export class SeriesController {
     const challenges: Challenge[] = [];
 
     for (let i = 0; i < (updateSerieDTO.challenges || []).length; ++i) {
-      const challenge = await this.challengesService.findOne(
-        updateSerieDTO.challenges[i]._id,
-      );
+      const challenge = await this.challengesService.findOne({
+        id: updateSerieDTO.challenges[i]._id,
+      });
 
       if (!challenge) {
         throw new UnprocessableEntityException(

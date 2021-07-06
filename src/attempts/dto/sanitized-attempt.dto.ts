@@ -1,4 +1,3 @@
-import { Language } from '../attempt.schema';
 
 export class SanitizedAttemptDTO {
   _id?: string;
@@ -9,7 +8,7 @@ export class SanitizedAttemptDTO {
 
   code: string;
 
-  language: Language;
+  language: string;
 
   stdout: string;
 
@@ -35,7 +34,7 @@ export const sanitizedAttemptTemplate: SanitizedAttemptDTO = {
 
   code: '',
 
-  language: Language.BASH,
+  language: '',
 
   stdout: '',
 

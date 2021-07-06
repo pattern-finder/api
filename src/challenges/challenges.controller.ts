@@ -23,9 +23,13 @@ import { Challenge } from './challenge.schema';
 import { ChallengesService } from './challenges.service';
 import { CreateChallengeDTO } from './dto/create-challenge.dto';
 import {
-  SanitizedChallengeDTO,
-  sanitizedChallengeTemplate,
-} from './dto/sanitized-challenge.dto';
+  DetailedChallengeDTO,
+  detailedChallengeTemplate,
+} from './dto/detailed-challenge.dto';
+import {
+  ListChallengeDTO,
+  listChallengeTemplate,
+} from './dto/list-challenge.dto';
 import { UpdateChallengeDTO } from './dto/update-challenge.dto';
 
 @UseInterceptors(
@@ -43,17 +47,14 @@ export class ChallengesController {
   @Get(':id')
   async getChallenge(
     @Param() findByIdDTO: FindByIdDTO,
-  ): Promise<SanitizedChallengeDTO> {
-    const challenge = await this.challengesService.findOne(findByIdDTO.id);
+  ): Promise<DetailedChallengeDTO> {
+    const challenge = await this.challengesService.findOne(findByIdDTO);
     if (!challenge) {
       throw new NotFoundException(
         'Challenge with specified ID does not exist.',
       );
     }
-    return sanitize<SanitizedChallengeDTO>(
-      challenge,
-      sanitizedChallengeTemplate,
-    );
+    return sanitize<DetailedChallengeDTO>(challenge, detailedChallengeTemplate);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -66,7 +67,11 @@ export class ChallengesController {
   ): Promise<Challenge> {
     if (!pictures || pictures.length < 1) {
       throw new BadRequestException(
-        'please provide pictures for this challenge.',
+        'Please provide pictures for this challenge.',
+      );
+    } else if (pictures.length > 10) {
+      throw new BadRequestException(
+        'You can only upload a maximum of 10 pictures.',
       );
     }
     return this.challengesService.create(
@@ -80,17 +85,14 @@ export class ChallengesController {
 
   @UseGuards(JwtAuthGuard)
   @Put()
-  async updateChallenge(
-    @Request() req: { user: SessionUserDTO },
-    @Body() updateChallengeDTO: UpdateChallengeDTO,
-  ) {
-    return this.challengesService.update(req.user.userId, updateChallengeDTO);
+  async updateChallenge(@Body() updateChallengeDTO: UpdateChallengeDTO) {
+    return this.challengesService.update(updateChallengeDTO);
   }
 
   @Get()
-  async getChallenges(): Promise<SanitizedChallengeDTO[]> {
+  async getChallenges(): Promise<ListChallengeDTO[]> {
     return (await this.challengesService.findAll()).map((challenge) =>
-      sanitize<SanitizedChallengeDTO>(challenge, sanitizedChallengeTemplate),
+      sanitize<ListChallengeDTO>(challenge, listChallengeTemplate),
     );
   }
 }

@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
+import { ExecBootstrapsService } from 'src/exec-bootstrap/exec-bootstraps.service';
 import { GodBoxRepository } from 'src/exec-server/godbox.repository';
 import { Attempt, AttemptDocument } from './attempt.schema';
 import { ExecutionResultsDTO } from './dto/execution-results.dto';
@@ -13,14 +14,21 @@ export class AttemptsService {
     @InjectModel(Attempt.name)
     private readonly attemptModel: Model<AttemptDocument>,
     private readonly execServerService: GodBoxRepository,
+    private readonly execBootstrapService: ExecBootstrapsService,
   ) {}
 
   async create(
-    insertAttemptDTO: InsertAttemptDTO,
+    insertAttemptDTO: InsertAttemptDTO, // link challenge and execbootstrap
   ): Promise<ExecutionResultsDTO> {
+    const execBootstrap =
+      await this.execBootstrapService.findByLanguageAndChallenge({
+        challengeId: insertAttemptDTO.challenge._id,
+        language: insertAttemptDTO.language,
+      });
+
     const execResults = await this.execServerService.execute(
       insertAttemptDTO.code,
-      insertAttemptDTO.language,
+      execBootstrap,
       insertAttemptDTO.challenge.pictures,
     );
 

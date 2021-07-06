@@ -26,18 +26,26 @@ export class IdLinkifierInterceptor
               (o, url) => this.linkifyId(o, url),
             );
           case HTTPMethod.POST || HTTPMethod.PUT:
-            return {
-              _id: flow._id,
-              url: this.generateUrl(
-                this.stripOriginalUrl(request.originalUrl),
-                flow._id || undefined,
-              ),
-            };
+            return this.postReturnIfId(flow, request);
           default:
             return flow;
         }
       }),
     );
+  }
+
+  private postReturnIfId(flow: any, request: any) {
+    if (flow._id !== undefined) {
+      return {
+        _id: flow._id,
+        url: this.generateUrl(
+          this.stripOriginalUrl(request.originalUrl),
+          flow._id || undefined,
+        ),
+      };
+    }
+
+    return flow;
   }
 
   private linkifyId(object: any, originalUrl: string) {

@@ -9,6 +9,7 @@ import { AttemptsModule } from './attempts/attempts.module';
 import { SeriesModule } from './series/series.module';
 import { dbConfig } from './db/db.config';
 import { LanguagesModule } from './languages/languages.module';
+import { ExecBootstrapsModule } from './exec-bootstrap/exec-bootstraps.module';
 @Module({
   imports: [
     MongooseModule.forRoot(dbConfig.url),
@@ -18,6 +19,7 @@ import { LanguagesModule } from './languages/languages.module';
     AttemptsModule,
     SeriesModule,
     LanguagesModule,
+    ExecBootstrapsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

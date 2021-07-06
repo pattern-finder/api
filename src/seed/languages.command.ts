@@ -59,6 +59,5 @@ export class LanguagesCommand {
         async (language) => await this.languageService.create(language),
       ),
     );
-    console.log(languages);
   }
 }
