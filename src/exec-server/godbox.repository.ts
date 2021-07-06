@@ -8,7 +8,6 @@ import * as AdmZip from 'adm-zip';
 import { Language } from 'src/languages/language.schema';
 import { ExecBootstrap } from 'src/exec-bootstrap/exec-bootstrap.schema';
 import { LanguagesService } from 'src/languages/languages.service';
-import { DetailedExecBootstrapDTO } from 'src/exec-bootstrap/dto/detailed-exec-bootstrap.dto';
 
 @Injectable()
 export class GodBoxRepository {

@@ -1,4 +1,3 @@
-
 export class SanitizedAttemptDTO {
   _id?: string;
 

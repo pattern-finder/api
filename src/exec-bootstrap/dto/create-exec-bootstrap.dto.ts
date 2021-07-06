@@ -1,6 +1,4 @@
 import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
-import { Challenge } from 'src/challenges/challenge.schema';
-import { Exists } from 'src/common/validator/exists.validator';
 
 export class CreateExecBootstrapDTO {
   @IsNotEmpty()

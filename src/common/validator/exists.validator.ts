@@ -6,10 +6,9 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { getConnectionToken, InjectConnection } from '@nestjs/mongoose';
+import { getConnectionToken } from '@nestjs/mongoose';
 import { connection } from 'mongoose';
 import { Injectable } from '@nestjs/common';
-import { ExistsValidatorService } from './exists-validator.service';
 
 // Define validator class
 @ValidatorConstraint({ async: true })
@@ -18,7 +17,7 @@ export class ExistsInDatabaseConstraint
   implements ValidatorConstraintInterface
 {
   async validate(value: any, args: ValidationArguments) {
-    const entityName = value.name;
+    // const entityName = value.name;
     const entity = args.object[`class_entity_${args.property}`];
     console.log(args);
 
