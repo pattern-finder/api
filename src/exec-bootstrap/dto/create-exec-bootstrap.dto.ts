@@ -14,4 +14,8 @@ export class CreateExecBootstrapDTO {
   @IsNotEmpty()
   @IsString()
   tests: string;
+
+  @IsNotEmpty()
+  @IsString()
+  functionTemplate: string;
 }
