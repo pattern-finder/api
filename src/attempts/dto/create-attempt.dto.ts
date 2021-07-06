@@ -1,6 +1,4 @@
-import { IsEnum, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
-import { Language } from '../attempt.schema';
-
+import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 export class CreateAttemptDTO {
   @IsNotEmpty()
   @IsMongoId()
@@ -11,10 +9,6 @@ export class CreateAttemptDTO {
   code: string;
 
   @IsNotEmpty()
-  @IsEnum(Language, {
-    message: `
-      Language must be one of :${Object.values(Language).toString()}
-      `,
-  })
-  language: Language;
+  @IsString()
+  language: string;
 }

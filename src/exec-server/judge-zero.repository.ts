@@ -6,7 +6,7 @@ import {
 import { judgeConfig } from './configuration/judge-zero-server.conf';
 import { JudgeZeroSubmissionDTO } from './dto/judge-zero-submission.dto';
 import axios from 'axios';
-import { Language } from 'src/attempts/attempt.schema';
+import { Language } from 'src/languages/language.schema';
 
 const languages = {
   'c++': 50,
@@ -24,7 +24,7 @@ export class JudgeZeroRepository {
     const res = await axios.post(
       `${judgeConfig.baseUrl}/submissions`,
       {
-        language_id: languages[language.valueOf()],
+        language_id: languages[language.name],
         source_code: code,
       },
       {

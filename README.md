@@ -20,11 +20,15 @@ If you already have the projetct cloned and want to add properly the frontend, u
 To run the dev version, go to root of project and run `docker-compose up`.
 It will start a stack (database, minio...) based on the Dockerfile.dev, which is prepared to run NestJs with JIT and the watcher up.
 
-Other programs from the stack (frontend...) will be added as images to pull from the registry, so you will have the latest release to work with
+Other programs from the stack (frontend...) will be added as images to pull from the registry, so you will have the latest release to work with.
+
+Languages and basic challenges will be seeded automatically. 
 
 ## Prod
 To run the production version, run docker-compose.prod.yml or paste it in the  configuration of Portainer.
 This will pull an image from a private registry, that was build during CI using Dockerfile, and run it.
+
+Seed cannot run in production mode so you will have to run the scripts either in the kubernetes pods or in the container.
 
 # Contribute
 
@@ -69,5 +73,7 @@ Here is the data flow when creating a user. Same goes for a challenge.
 ![User creation FlowChart](./doc/user_creation.svg)
 
 ### execution routes
+`flowchart now invalid as judge-0server has been replaced with godbox`
+
 Here is the data flow when attempting to solve a challenge, and then fetching again the data.
 ![User creation FlowChart](./doc/attempt_cycle.svg)

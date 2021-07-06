@@ -11,7 +11,7 @@ export type LanguageDocument = Language & Document;
 export class Language {
   _id?: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   name: string;
 
   @Prop({ required: true })

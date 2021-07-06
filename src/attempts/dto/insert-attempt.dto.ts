@@ -1,12 +1,11 @@
-import { EagerChallengeDTO } from 'src/challenges/dto/eager-challenge.dto';
-import { Language } from '../attempt.schema';
+import { DetailedChallengeDTO } from 'src/challenges/dto/detailed-challenge.dto';
 
 export class InsertAttemptDTO {
   user: string;
 
-  challenge: EagerChallengeDTO;
+  challenge: DetailedChallengeDTO;
 
   code: string;
 
-  language: Language;
+  language: string;
 }
