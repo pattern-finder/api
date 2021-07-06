@@ -54,7 +54,7 @@ export class LanguagesCommand {
   })
   async create() {
     await this.languageService.deleteAll();
-    const languages = await Promise.all(
+    await Promise.all(
       this.languages.map(
         async (language) => await this.languageService.create(language),
       ),
