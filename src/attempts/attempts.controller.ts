@@ -31,6 +31,7 @@ export class AttemptsController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async createAttempt(
+    //TODO get internal link for godbox, not external
     @Request() req: { user: SessionUserDTO },
     @Body() createAttemptDTO: CreateAttemptDTO,
   ): Promise<ExecutionResultsDTO> {

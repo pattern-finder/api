@@ -39,7 +39,7 @@ export class PicturesService {
       const pictureObject = picture.toObject();
       return {
         _id: pictureObject._id,
-        url: this.objectStorageService.generateExternalServerAddress(
+        file: this.objectStorageService.generateExternalServerAddress(
           pictureObject.url,
         ),
       };

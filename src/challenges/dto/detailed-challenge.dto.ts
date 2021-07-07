@@ -12,7 +12,7 @@ export class DetailedChallengeDTO {
 
   owner: string;
 
-  pictures?: PictureUrlDTO[];
+  pictures: PictureUrlDTO[];
 
   execBootstraps: ListExecBootstrapDTO[];
 
@@ -31,6 +31,8 @@ export const detailedChallengeTemplate: DetailedChallengeDTO = {
   instructions: '',
 
   owner: '',
+
+  pictures: [],
 
   execBootstraps: [],
 
