@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommandModule } from 'nestjs-command';
 import { dbConfig } from 'src/db/db.config';
@@ -10,7 +10,7 @@ import { LanguagesCommand } from './languages.command';
   imports: [
     MongooseModule.forRoot(dbConfig.url),
     CommandModule,
-    LanguagesModule,
+    forwardRef(() => LanguagesModule),
   ],
   providers: [LanguagesCommand],
   exports: [LanguagesCommand],
