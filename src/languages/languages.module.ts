@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { SeedsModule } from 'src/seed/seeds.module';
 import { Language, LanguageSchema } from './language.schema';
 import { LanguagesController } from './languages.controller';
 import { LanguagesService } from './languages.service';
@@ -9,6 +10,7 @@ import { LanguagesService } from './languages.service';
     MongooseModule.forFeature([
       { name: Language.name, schema: LanguageSchema },
     ]),
+    forwardRef(() => SeedsModule),
   ],
   providers: [LanguagesService],
   exports: [LanguagesService],

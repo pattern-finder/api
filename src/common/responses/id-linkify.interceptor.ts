@@ -20,13 +20,14 @@ export class IdLinkifierInterceptor
       map((flow) => {
         switch (request.method as HTTPMethod) {
           case HTTPMethod.GET:
-            return this.applyLinkifyFunction(
-              flow,
-              request.originalUrl,
-              (o, url) => this.linkifyId(o, url),
+            return (
+              flow &&
+              this.applyLinkifyFunction(flow, request.originalUrl, (o, url) =>
+                this.linkifyId(o, url),
+              )
             );
           case HTTPMethod.POST || HTTPMethod.PUT:
-            return this.postReturnIfId(flow, request);
+            return flow && this.postReturnIfId(flow, request);
           default:
             return flow;
         }
