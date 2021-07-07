@@ -40,4 +40,6 @@ COPY --from=builder /usr/src/app/dist/ /usr/src/app/
 
 RUN npm ci
 
+RUN npm i yargs
+
 CMD ["node", "main"]
