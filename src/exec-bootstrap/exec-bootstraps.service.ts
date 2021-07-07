@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
   UnprocessableEntityException,
@@ -33,6 +34,17 @@ export class ExecBootstrapsService {
 
     if (!language) {
       throw new NotFoundException('This language does not exist.');
+    }
+
+    const existing = await this.findByLanguageAndChallenge({
+      challengeId: insertExecBootstrapDTO.challenge,
+      language: insertExecBootstrapDTO.language,
+    });
+
+    if (existing !== undefined) {
+      throw new ConflictException(
+        'This language has already been configured for this challenge. Please use Put route.',
+      );
     }
 
     return (

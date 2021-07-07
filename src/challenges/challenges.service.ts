@@ -93,7 +93,7 @@ export class ChallengesService {
         this.picturesService.create(
           { challenge: challenge._id },
           file,
-          '',
+          createChallengeDTO.name.replace(' ', '_'),
           PicspyBucket.CHALLENGE,
         ),
       ),
