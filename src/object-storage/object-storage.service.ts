@@ -27,22 +27,23 @@ export default class ObjectStorageService {
     }:${config.MINIO_EXTERNAL_PORT}/${endOfLink}`;
   }
 
+  private generateFileName(): string {
+    return crypto.randomUUID() + Date.now().toString();
+  }
+
   public async upload(
     file: BufferedFile,
     subFolder: string,
     baseBucket: PicspyBucket,
   ): Promise<string> {
-    const hashedFileName = crypto
-      .createHash('md5')
-      .update(Date.now().toString())
-      .digest('hex');
+    const hashedFileName = this.generateFileName();
     const ext = file.originalname.substring(
       file.originalname.lastIndexOf('.'),
       file.originalname.length,
     );
 
     const fileName = hashedFileName + ext;
-    const filePath = `${subFolder}/${fileName}`;
+    const filePath = subFolder ? `${subFolder}/${fileName}` : fileName;
 
     const metaData = {
       'Content-Type': file.mimetype,
