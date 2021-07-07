@@ -1,8 +1,5 @@
 import {
-<<<<<<< HEAD
   ConflictException,
-=======
->>>>>>> main
   Injectable,
   NotFoundException,
   UnprocessableEntityException,
@@ -39,7 +36,6 @@ export class ExecBootstrapsService {
       throw new NotFoundException('This language does not exist.');
     }
 
-<<<<<<< HEAD
     const existing = await this.findByLanguageAndChallenge({
       challengeId: insertExecBootstrapDTO.challenge,
       language: insertExecBootstrapDTO.language,
@@ -51,8 +47,6 @@ export class ExecBootstrapsService {
       );
     }
 
-=======
->>>>>>> main
     return (
       await new this.execBootstrapModel({
         ...insertExecBootstrapDTO,
