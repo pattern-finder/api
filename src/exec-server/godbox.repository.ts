@@ -19,7 +19,7 @@ export class GodBoxRepository {
         pictures.map((pic) =>
           axios.request({
             responseType: 'arraybuffer',
-            url: pic.url,
+            url: pic.file,
             method: 'get',
           }),
         ),
