@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ObjectStorageModule } from 'src/object-storage/object-storage.module';
 import { Picture, PictureSchema } from './picture.schema';
+import { PicturesController } from './pictures.controller';
 import { PicturesService } from './pictures.service';
 
 @Module({
@@ -11,5 +12,6 @@ import { PicturesService } from './pictures.service';
   ],
   providers: [PicturesService],
   exports: [PicturesService],
+  controllers: [PicturesController],
 })
 export class PicturesModule {}

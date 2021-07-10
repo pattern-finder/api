@@ -12,9 +12,9 @@ import { PicspyBucket } from 'src/object-storage/object-storage.service';
 import { PicturesService } from 'src/pictures/pictures.service';
 import { Challenge, ChallengeDocument } from './challenge.schema';
 import { DetailedChallengeDTO } from './dto/detailed-challenge.dto';
+import { FindAndUpdateChallengeDTO } from './dto/find-and-update-challenge.dto';
 import { InsertChallengeDTO } from './dto/insert-challenge.dto';
 import { ListChallengeDTO } from './dto/list-challenge.dto';
-import { UpdateChallengeDTO } from './dto/update-challenge.dto';
 
 @Injectable()
 export class ChallengesService {
@@ -46,7 +46,10 @@ export class ChallengesService {
     );
   }
 
-  async findOne(findByIdDTO: FindByIdDTO): Promise<DetailedChallengeDTO> {
+  async findOne(
+    findByIdDTO: FindByIdDTO,
+    fromInternalSource = false,
+  ): Promise<DetailedChallengeDTO> {
     const challenge = await (
       await this.challengeModel.findById(findByIdDTO.id).exec()
     )?.toObject();
@@ -62,7 +65,10 @@ export class ChallengesService {
 
     return {
       ...challenge,
-      pictures: await this.picturesService.findUrlsByChallenge(challenge._id),
+      pictures: await this.picturesService.findExternalUrlsByChallenge(
+        challenge._id,
+        fromInternalSource,
+      ),
       execBootstraps: execBootstraps,
     };
   }
@@ -102,7 +108,32 @@ export class ChallengesService {
     return challenge;
   }
 
-  async update(updateChallengeDTO: UpdateChallengeDTO): Promise<Challenge> {
+  async update(
+    updateChallengeDTO: FindAndUpdateChallengeDTO,
+    pictures: BufferedFile[],
+  ): Promise<Challenge> {
+    const challenge = await this.findOne(updateChallengeDTO);
+
+    if (
+      updateChallengeDTO.name !== challenge.name &&
+      (await this.findByName(updateChallengeDTO.name))
+    ) {
+      throw new UnprocessableEntityException(
+        `Challenge name ${updateChallengeDTO.name} already taken.`,
+      );
+    }
+
+    await Promise.all(
+      pictures.map((file) =>
+        this.picturesService.create(
+          { challenge: challenge._id },
+          file,
+          updateChallengeDTO.name.replace(' ', '_'),
+          PicspyBucket.CHALLENGE,
+        ),
+      ),
+    );
+
     return (
       await this.challengeModel
         .findByIdAndUpdate(updateChallengeDTO.id, {
@@ -113,7 +144,11 @@ export class ChallengesService {
     )?.toObject();
   }
 
-  async delete(id: string): Promise<void> {
-    await this.challengeModel.findByIdAndDelete(id).exec();
+  async delete(findChallengeDTO: FindByIdDTO): Promise<void> {
+    const challenge = await this.challengeModel.findById(findChallengeDTO.id);
+    if (!challenge) {
+      throw new NotFoundException('Challenge with given ID does not exist.');
+    }
+    await this.challengeModel.findByIdAndDelete(findChallengeDTO.id).exec();
   }
 }

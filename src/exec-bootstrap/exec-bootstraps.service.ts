@@ -36,12 +36,12 @@ export class ExecBootstrapsService {
       throw new NotFoundException('This language does not exist.');
     }
 
-    const existing = await this.findByLanguageAndChallenge({
-      challengeId: insertExecBootstrapDTO.challenge,
+    const existing = await this.execBootstrapModel.findOne({
       language: insertExecBootstrapDTO.language,
+      challenge: insertExecBootstrapDTO.challenge.toString(),
     });
 
-    if (existing !== undefined) {
+    if (existing) {
       throw new ConflictException(
         'This language has already been configured for this challenge. Please use Put route.',
       );
@@ -117,5 +117,9 @@ export class ExecBootstrapsService {
         })
         .exec()
     )?.toObject();
+  }
+
+  async delete(idObject: FindByIdDTO) {
+    await this.execBootstrapModel.findByIdAndDelete(idObject.id).exec();
   }
 }

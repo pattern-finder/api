@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BufferedFile } from 'src/common/dto/buffered-file.dto';
@@ -32,14 +36,39 @@ export class PicturesService {
     return (await this.pictureModel.findOne({ filename }))?.toObject();
   }
 
-  async findUrlsByChallenge(challenge: string): Promise<PictureUrlDTO[]> {
+  async findExternalUrlsByChallenge(
+    challenge: string,
+    fromInternal = false,
+  ): Promise<PictureUrlDTO[]> {
+    const pictures = (
+      await this.pictureModel.find({ challenge }, 'url').exec()
+    ).map((picture) => {
+      const pictureObject = picture.toObject();
+      const file = fromInternal
+        ? this.objectStorageService.generateInternalServerAddress(
+            pictureObject.url,
+          )
+        : this.objectStorageService.generateExternalServerAddress(
+            pictureObject.url,
+          );
+      return {
+        _id: pictureObject._id,
+        file: file,
+      };
+    });
+    return pictures;
+  }
+
+  async findInternalUrlsByChallenge(
+    challenge: string,
+  ): Promise<PictureUrlDTO[]> {
     const pictures = (
       await this.pictureModel.find({ challenge }, 'url').exec()
     ).map((picture) => {
       const pictureObject = picture.toObject();
       return {
         _id: pictureObject._id,
-        file: this.objectStorageService.generateExternalServerAddress(
+        file: this.objectStorageService.generateInternalServerAddress(
           pictureObject.url,
         ),
       };
@@ -84,7 +113,14 @@ export class PicturesService {
     )?.toObject();
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string, baseBucket: PicspyBucket): Promise<void> {
+    const picture = await this.findOne(id);
+
+    if (!picture) {
+      throw new NotFoundException(`Could not delete picture with ID: ${id}`);
+    }
+
+    await this.objectStorageService.delete(picture.url, baseBucket);
     await this.pictureModel.findByIdAndDelete(id).exec();
   }
 }

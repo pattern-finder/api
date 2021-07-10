@@ -10,6 +10,7 @@ import { SeriesModule } from './series/series.module';
 import { dbConfig } from './db/db.config';
 import { LanguagesModule } from './languages/languages.module';
 import { ExecBootstrapsModule } from './exec-bootstrap/exec-bootstraps.module';
+import { PicturesModule } from './pictures/pictures.module';
 @Module({
   imports: [
     MongooseModule.forRoot(dbConfig.url),
@@ -20,6 +21,7 @@ import { ExecBootstrapsModule } from './exec-bootstrap/exec-bootstraps.module';
     SeriesModule,
     LanguagesModule,
     ExecBootstrapsModule,
+    PicturesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

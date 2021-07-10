@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -84,9 +85,17 @@ export class ChallengesController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put()
-  async updateChallenge(@Body() updateChallengeDTO: UpdateChallengeDTO) {
-    return this.challengesService.update(updateChallengeDTO);
+  @UseInterceptors(FilesInterceptor('pictures'))
+  @Put(':id')
+  async updateChallenge(
+    @Param() challengeIdObject: FindByIdDTO,
+    @Body() updateChallengeDTO: UpdateChallengeDTO,
+    @UploadedFiles() pictures: Array<BufferedFile>,
+  ) {
+    return this.challengesService.update(
+      { ...updateChallengeDTO, ...challengeIdObject },
+      pictures,
+    );
   }
 
   @Get()
@@ -94,5 +103,13 @@ export class ChallengesController {
     return (await this.challengesService.findAll()).map((challenge) =>
       sanitize<ListChallengeDTO>(challenge, listChallengeTemplate),
     );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  async deleteChallenge(
+    @Param() challengeIdObject: FindByIdDTO,
+  ): Promise<void> {
+    this.challengesService.delete(challengeIdObject);
   }
 }
