@@ -1,12 +1,13 @@
-import { IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UpdateExecBootstrapDTO {
   @IsNotEmpty()
-  @IsMongoId()
-  id: string;
+  @IsOptional()
+  @IsString()
+  tests?: string;
 
   @IsNotEmpty()
   @IsOptional()
   @IsString()
-  tests: string;
+  functionTemplate?: string;
 }

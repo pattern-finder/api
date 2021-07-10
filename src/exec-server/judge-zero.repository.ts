@@ -7,6 +7,7 @@ import { judgeConfig } from './configuration/judge-zero-server.conf';
 import { JudgeZeroSubmissionDTO } from './dto/judge-zero-submission.dto';
 import axios from 'axios';
 import { Language } from 'src/languages/language.schema';
+import { godboxConfig } from './configuration/godbox.conf';
 
 const languages = {
   'c++': 50,
@@ -22,7 +23,7 @@ export class JudgeZeroRepository {
     language: Language,
   ): Promise<JudgeZeroSubmissionDTO> {
     const res = await axios.post(
-      `${judgeConfig.baseUrl}/submissions`,
+      `${godboxConfig.baseUrl}/submissions`,
       {
         language_id: languages[language.name],
         source_code: code,

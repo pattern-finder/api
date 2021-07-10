@@ -35,9 +35,12 @@ export class AttemptsController {
     @Request() req: { user: SessionUserDTO },
     @Body() createAttemptDTO: CreateAttemptDTO,
   ): Promise<ExecutionResultsDTO> {
-    const challenge = await this.challengeService.findOne({
-      id: createAttemptDTO.challenge,
-    });
+    const challenge = await this.challengeService.findOne(
+      {
+        id: createAttemptDTO.challenge,
+      },
+      true,
+    );
 
     if (!challenge) {
       throw new NotFoundException( // TODO replace this logic with a validator !

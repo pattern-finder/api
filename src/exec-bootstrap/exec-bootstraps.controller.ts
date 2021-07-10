@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -49,11 +50,15 @@ export class ExecBootstrapsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put()
+  @Put(':id')
   async updateExecBootstrap(
+    @Param() execBootStrapId: FindByIdDTO,
     @Body() updateExecBootstrapDTO: UpdateExecBootstrapDTO,
   ) {
-    return this.execBootstrapsService.update(updateExecBootstrapDTO);
+    return this.execBootstrapsService.update({
+      ...updateExecBootstrapDTO,
+      ...execBootStrapId,
+    });
   }
 
   @Get()
@@ -64,5 +69,10 @@ export class ExecBootstrapsController {
         detailedExecBootstrapTemplate,
       ),
     );
+  }
+
+  @Delete(':id')
+  async deleteExecBootstrap(@Param() idObject: FindByIdDTO): Promise<void> {
+    await this.execBootstrapsService.delete(idObject);
   }
 }
