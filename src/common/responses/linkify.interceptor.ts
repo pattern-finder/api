@@ -49,9 +49,7 @@ export abstract class LinkifyInterceptor implements NestInterceptor {
         ? process.env.API_EXTERNAL_HOST
         : `http://localhost`
     }${
-      process.env.API_EXTERNAL_PORT
-        ? `:${process.env.API_EXTERNAL_PORT}`
-        : ':3000'
+      process.env.API_EXTERNAL_PORT ? `:${process.env.API_EXTERNAL_PORT}` : ''
     }/${route}${id ? `/${id}` : ''}`;
   }
 
