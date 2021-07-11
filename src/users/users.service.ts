@@ -1,4 +1,4 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BufferedFile } from 'src/common/dto/buffered-file.dto';
@@ -33,6 +33,10 @@ export class UsersService {
 
   async findOne(id: string): Promise<User> {
     const userObject = (await this.userModel.findById(id).exec())?.toObject();
+
+    if (!userObject) {
+      throw new NotFoundException(`User: ${id} does not exist.`)
+    }
 
     return {
       ...userObject,
