@@ -59,7 +59,7 @@ export class GodBoxRepository {
   ): Promise<GodboxPhaseOutputDTO> {
     const language = await this.languagesService.findByName(bootstrap.language);
 
-    const completeCode = `${bootstrap}\n${code}`;
+    const completeCode = `${bootstrap.tests}\n${code}`;
     const payload = {
       phases: language.phases,
       files: await this.bundleExec(pictures, completeCode, language),
@@ -69,7 +69,7 @@ export class GodBoxRepository {
       const { data }: { data: { phases: GodboxPhaseOutputDTO[] } } =
         await axios.post(`${godboxConfig.baseUrl}/run`, payload);
 
-      return data.phases.find((phase) => phase.name === 'Execution');
+      return data.phases[data.phases.length - 1];
     } catch (err) {
       throw new InternalServerErrorException(
         err?.response?.data?.message || err?.message || 'Unkown reason.',
