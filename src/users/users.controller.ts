@@ -60,6 +60,7 @@ export class UsersController {
     if (Object.keys(updateUserDTO).length === 0 && !avatarPicture) {
       throw new BadRequestException('No changes were specified.');
     }
+
     const user = this.usersService.update(
       req.user.userId,
       updateUserDTO,

@@ -69,7 +69,8 @@ services:
       - .env
 
   picspy-godbox:
-    image: quantumsheep/godbox:2
+    build:
+      context: ./picspy-godbox
     privileged: true
     ports:
       - 8081:8080
