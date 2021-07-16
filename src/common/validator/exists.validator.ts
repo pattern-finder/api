@@ -6,7 +6,6 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { getConnectionToken } from '@nestjs/mongoose';
 import { connection } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 
