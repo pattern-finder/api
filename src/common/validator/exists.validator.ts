@@ -17,15 +17,7 @@ export class ExistsInDatabaseConstraint
   implements ValidatorConstraintInterface
 {
   async validate(value: any, args: ValidationArguments) {
-    // const entityName = value.name;
     const entity = args.object[`class_entity_${args.property}`];
-    console.log(args);
-
-    console.log(getConnectionToken());
-
-    console.log(connection.db);
-
-    console.log(connection.collections);
 
     return await connection.collections[entity]
       .countDocuments({ [args.property]: value })

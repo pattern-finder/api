@@ -8,11 +8,12 @@ export class LanguagesCommand {
 
   private readonly languages = [
     {
-      name: 'c++',
+      name: 'cpp',
       phases: [
         {
           name: 'Compilation',
-          script: '/usr/local/gcc-11.1.0/bin/g++ main.cpp -o out',
+          script:
+            '/usr/local/gcc-11.1.0/bin/g++ `pkg-config --cflags opencv4`  main.cpp -o out',
         },
         {
           name: 'Execution',

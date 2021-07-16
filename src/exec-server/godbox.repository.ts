@@ -68,7 +68,6 @@ export class GodBoxRepository {
     try {
       const { data }: { data: { phases: GodboxPhaseOutputDTO[] } } =
         await axios.post(`${godboxConfig.baseUrl}/run`, payload);
-
       return data.phases[data.phases.length - 1];
     } catch (err) {
       throw new InternalServerErrorException(
