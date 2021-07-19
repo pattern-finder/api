@@ -38,6 +38,10 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/package*.json /usr/src/app/
 COPY --from=builder /usr/src/app/dist/ /usr/src/app/
 
+ENV LIBS_DIR=/usr/src/app/libs
+COPY ./libs ${LIBS_DIR}
+
+
 RUN npm ci
 
 RUN npm i yargs
