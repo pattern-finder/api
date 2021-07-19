@@ -4,3 +4,6 @@
 [submodule "picspy-godbox"]
 	path = picspy-godbox
 	url = git@github.com:pattern-finder/picspy-godbox.git
+[submodule "libs"]
+	path = libs
+	url = git@github.com:pattern-finder/libs.git

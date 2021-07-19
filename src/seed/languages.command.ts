@@ -27,7 +27,7 @@ export class LanguagesCommand {
       phases: [
         {
           name: 'Execution',
-          script: 'python3 main.py',
+          script: '/usr/local/python-3.9.6/bin/python3 main.py',
         },
       ],
       mainFileName: 'main.py',
