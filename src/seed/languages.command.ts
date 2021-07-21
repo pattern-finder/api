@@ -1,7 +1,6 @@
 import { Command } from 'nestjs-command';
 import { Injectable } from '@nestjs/common';
 import { LanguagesService } from 'src/languages/languages.service';
-
 @Injectable()
 export class LanguagesCommand {
   constructor(private readonly languageService: LanguagesService) {}
@@ -12,12 +11,11 @@ export class LanguagesCommand {
       phases: [
         {
           name: 'Compilation',
-          script:
-            '/usr/local/gcc-11.1.0/bin/g++ `pkg-config --cflags opencv4`  main.cpp -o out',
+          script: `cmake . && cmake --build .`,
         },
         {
           name: 'Execution',
-          script: './out',
+          script: './picspy-attempt',
         },
       ],
       mainFileName: 'main.cpp',
@@ -27,7 +25,7 @@ export class LanguagesCommand {
       phases: [
         {
           name: 'Execution',
-          script: '/usr/local/python-3.9.6/bin/python3 main.py',
+          script: '/usr/local/python-3.9.6/bin/python3.9 main.py',
         },
       ],
       mainFileName: 'main.py',
