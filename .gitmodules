@@ -3,7 +3,7 @@
 	url = https://github.com/pattern-finder/frontend.git
 [submodule "picspy-godbox"]
 	path = picspy-godbox
-	url = git@github.com:pattern-finder/picspy-godbox.git
+	url = https://github.com/pattern-finder/picspy-godbox.git
 [submodule "libs"]
 	path = libs
-	url = git@github.com:pattern-finder/libs.git
+	url = https://github.com/pattern-finder/libs.git
