@@ -9,7 +9,7 @@ import { Language } from 'src/languages/language.schema';
 import { ExecBootstrap } from 'src/exec-bootstrap/exec-bootstrap.schema';
 import { LanguagesService } from 'src/languages/languages.service';
 
-const LIBS_DIR = process.env.LIBS_DIR || '/usr/src/app';
+const LIBS_DIR = process.env.LIBS_DIR || '/usr/src/app/libs';
 @Injectable()
 export class GodBoxRepository {
   constructor(private readonly languagesService: LanguagesService) {}
@@ -42,8 +42,11 @@ export class GodBoxRepository {
   ) {
     const zip = new AdmZip();
 
-    this.bundleLib(zip);
+    zip.addLocalFolder(`${LIBS_DIR}/${language.name}`, 'lib');
 
+    if (language.name === 'cpp') {
+      zip.addLocalFile('/usr/src/app/conf/CMakeLists.txt');
+    }
     zip.addFile(language.mainFileName, Buffer.from(code));
 
     const imageBuffers = await this.fetchImagesBuffers(pictures);
@@ -53,10 +56,6 @@ export class GodBoxRepository {
     });
 
     return zip.toBuffer().toString('base64');
-  }
-
-  async bundleLib(zip: AdmZip) {
-    zip.addLocalFolder(LIBS_DIR, 'lib');
   }
 
   async execute(

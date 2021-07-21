@@ -41,6 +41,8 @@ COPY --from=builder /usr/src/app/dist/ /usr/src/app/
 ENV LIBS_DIR=/usr/src/app/libs
 COPY ./libs ${LIBS_DIR}
 
+COPY ./conf/* /usr/src/app/conf/*
+
 
 RUN npm ci
 
