@@ -40,6 +40,7 @@ export class AttemptsService {
       await new this.attemptModel({
         ...execResults,
         ...insertAttemptDTO,
+        phase: execResults.name,
         createdAt: new Date(),
       }).save()
     ).toObject();
@@ -72,6 +73,7 @@ export class AttemptsService {
           execBootstrap: findAttemptDTO.execBootstrap,
           user: findAttemptDTO.user,
         })
+        .sort({ createdAt: 'desc' })
         .exec()
     ).map((attempt) => attempt.toObject());
   }

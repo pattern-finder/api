@@ -3,17 +3,25 @@ export class SanitizedAttemptDTO {
 
   user: string;
 
-  challenge: string;
-
   code: string;
 
-  language: string;
+  status: number;
+
+  phase: string;
 
   stdout: string;
 
   memory: number;
 
   time: number;
+
+  time_wall: number;
+
+  used_memory: number;
+
+  csw_voluntary: number;
+
+  csw_forced: number;
 
   token: string;
 
@@ -29,11 +37,7 @@ export const sanitizedAttemptTemplate: SanitizedAttemptDTO = {
 
   user: '',
 
-  challenge: '',
-
   code: '',
-
-  language: '',
 
   stdout: '',
 
@@ -42,6 +46,18 @@ export const sanitizedAttemptTemplate: SanitizedAttemptDTO = {
   time: 0,
 
   token: '',
+
+  csw_forced: 0,
+
+  csw_voluntary: 0,
+
+  phase: '',
+
+  status: 0,
+
+  time_wall: 0,
+
+  used_memory: 0,
 
   editedAt: new Date(),
   createdAt: new Date(),
