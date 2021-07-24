@@ -1,20 +1,26 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import axios from 'axios';
-import { PictureUrlDTO } from 'src/pictures/dto/picture-url.dto';
 import { godboxConfig } from './configuration/godbox.conf';
 import { GodboxPhaseOutputDTO } from './dto/godbox-phase-output.dto';
 import { promises as fs } from 'fs';
 import * as AdmZip from 'adm-zip';
-import { Language } from 'src/languages/language.schema';
 import { ExecBootstrap } from 'src/exec-bootstrap/exec-bootstrap.schema';
 import { LanguagesService } from 'src/languages/languages.service';
+import { ChallengesService } from 'src/challenges/challenges.service';
+import { Language } from 'src/languages/language.schema';
 
 const LIBS_DIR = process.env.LIBS_DIR || '/usr/src/app/libs';
 @Injectable()
 export class GodBoxRepository {
-  constructor(private readonly languagesService: LanguagesService) {}
+  constructor(
+    private readonly languagesService: LanguagesService,
+    private readonly challengeService: ChallengesService,
+  ) {}
 
-  async fetchImagesBuffers(pictures: PictureUrlDTO[]): Promise<Buffer[]> {
+  async fetchImagesBuffers(bootstrap: ExecBootstrap): Promise<Buffer[]> {
+    const pictures = (
+      await this.challengeService.findOne({ id: bootstrap.challenge }, true)
+    ).pictures;
     return (
       await Promise.all(
         pictures.map((pic) =>
@@ -36,9 +42,9 @@ export class GodBoxRepository {
    * Create a directory, download the pictures and code files in it, and hand back the base64 for the zip.
    */
   private async bundleExec(
-    pictures: PictureUrlDTO[],
     code: string,
     language: Language,
+    bootstrap: ExecBootstrap,
   ) {
     const zip = new AdmZip();
 
@@ -49,7 +55,7 @@ export class GodBoxRepository {
     }
     zip.addFile(language.mainFileName, Buffer.from(code));
 
-    const imageBuffers = await this.fetchImagesBuffers(pictures);
+    const imageBuffers = await this.fetchImagesBuffers(bootstrap);
     // later add some format extension or something
     imageBuffers.map((image, index) => {
       zip.addFile(`pictures/picture-${index}`, image);
@@ -61,14 +67,13 @@ export class GodBoxRepository {
   async execute(
     code: string,
     bootstrap: ExecBootstrap,
-    pictures: PictureUrlDTO[],
   ): Promise<GodboxPhaseOutputDTO> {
     const language = await this.languagesService.findByName(bootstrap.language);
 
     const completeCode = `${bootstrap.tests}\n${code}`;
     const payload = {
       phases: language.phases,
-      files: await this.bundleExec(pictures, completeCode, language),
+      files: await this.bundleExec(completeCode, language, bootstrap),
     };
 
     try {

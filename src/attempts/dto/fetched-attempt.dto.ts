@@ -4,9 +4,8 @@ import { User } from 'src/users/user.schema';
 export class FetchedAttemptDTO {
   id?: string;
   user: User;
-  challenge: Challenge;
+  execBootstrap: string;
   code: string;
-  language: string;
   stdout?: string;
   times: number;
   memory: number;

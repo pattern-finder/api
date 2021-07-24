@@ -1,8 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User } from 'src/users/user.schema';
 import { Document, Types } from 'mongoose';
-import { Challenge } from 'src/challenges/challenge.schema';
-import { Language } from 'src/languages/language.schema';
+import { ExecBootstrap } from 'src/exec-bootstrap/exec-bootstrap.schema';
 
 export type AttemptDocument = Attempt & Document;
 
@@ -11,16 +10,13 @@ export class Attempt {
   _id?: string;
 
   @Prop({ type: Types.ObjectId, ref: User.name, required: true })
-  user: User;
+  user: string;
 
-  @Prop({ type: Types.ObjectId, ref: Challenge.name, required: true })
-  challenge: string;
+  @Prop({ type: Types.ObjectId, ref: ExecBootstrap.name, required: true })
+  execBootstrap: string;
 
   @Prop({ required: true })
   code: string;
-
-  @Prop({ required: true, type: Types.ObjectId, ref: Language.name })
-  language: string;
 
   @Prop()
   status: number;
