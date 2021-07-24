@@ -58,11 +58,10 @@ When a release is published, a docker image is built and pushed into a docker re
 erDiagram
     USER }o--||CHALLENGE : creates
     USER }o--|| ATTEMPT : issues
-    ATTEMPT }o--|| CHALLENGE : belongs
+    BOOTSTRAP ||--o{ ATTEMPT : issues
     SERIE }o--|| USER : creates
     CHALLENGE }o--|| SERIE : belongs
     PICTURE }|--|| CHALLENGE : belongs
-    LANGUAGE ||--|| ATTEMPT : written
     LANGUAGE }|--|| CHALLENGE : available
     LANGUAGE ||--|| BOOTSTRAP : written
     BOOTSTRAP }|--||CHALLENGE : belongs

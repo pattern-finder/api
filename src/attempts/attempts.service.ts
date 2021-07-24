@@ -6,6 +6,7 @@ import { ExecBootstrapsService } from 'src/exec-bootstrap/exec-bootstraps.servic
 import { GodBoxRepository } from 'src/exec-server/godbox.repository';
 import { Attempt, AttemptDocument } from './attempt.schema';
 import { ExecutionResultsDTO } from './dto/execution-results.dto';
+import { FindByUserAndBootstrapDTO } from './dto/find-by-user-and-bootstrap.dto';
 import { InsertAttemptDTO } from './dto/insert-attempt.dto';
 
 @Injectable()
@@ -20,16 +21,19 @@ export class AttemptsService {
   async create(
     insertAttemptDTO: InsertAttemptDTO, // link challenge and execbootstrap
   ): Promise<ExecutionResultsDTO> {
-    const execBootstrap =
-      await this.execBootstrapService.findByLanguageAndChallenge({
-        challengeId: insertAttemptDTO.challenge._id,
-        language: insertAttemptDTO.language,
-      });
+    const execBootstrap = await this.execBootstrapService.findOne({
+      id: insertAttemptDTO.execBootstrap,
+    });
+
+    if (!execBootstrap) {
+      throw new NotFoundException(
+        'This language is not available for this challenge.',
+      );
+    }
 
     const execResults = await this.execServerService.execute(
       insertAttemptDTO.code,
       execBootstrap,
-      insertAttemptDTO.challenge.pictures,
     );
 
     const attempt = (
@@ -59,5 +63,16 @@ export class AttemptsService {
     return (await this.attemptModel.find().exec()).map((attempt) =>
       attempt.toObject(),
     );
+  }
+
+  async findByUserAndBootstrap(findAttemptDTO: FindByUserAndBootstrapDTO) {
+    return (
+      await this.attemptModel
+        .find({
+          execBootstrap: findAttemptDTO.execBootstrap,
+          user: findAttemptDTO.user,
+        })
+        .exec()
+    ).map((attempt) => attempt.toObject());
   }
 }

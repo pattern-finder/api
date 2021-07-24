@@ -10,12 +10,12 @@ import {
 } from '@nestjs/common';
 import { SessionUserDTO } from 'src/auth/dto/session-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { ChallengesService } from 'src/challenges/challenges.service';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
 import { sanitize } from 'src/common/responses/generic_sanitizer';
 import { AttemptsService } from './attempts.service';
 import { CreateAttemptDTO } from './dto/create-attempt.dto';
 import { ExecutionResultsDTO } from './dto/execution-results.dto';
+import { FindByUserAndBootstrapDTO } from './dto/find-by-user-and-bootstrap.dto';
 import {
   SanitizedAttemptDTO,
   sanitizedAttemptTemplate,
@@ -23,10 +23,7 @@ import {
 
 @Controller('/attempts')
 export class AttemptsController {
-  constructor(
-    private readonly attemptsService: AttemptsService,
-    private readonly challengeService: ChallengesService,
-  ) {}
+  constructor(private readonly attemptsService: AttemptsService) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -35,23 +32,9 @@ export class AttemptsController {
     @Request() req: { user: SessionUserDTO },
     @Body() createAttemptDTO: CreateAttemptDTO,
   ): Promise<ExecutionResultsDTO> {
-    const challenge = await this.challengeService.findOne(
-      {
-        id: createAttemptDTO.challenge,
-      },
-      true,
-    );
-
-    if (!challenge) {
-      throw new NotFoundException( // TODO replace this logic with a validator !
-        'Challenge with specified ID does not exist.',
-      );
-    }
-
     return this.attemptsService.create({
       ...createAttemptDTO,
       user: req.user.userId,
-      challenge: challenge,
     });
   }
 
@@ -67,6 +50,18 @@ export class AttemptsController {
     }
 
     return sanitize<SanitizedAttemptDTO>(attempt, sanitizedAttemptTemplate);
+  }
+
+  // @UseInterceptors(LinkifyInterceptor)
+  @Get('find-by-user-and-bootstrap/:user/:execBootstrap')
+  async getAttemptByUserAndBootstrap(
+    @Param() findAttemptDTO: FindByUserAndBootstrapDTO,
+  ): Promise<SanitizedAttemptDTO[]> {
+    return (
+      await this.attemptsService.findByUserAndBootstrap(findAttemptDTO)
+    ).map((attempt) =>
+      sanitize<SanitizedAttemptDTO>(attempt, sanitizedAttemptTemplate),
+    );
   }
 
   // @UseInterceptors(LinkifyInterceptor)
