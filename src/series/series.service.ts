@@ -1,8 +1,14 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ChallengesService } from 'src/challenges/challenges.service';
 import { CreateSerieDTO } from './dtos/create-serie.dto';
 import { PopulatedUpdateSerieDTO } from './dtos/populated-update-series.dto';
+import { SanitizedSerieDTO } from './dtos/sanitized-serie.dto';
 import { Serie, SerieDocument } from './series.schema';
 
 @Injectable()
@@ -10,6 +16,7 @@ export class SeriesService {
   constructor(
     @InjectModel(Serie.name)
     private readonly seriesModel: Model<SerieDocument>,
+    private readonly challengesService: ChallengesService,
   ) {}
 
   async findAll(): Promise<Serie[]> {
@@ -18,8 +25,23 @@ export class SeriesService {
     );
   }
 
-  async findOne(id: string): Promise<Serie> {
-    return (await this.seriesModel.findById(id).exec())?.toObject();
+  async findOne(id: string): Promise<SanitizedSerieDTO> {
+    const serie = (await this.seriesModel.findById(id).exec())?.toObject();
+
+    if (!serie) {
+      throw new NotFoundException(`Could not find Serie with id: ${id}.`);
+    }
+
+    const challenges = await Promise.all(
+      serie.challenges.map((c) => {
+        return this.challengesService.findOne({ id: c });
+      }),
+    );
+
+    return {
+      ...serie,
+      challenges,
+    };
   }
 
   async findByName(name: string): Promise<Serie> {
