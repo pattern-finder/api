@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Request,
+  UnauthorizedException,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -108,8 +109,17 @@ export class ChallengesController {
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async deleteChallenge(
+    @Request() req: { user: SessionUserDTO },
     @Param() challengeIdObject: FindByIdDTO,
   ): Promise<void> {
+    const challenge = await this.challengesService.findOne(challengeIdObject);
+
+    if (req.user.userId.toString() !== challenge._id.toString()) {
+      throw new UnauthorizedException(
+        'You can only delete your own challenges.',
+      );
+    }
+
     this.challengesService.delete(challengeIdObject);
   }
 }
