@@ -1,9 +1,11 @@
+import { Challenge } from 'src/challenges/challenge.schema';
+
 export class SanitizedSerieDTO {
   _id?: string;
 
   name: string;
 
-  challenges: any[];
+  challenges: Challenge[];
 
   editedAt?: Date;
 
