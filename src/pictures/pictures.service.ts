@@ -6,6 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BufferedFile } from 'src/common/dto/buffered-file.dto';
+import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
 import ObjectStorageService, {
   PicspyBucket,
 } from 'src/object-storage/object-storage.service';
@@ -28,8 +29,8 @@ export class PicturesService {
     );
   }
 
-  async findOne(id: string): Promise<Picture> {
-    return (await this.pictureModel.findById(id).exec())?.toObject();
+  async findOne(idObject: FindByIdDTO): Promise<Picture> {
+    return (await this.pictureModel.findById(idObject.id).exec())?.toObject();
   }
 
   async findByName(filename: string): Promise<Picture> {
@@ -113,7 +114,7 @@ export class PicturesService {
     )?.toObject();
   }
 
-  async delete(id: string, baseBucket: PicspyBucket): Promise<void> {
+  async delete(id: FindByIdDTO, baseBucket: PicspyBucket): Promise<void> {
     const picture = await this.findOne(id);
 
     if (!picture) {
