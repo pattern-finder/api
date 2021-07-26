@@ -46,6 +46,27 @@ export class ChallengesService {
     );
   }
 
+  async findByUser(userIdObject: FindByIdDTO): Promise<ListChallengeDTO[]> {
+    const challenges = (
+      await this.challengeModel.find({ owner: userIdObject.id }).exec()
+    ).map((c) => c.toObject());
+
+    return await Promise.all(
+      challenges.map(async (challenge) => {
+        return {
+          ...challenge,
+          execBootstraps: (
+            await this.execBootstrapService.findExecBootstrapsLanguagesByChallenge(
+              {
+                id: challenge._id,
+              },
+            )
+          ).map((execBootstrap) => execBootstrap),
+        };
+      }),
+    );
+  }
+
   async findOne(
     findByIdDTO: FindByIdDTO,
     fromInternalSource = false,
