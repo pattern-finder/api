@@ -59,6 +59,16 @@ export class ChallengesController {
     return sanitize<DetailedChallengeDTO>(challenge, detailedChallengeTemplate);
   }
 
+  @Get('user/:id')
+  async getChallengesByUser(
+    @Param() userIdDTO: FindByIdDTO,
+  ): Promise<ListChallengeDTO[]> {
+    return (await this.challengesService.findByUser(userIdDTO)).map(
+      (challenge) =>
+        sanitize<ListChallengeDTO>(challenge, listChallengeTemplate),
+    );
+  }
+
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FilesInterceptor('pictures'))
   @Post()
