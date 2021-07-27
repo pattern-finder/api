@@ -12,6 +12,9 @@ export class Picture {
   @Prop({ type: Types.ObjectId, ref: Challenge.name })
   challenge: string;
 
+  @Prop({ required: true })
+  execFileName: string;
+
   @Prop()
   editedAt?: Date;
 

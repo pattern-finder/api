@@ -17,21 +17,29 @@ export class GodBoxRepository {
     private readonly challengeService: ChallengesService,
   ) {}
 
-  async fetchImagesBuffers(bootstrap: ExecBootstrap): Promise<Buffer[]> {
+  async fetchImagesBuffers(
+    bootstrap: ExecBootstrap,
+  ): Promise<{ filename: string; buffer: Buffer }[]> {
     const pictures = (
       await this.challengeService.findOne({ id: bootstrap.challenge }, true)
     ).pictures;
-    return (
-      await Promise.all(
-        pictures.map((pic) =>
-          axios.request({
-            responseType: 'arraybuffer',
-            url: pic.file,
-            method: 'get',
-          }),
-        ),
-      )
-    ).map((result) => result.data);
+    return await Promise.all(
+      pictures.map((pic) => {
+        const fetchPicture = async () => {
+          return {
+            buffer: (
+              await axios.request({
+                responseType: 'arraybuffer',
+                url: pic.file,
+                method: 'get',
+              })
+            ).data,
+            filename: pic.execFileName,
+          };
+        };
+        return fetchPicture();
+      }),
+    );
   }
 
   async extractZipFileBase64(archivePath: string): Promise<string> {
@@ -58,7 +66,10 @@ export class GodBoxRepository {
     const imageBuffers = await this.fetchImagesBuffers(bootstrap);
     // later add some format extension or something
     imageBuffers.map((image, index) => {
-      zip.addFile(`pictures/picture-${index}`, image);
+      zip.addFile(
+        `pictures/${image.filename || `picture-${index}`}`,
+        image.buffer,
+      );
     });
 
     return zip.toBuffer().toString('base64');
