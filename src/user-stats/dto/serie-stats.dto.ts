@@ -1,4 +1,4 @@
-import { ChallengeStatsDTO } from "./challenge-stats.dto";
+import { ChallengeStatsDTO } from './challenge-stats.dto';
 
 export class SerieStatsDTO {
   _id: string;

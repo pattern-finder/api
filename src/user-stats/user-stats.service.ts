@@ -61,9 +61,9 @@ export class UserStatsService {
               serie.challenges.map((challenge) => {
                 return attemptsToStats(challenge, userIdDTO.id);
               }),
-            )
-          } 
-        }
+            ),
+          };
+        };
         return composeStats();
       }),
     );

@@ -4,7 +4,7 @@ import { UserStatsService } from './user-stats.service';
 
 @Controller('stats')
 export class UserStatsController {
-  constructor( private readonly userStatsService: UserStatsService) {}
+  constructor(private readonly userStatsService: UserStatsService) {}
 
   @Get('default_series/:id')
   async completion(@Param() userIdObject: FindByIdDTO) {

@@ -1,6 +1,4 @@
-import { Command } from 'nestjs-command';
 import { Injectable } from '@nestjs/common';
-import { LanguagesService } from 'src/languages/languages.service';
 import { ChallengesService } from 'src/challenges/challenges.service';
 
 export const DEFAULT_SERIE_NAME = 'Picspy Courses';
