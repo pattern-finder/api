@@ -44,8 +44,14 @@ export class SeriesService {
     };
   }
 
-  async findByName(name: string): Promise<Serie> {
+  async findByName(name: string): Promise<SerieDocument> {
     return await this.seriesModel.findOne({ name });
+  }
+
+  async findDefaultSeries(): Promise<Serie[]> {
+    return (await this.seriesModel.find({ owner: undefined }).exec()).map((a) =>
+      a.toObject(),
+    );
   }
 
   async create(createSerieDTO: CreateSerieDTO): Promise<Serie> {

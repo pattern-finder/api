@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ChallengesService } from 'src/challenges/challenges.service';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
 import { ExecBootstrapsService } from 'src/exec-bootstrap/exec-bootstraps.service';
 import { GodBoxRepository } from 'src/exec-server/godbox.repository';
@@ -16,6 +17,7 @@ export class AttemptsService {
     private readonly attemptModel: Model<AttemptDocument>,
     private readonly execServerService: GodBoxRepository,
     private readonly execBootstrapService: ExecBootstrapsService,
+    private readonly challengesService: ChallengesService,
   ) {}
 
   async create(
@@ -76,5 +78,33 @@ export class AttemptsService {
         .sort({ createdAt: 'desc' })
         .exec()
     ).map((attempt) => attempt.toObject());
+  }
+
+  async findByUser(userIdObject: FindByIdDTO): Promise<Attempt[]> {
+    const attempts = (
+      await this.attemptModel.find({ user: userIdObject.id }).exec()
+    ).map((c) => c.toObject());
+    return attempts;
+  }
+
+  async findValidatedByUserAndChallenge(
+    userId: string,
+    challengeId: string,
+  ): Promise<Attempt[]> {
+    const bootstraps = await (
+      await this.challengesService.findOne({ id: challengeId })
+    ).execBootstraps;
+    const attmepts = (
+      await this.attemptModel
+        .find({
+          $or: bootstraps.map((b) => {
+            return { execBootstrap: b._id };
+          }),
+          user: userId,
+          status: 0,
+        })
+        .exec()
+    ).map((a) => a.toObject());
+    return attmepts;
   }
 }
