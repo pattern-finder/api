@@ -41,22 +41,24 @@ export class PicturesService {
     challenge: string,
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
-    const pictures = (
-      await this.pictureModel.find({ challenge }, 'url').exec()
-    ).map((picture) => {
-      const pictureObject = picture.toObject();
-      const file = fromInternal
-        ? this.objectStorageService.generateInternalServerAddress(
-            pictureObject.url,
-          )
-        : this.objectStorageService.generateExternalServerAddress(
-            pictureObject.url,
-          );
-      return {
-        _id: pictureObject._id,
-        file: file,
-      };
-    });
+    const pictures = (await this.pictureModel.find({ challenge }).exec()).map(
+      (picture) => {
+        const pictureObject = picture.toObject();
+        const file = fromInternal
+          ? this.objectStorageService.generateInternalServerAddress(
+              pictureObject.url,
+            )
+          : this.objectStorageService.generateExternalServerAddress(
+              pictureObject.url,
+            );
+
+        return {
+          _id: pictureObject._id,
+          file: file,
+          execFileName: pictureObject.execFileName,
+        };
+      },
+    );
     return pictures;
   }
 
@@ -72,6 +74,7 @@ export class PicturesService {
         file: this.objectStorageService.generateInternalServerAddress(
           pictureObject.url,
         ),
+        execFileName: pictureObject.execFileName,
       };
     });
     return pictures;
@@ -94,10 +97,12 @@ export class PicturesService {
         `Picture name ${filename} already taken.`,
       );
     }
+
     return (
       await new this.pictureModel({
         ...createPictureDTO,
         url: filename,
+        execFileName: file.originalname,
         createdAt: new Date(),
       }).save()
     ).toObject();
@@ -122,6 +127,6 @@ export class PicturesService {
     }
 
     await this.objectStorageService.delete(picture.url, baseBucket);
-    await this.pictureModel.findByIdAndDelete(id).exec();
+    await this.pictureModel.findByIdAndDelete(id.id).exec();
   }
 }
