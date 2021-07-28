@@ -19,7 +19,6 @@ set(INCLUDES
   "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
-target_link_libraries(${PROJECT_NAME} stdc++fs)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS} stdc++fs)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDES})
