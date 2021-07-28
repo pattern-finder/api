@@ -1390,6 +1390,8 @@ def doExercice(listMatrice, pixelStartX, pixelStartY, size):
       }),
     );
 
+
+
     await this.seriesService.update(serie._id, {
       challenges: challenges.map((c) => c._id),
     });
