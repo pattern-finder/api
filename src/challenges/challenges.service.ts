@@ -30,7 +30,7 @@ export class ChallengesService {
       (challenge) => challenge.toObject(),
     );
 
-    const res =  await Promise.all(
+    const res = await Promise.all(
       challenges.map(async (challenge) => {
         return {
           ...challenge,

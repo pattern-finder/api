@@ -98,7 +98,7 @@ export class UserStatsService {
         return getStats();
       }),
     );
-      console.log(challengesObject)
+    console.log(challengesObject);
     const nbValidatedChallenges = Object.keys(challengesObject).filter(
       (k) => challengesObject[k],
     ).length;
