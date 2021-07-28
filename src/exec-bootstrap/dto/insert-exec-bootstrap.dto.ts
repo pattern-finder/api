@@ -4,4 +4,6 @@ export class InsertExecBootstrapDTO {
   language: string;
 
   tests: string;
+
+  functionTemplate: string;
 }

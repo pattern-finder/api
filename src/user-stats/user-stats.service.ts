@@ -6,6 +6,8 @@ import { SeriesService } from 'src/series/series.service';
 import { UserDefaultSeriesStatsDTO } from './dto/user-default-series-stats.dto';
 import { ChallengeStatsDTO } from './dto/challenge-stats.dto';
 import { SerieStatsDTO } from './dto/serie-stats.dto';
+import { ExecBootstrapsService } from 'src/exec-bootstrap/exec-bootstraps.service';
+import { generalStatsDTO } from './dto/general-stats.dto';
 
 @Injectable()
 export class UserStatsService {
@@ -13,6 +15,7 @@ export class UserStatsService {
     private readonly attemptsService: AttemptsService,
     private readonly challengesService: ChallengesService,
     private readonly seriesService: SeriesService,
+    private readonly execBootstrapService: ExecBootstrapsService,
   ) {}
 
   async getCompletion(
@@ -70,6 +73,42 @@ export class UserStatsService {
 
     return {
       series: await seriesWithChallenges,
+    };
+  }
+
+  async getExecStats(userIdobject: FindByIdDTO): Promise<generalStatsDTO> {
+    const attempts = await this.attemptsService.findByUser(userIdobject);
+
+    const nbExecs = attempts.length;
+
+    const nbSucessfullExecs = attempts.filter((a) => a.status === 0).length;
+    const successRatio = nbSucessfullExecs / attempts.length;
+
+    const challengesObject = {};
+
+    await Promise.all(
+      attempts.map((a) => {
+        const getStats = async () => {
+          const bootstrap = await this.execBootstrapService.findOne({
+            id: a.execBootstrap,
+          });
+          challengesObject[bootstrap.challenge] =
+            challengesObject[bootstrap.challenge] || a.status === 0;
+        };
+        return getStats();
+      }),
+    );
+      console.log(challengesObject)
+    const nbValidatedChallenges = Object.keys(challengesObject).filter(
+      (k) => challengesObject[k],
+    ).length;
+    const nbParticipatedChallegnes = Object.keys(challengesObject).length;
+    return {
+      nbExecs,
+      nbParticipatedChallegnes,
+      nbSucessfullExecs,
+      nbValidatedChallenges,
+      successRatio,
     };
   }
 }

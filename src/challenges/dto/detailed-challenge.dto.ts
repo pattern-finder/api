@@ -10,11 +10,13 @@ export class DetailedChallengeDTO {
 
   instructions: string;
 
-  owner?: string;
+  owner: string;
 
   pictures: PictureUrlDTO[];
 
   execBootstraps: ListExecBootstrapDTO[];
+
+  isCourse: boolean;
 
   editedAt?: Date;
 
@@ -35,6 +37,8 @@ export const detailedChallengeTemplate: DetailedChallengeDTO = {
   pictures: [],
 
   execBootstraps: [],
+
+  isCourse: false,
 
   editedAt: new Date(),
   createdAt: new Date(),
