@@ -15,7 +15,7 @@ export class Language {
   name: string;
 
   @Prop({ required: true })
-  mainFileName: string;
+  extension: string;
 
   @Prop({ required: true })
   phases: Phase[];

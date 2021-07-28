@@ -5,7 +5,7 @@ export class SanitizedLanguageDTO {
 
   name: string;
 
-  mainFileName: string;
+  extension: string;
 
   phases: Phase[];
 
@@ -21,7 +21,7 @@ export const sanitizedLanguageTemplate: SanitizedLanguageDTO = {
 
   name: '',
 
-  mainFileName: '',
+  extension: '',
 
   phases: [],
 

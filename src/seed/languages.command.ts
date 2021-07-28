@@ -18,7 +18,7 @@ export class LanguagesCommand {
           script: './picspy-attempt',
         },
       ],
-      mainFileName: 'main.cpp',
+      extension: '.cpp',
     },
     {
       name: 'python',
@@ -28,7 +28,7 @@ export class LanguagesCommand {
           script: '/usr/local/python-3.9.6/bin/python3.9 main.py',
         },
       ],
-      mainFileName: 'main.py',
+      extension: '.py',
     },
     {
       name: 'rust',
@@ -42,7 +42,7 @@ export class LanguagesCommand {
           script: './main',
         },
       ],
-      mainFileName: 'main.rs',
+      extension: '.rs',
     },
   ];
 
