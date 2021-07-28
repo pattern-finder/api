@@ -110,7 +110,7 @@ export class AttemptsService {
         })
         .exec()
     ).map((a) => a.toObject());
-    console.log(attmepts)
+    console.log(attmepts);
     return attmepts;
   }
 }
