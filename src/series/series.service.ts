@@ -6,7 +6,6 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ChallengesService } from 'src/challenges/challenges.service';
-import { CreateSerieDTO } from './dtos/create-serie.dto';
 import { InsertSerieDTO } from './dtos/insert-serie.dto';
 import { PopulatedUpdateSerieDTO } from './dtos/populated-update-series.dto';
 import { SanitizedSerieDTO } from './dtos/sanitized-serie.dto';
