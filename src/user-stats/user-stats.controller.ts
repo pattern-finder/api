@@ -10,4 +10,9 @@ export class UserStatsController {
   async completion(@Param() userIdObject: FindByIdDTO) {
     return await this.userStatsService.getCompletion(userIdObject);
   }
+
+  @Get('execs/:id')
+  async execs(@Param() userIdObject: FindByIdDTO) {
+    return await this.userStatsService.getExecStats(userIdObject);
+  }
 }

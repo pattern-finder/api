@@ -30,7 +30,7 @@ export class ChallengesService {
       (challenge) => challenge.toObject(),
     );
 
-    return await Promise.all(
+    const res =  await Promise.all(
       challenges.map(async (challenge) => {
         return {
           ...challenge,
@@ -44,6 +44,8 @@ export class ChallengesService {
         };
       }),
     );
+
+    return res;
   }
 
   async findByUser(userIdObject: FindByIdDTO): Promise<ListChallengeDTO[]> {
@@ -81,13 +83,13 @@ export class ChallengesService {
 
     const execBootstraps =
       await this.execBootstrapService.findExecBootstrapsLanguagesByChallenge({
-        id: challenge._id,
+        id: challenge._id.toString(),
       });
 
     return {
       ...challenge,
       pictures: await this.picturesService.findExternalUrlsByChallenge(
-        challenge._id,
+        challenge._id.toString(),
         fromInternalSource,
       ),
       execBootstraps: execBootstraps,
@@ -171,5 +173,9 @@ export class ChallengesService {
       throw new NotFoundException('Challenge with given ID does not exist.');
     }
     await this.challengeModel.findByIdAndDelete(findChallengeDTO.id).exec();
+  }
+
+  async deleteAll(): Promise<void> {
+    await this.challengeModel.deleteMany().exec();
   }
 }

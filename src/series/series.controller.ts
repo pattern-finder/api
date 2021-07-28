@@ -26,12 +26,14 @@ import { UpdateSerieDTO } from './dtos/update-serie.dto';
 import { Serie } from './series.schema';
 import { SeriesService } from './series.service';
 import * as _ from 'lodash';
+import { CoursesCommand } from 'src/seed/courses.command';
 
 @Controller('series')
 export class SeriesController {
   constructor(
     private readonly seriesService: SeriesService,
     private readonly challengesService: ChallengesService,
+    private readonly coursesCommand: CoursesCommand,
   ) {}
 
   @Get(':id')
@@ -110,5 +112,10 @@ export class SeriesController {
     const serie = this.seriesService.update(updateSerieDTO._id, populatedSerie);
 
     return serie;
+  }
+
+  @Post('/seed')
+  async seedLanguages(): Promise<void> {
+    this.coursesCommand.create();
   }
 }

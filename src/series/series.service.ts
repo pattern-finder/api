@@ -13,8 +13,7 @@ import { Serie, SerieDocument } from './series.schema';
 
 @Injectable()
 export class SeriesService {
-  constructor(
-    @InjectModel(Serie.name)
+  constructor(    @InjectModel(Serie.name)
     private readonly seriesModel: Model<SerieDocument>,
     private readonly challengesService: ChallengesService,
   ) {}
@@ -49,7 +48,7 @@ export class SeriesService {
   }
 
   async findDefaultSeries(): Promise<Serie[]> {
-    return (await this.seriesModel.find({ owner: undefined }).exec()).map((a) =>
+    return (await this.seriesModel.find({ isCourse: true }).exec()).map((a) =>
       a.toObject(),
     );
   }

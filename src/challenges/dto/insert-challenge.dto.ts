@@ -4,4 +4,6 @@ export class InsertChallengeDTO {
   instructions: string;
 
   owner: string;
+
+  isCourse?: boolean;
 }

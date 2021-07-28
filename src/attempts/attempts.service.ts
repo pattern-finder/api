@@ -94,13 +94,13 @@ export class AttemptsService {
     const bootstraps = await (
       await this.challengesService.findOne({ id: challengeId })
     ).execBootstraps;
-    const attmepts = (
+    const attempts = (
       await this.attemptModel
         .find({
           $and: [
             {
               $or: bootstraps.map((b) => {
-                return { execBootstrap: b._id };
+                return { execBootstrap: b._id.toString() };
               }),
             },
             { user: userId },
@@ -110,7 +110,6 @@ export class AttemptsService {
         })
         .exec()
     ).map((a) => a.toObject());
-    console.log(attmepts);
-    return attmepts;
+    return attempts;
   }
 }
