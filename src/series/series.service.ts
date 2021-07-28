@@ -13,7 +13,8 @@ import { Serie, SerieDocument } from './series.schema';
 
 @Injectable()
 export class SeriesService {
-  constructor(    @InjectModel(Serie.name)
+  constructor(
+    @InjectModel(Serie.name)
     private readonly seriesModel: Model<SerieDocument>,
     private readonly challengesService: ChallengesService,
   ) {}
