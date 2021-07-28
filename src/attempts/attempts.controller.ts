@@ -64,6 +64,15 @@ export class AttemptsController {
     );
   }
 
+  @Get('user/:id')
+  async getChallengesByUser(
+    @Param() userIdDTO: FindByIdDTO,
+  ): Promise<SanitizedAttemptDTO[]> {
+    return (await this.attemptsService.findByUser(userIdDTO)).map((attempt) =>
+      sanitize<SanitizedAttemptDTO>(attempt, sanitizedAttemptTemplate),
+    );
+  }
+
   // @UseInterceptors(LinkifyInterceptor)
   @Get()
   async getAttempts(): Promise<SanitizedAttemptDTO[]> {

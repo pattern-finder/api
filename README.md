@@ -72,6 +72,20 @@ Here is the data flow when creating a user. Same goes for a challenge.
 ![User creation FlowChart](./doc/user_creation.svg)
 
 ### execution routes
+How folders are sent to godbox: 
+```
+.
+├── lib/
+│   └── bib.py
+├── pictures/
+│   ├── picture-1
+│   ├── picture-2
+│   ├── picture-3
+│   ├── picture-4
+│   └── picture-5
+└── main.py
+```
+
 `flowchart now invalid as judge-0server has been replaced with godbox`
 
 Here is the data flow when attempting to solve a challenge, and then fetching again the data.

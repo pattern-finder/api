@@ -10,7 +10,7 @@ export class DetailedChallengeDTO {
 
   instructions: string;
 
-  owner: string;
+  owner?: string;
 
   pictures: PictureUrlDTO[];
 

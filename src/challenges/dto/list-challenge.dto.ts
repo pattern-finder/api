@@ -7,7 +7,7 @@ export class ListChallengeDTO {
 
   instructions: string;
 
-  owner: any;
+  owner?: any;
 
   execBootstraps: ListExecBootstrapDTO[];
 

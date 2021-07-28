@@ -56,8 +56,14 @@ export class SeriesController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async createSerie(@Body() serieDTO: CreateSerieDTO): Promise<Serie> {
-    return await this.seriesService.create(serieDTO);
+  async createSerie(
+    @Request() req: { user: SessionUserDTO },
+    @Body() serieDTO: CreateSerieDTO,
+  ): Promise<Serie> {
+    return await this.seriesService.create({
+      name: serieDTO.name,
+      owner: req.user.userId,
+    });
   }
 
   @UseGuards(JwtAuthGuard)
