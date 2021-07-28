@@ -20,5 +20,6 @@ set(INCLUDES
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
+target_link_libraries(${PROJECT_NAME} stdc++fs)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDES})
