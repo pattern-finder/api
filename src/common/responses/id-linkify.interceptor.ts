@@ -39,10 +39,12 @@ export class IdLinkifierInterceptor
     if (flow._id !== undefined) {
       return {
         _id: flow._id,
-        url: this.generateUrl(
-          this.stripOriginalUrl(request.originalUrl),
-          flow._id || undefined,
-        ),
+        url:
+          flow._id &&
+          this.generateUrl(
+            this.stripOriginalUrl(request.originalUrl),
+            flow._id || undefined,
+          ),
       };
     }
 
@@ -52,10 +54,12 @@ export class IdLinkifierInterceptor
   private linkifyId(object: any, originalUrl: string) {
     return {
       ...object,
-      url: this.generateUrl(
-        this.stripOriginalUrl(originalUrl),
-        object._id || undefined,
-      ),
+      url:
+        object._id &&
+        this.generateUrl(
+          this.stripOriginalUrl(originalUrl),
+          object._id || undefined,
+        ),
     };
   }
 }

@@ -97,14 +97,20 @@ export class AttemptsService {
     const attmepts = (
       await this.attemptModel
         .find({
-          $or: bootstraps.map((b) => {
-            return { execBootstrap: b._id };
-          }),
-          user: userId,
-          status: 0,
+          $and: [
+            {
+              $or: bootstraps.map((b) => {
+                return { execBootstrap: b._id };
+              }),
+            },
+            { user: userId },
+            { status: 0 },
+            { phase: 'Execution' },
+          ],
         })
         .exec()
     ).map((a) => a.toObject());
+    console.log(attmepts)
     return attmepts;
   }
 }

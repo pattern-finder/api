@@ -60,7 +60,10 @@ export class SeriesController {
     @Request() req: { user: SessionUserDTO },
     @Body() serieDTO: CreateSerieDTO,
   ): Promise<Serie> {
-    return await this.seriesService.create(serieDTO);
+    return await this.seriesService.create({
+      name: serieDTO.name,
+      owner: req.user.userId,
+    });
   }
 
   @UseGuards(JwtAuthGuard)
