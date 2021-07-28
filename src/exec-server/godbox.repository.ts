@@ -89,7 +89,9 @@ export class GodBoxRepository {
   ): Promise<GodboxPhaseOutputDTO> {
     const language = await this.languagesService.findByName(bootstrap.language);
 
-    const completeCode = bootstrap.tests.replace('// USER_CODE', code);
+    const completeCode = bootstrap.tests.includes('// USER_CODE')
+      ? bootstrap.tests.replace('// USER_CODE', code)
+      : `${bootstrap.tests}\n${code}`;
 
     const payload = {
       phases: language.phases,
