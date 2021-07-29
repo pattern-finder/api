@@ -10,6 +10,7 @@ import {
   Request,
   UnprocessableEntityException,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { SessionUserDTO } from 'src/auth/dto/session-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -26,14 +27,22 @@ import { UpdateSerieDTO } from './dtos/update-serie.dto';
 import { Serie } from './series.schema';
 import { SeriesService } from './series.service';
 import * as _ from 'lodash';
-import { CoursesCommand } from 'src/seed/courses.command';
+import { ParameterizedLinkifier } from 'src/common/responses/parametrized-linkify.interceptor';
+// import { CoursesCommand } from 'src/seed/courses.command';
 
+@UseInterceptors(
+  ParameterizedLinkifier([
+    {
+      attribute: 'owner',
+      resource: 'users',
+    },
+  ]),
+)
 @Controller('series')
 export class SeriesController {
   constructor(
     private readonly seriesService: SeriesService,
-    private readonly challengesService: ChallengesService,
-    private readonly coursesCommand: CoursesCommand,
+    private readonly challengesService: ChallengesService, // private readonly coursesCommand: CoursesCommand,
   ) {}
 
   @Get(':id')
@@ -114,8 +123,8 @@ export class SeriesController {
     return serie;
   }
 
-  @Post('/seed')
-  async seedLanguages(): Promise<void> {
-    this.coursesCommand.create();
-  }
+  // @Post('/seed')
+  // async seedLanguages(): Promise<void> {
+  //   this.coursesCommand.create();
+  // }
 }
