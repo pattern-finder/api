@@ -4,6 +4,9 @@ import { ChallengesService } from 'src/challenges/challenges.service';
 import { ExecBootstrapsService } from 'src/exec-bootstrap/exec-bootstraps.service';
 import { SeriesService } from 'src/series/series.service';
 import { UsersService } from 'src/users/users.service';
+import { BufferedFile } from 'src/common/dto/buffered-file.dto';
+import { readdir } from 'fs/promises';
+import { readFileSync } from 'fs';
 
 export const DEFAULT_SERIE_NAME = 'Picspy Courses';
 @Injectable()
@@ -25,16 +28,22 @@ export class CoursesCommand {
     name: 'DEFAULT SERIE',
   };
 
-  private readonly challenges = [
+  private readonly challenges: {
+    name: string;
+    instructions: string;
+    execbootstrapPython: any;
+    execbootstrapCpp: any;
+  }[] = [
     {
       name: 'comparaisonMatrice',
-      instructions:"Vous disposez d'une image résultat et d'une liste d'image."+
-      "Implémentez la fonction doExercice afin de créer un algoritme capable de trouver l'image d'entrée dans la liste d'image de sortie"+
-      "Donnée: Image a trouver => matrice_result"+
-      "        Liste d'images a traiter => listMatrice"+
-      "Réponse: vous devez retourner l'id de limage dans la liste (0, 1, 2 ...) correspondant à l'image d'entrée',",
+      instructions:
+        "Vous disposez d'une image résultat et d'une liste d'image." +
+        "Implémentez la fonction doExercice afin de créer un algoritme capable de trouver l'image d'entrée dans la liste d'image de sortie" +
+        'Donnée: Image a trouver => matrice_result' +
+        "        Liste d'images a traiter => listMatrice" +
+        "Réponse: vous devez retourner l'id de limage dans la liste (0, 1, 2 ...) correspondant à l'image d'entrée',",
 
-      exebootstrapPython: {
+      execbootstrapPython: {
         language: 'python',
 
         tests: `
@@ -71,7 +80,7 @@ def doExercice(listMatrice, matriceInputToFind):
           `,
       },
 
-exebootstrapCpp : {
+      execbootstrapCpp: {
         language: 'cpp',
         tests: `
         #include <stdio.h> 
@@ -122,24 +131,20 @@ int doExercice(vector<Matrice> listPattern, Matrice result){
     //implement me
 }
           `,
-      }
+      },
     },
-
-
-
-
 
     {
       name: 'comparaisonAngle',
 
-      instructions: " Vous disposez d'une liste d'images représentant plusieurs angles."+
-      "Implémentez la fonction doExercice afin de créer un algoritme capable de déterminer la valeur de chaque angle"+
-      "Donnée: la liste d'image dont les angles sont à calculer, la liste des pixel limite des 2 segment de chaque image et un dictionnaire python à remplire à renvoyer"+
-      "Réponse: vous devez retourner le dictionnaire contenant la valeur des angles de chaque images"
-      ,
-       exebootstrapPython : {
+      instructions:
+        " Vous disposez d'une liste d'images représentant plusieurs angles." +
+        'Implémentez la fonction doExercice afin de créer un algoritme capable de déterminer la valeur de chaque angle' +
+        "Donnée: la liste d'image dont les angles sont à calculer, la liste des pixel limite des 2 segment de chaque image et un dictionnaire python à remplire à renvoyer" +
+        'Réponse: vous devez retourner le dictionnaire contenant la valeur des angles de chaque images',
+      execbootstrapPython: {
         language: 'python',
-    
+
         tests: `
 import math
 import cv2 as cv
@@ -208,10 +213,9 @@ def doExercice(listPattern, listeListePixelParImage, dict_resultat, size_matrice
           `,
       },
 
-
-    exebootstrapCpp : {
-      language: 'cpp',
-      tests: `
+      execbootstrapCpp: {
+        language: 'cpp',
+        tests: `
       #include <stdio.h> 
       #include <opencv2/highgui.hpp>
       #include <string>
@@ -311,34 +315,27 @@ def doExercice(listPattern, listeListePixelParImage, dict_resultat, size_matrice
     }
 
       `,
-      functionTemplate: `
+        functionTemplate: `
 vector<double> doExercice(vector<Matrice> listPattern, vector<Line> listeListePixelParImage, vector<double> dict_resultat, int size_matrice){  //implement me
 //implement me 
 }
         `,
-    }
-  },
-
-
-
-
-
-
+      },
+    },
 
     {
       name: 'comparaisonCarre',
 
-      instructions: 
-      "Consigne: Vous disposez d'une liste d'image."+
-      "Implémentez la fonction doExercice afin de créer un algoritme capable de trouver le pattern de carrée"+
-      "Donnée: Liste d'images a traiter => listMatrice"+
-      "        le centre de la figure"+
-      "Réponse: vous devez retourner l'id de limage dans la liste (0, 1, 2 ...) correspondant à un carré",
+      instructions:
+        "Consigne: Vous disposez d'une liste d'image." +
+        'Implémentez la fonction doExercice afin de créer un algoritme capable de trouver le pattern de carrée' +
+        "Donnée: Liste d'images a traiter => listMatrice" +
+        '        le centre de la figure' +
+        "Réponse: vous devez retourner l'id de limage dans la liste (0, 1, 2 ...) correspondant à un carré",
 
-
-      exebootstrapPython : {
+      execbootstrapPython: {
         language: 'python',
-    
+
         tests: `
 
 import cv2 as cv
@@ -375,9 +372,9 @@ def doExercice(listPattern, start_X, start_Y):
           `,
       },
 
-      exebootstrapCpp : {
+      execbootstrapCpp: {
         language: 'cpp',
-    
+
         tests: `
         #include <stdio.h> 
         #include <opencv2/highgui.hpp>
@@ -432,28 +429,22 @@ def doExercice(listPattern, start_X, start_Y):
         {   
         }
           `,
-      }  
-
-
+      },
     },
-
-
-
 
     {
       name: 'comparaisonCercle',
 
-      instructions: "Consigne: Vous disposez d'une liste d'image."+
-      "Implémentez la fonction doExercice afin de créer un algoritme capable de trouver le pattern de cercle"+
-      "l'algorithme a utiliser est l'algorithme de tracé de cercle de bresenham"+
-      "Donnée: Liste d'images a traiter => listMatrice"+
-      "       le centre de la figure"+
-      "Réponse: vous devez retourner l'id de limage dans la liste (0, 1, 2 ...) correspondant à un cercle de bresenham,"
-,
-  
-      exebootstrapCpp : {
+      instructions:
+        "Consigne: Vous disposez d'une liste d'image." +
+        'Implémentez la fonction doExercice afin de créer un algoritme capable de trouver le pattern de cercle' +
+        "l'algorithme a utiliser est l'algorithme de tracé de cercle de bresenham" +
+        "Donnée: Liste d'images a traiter => listMatrice" +
+        '       le centre de la figure' +
+        "Réponse: vous devez retourner l'id de limage dans la liste (0, 1, 2 ...) correspondant à un cercle de bresenham,",
+      execbootstrapCpp: {
         language: 'cpp',
-    
+
         tests: `
         #include <stdio.h> 
         #include <opencv2/highgui.hpp>
@@ -508,10 +499,10 @@ def doExercice(listPattern, start_X, start_Y):
           }
           `,
       },
-    
-      exebootstrapPython : {
+
+      execbootstrapPython: {
         language: 'python',
-    
+
         tests: `
 
 import cv2 as cv
@@ -550,24 +541,21 @@ if __name__ == '__main__':
 def doExercice(listPattern, start_X, start_Y):
     #implement me
           `,
-      }
+      },
     },
-
 
     {
       name: 'comparaisonRemplissage',
 
-      instructions: "Consigne: Vous disposez d'une liste d'image."+
-      "Implémentez la fonction doExercice afin de créer un algoritme capable de trouver le pattern remplie (dont tous les pixels intèriueurs sont noir)"+
-      "Donnée: Liste d'images a traiter => listMatrice"+
-      "Réponse: vous devez retourner l'id de limage dans la liste (0, 1, 2 ...) correspondant à une forme pleine"
-      ,
+      instructions:
+        "Consigne: Vous disposez d'une liste d'image." +
+        'Implémentez la fonction doExercice afin de créer un algoritme capable de trouver le pattern remplie (dont tous les pixels intèriueurs sont noir)' +
+        "Donnée: Liste d'images a traiter => listMatrice" +
+        "Réponse: vous devez retourner l'id de limage dans la liste (0, 1, 2 ...) correspondant à une forme pleine",
+      execbootstrapCpp: {
+        language: 'cpp',
 
-        
-exebootstrapCpp : {
-  language: 'cpp',
-
-  tests: `
+        tests: `
   #include <stdio.h> 
   #include <opencv2/highgui.hpp>
   #include <string>
@@ -612,17 +600,17 @@ int main(int argc, char *argv[])
 }
   `,
 
-  functionTemplate: `
+        functionTemplate: `
 int doExercice(vector<Matrice> listPatternInit,int size_matrice){
 // implement me
 }
     `,
-},
+      },
 
-exebootstrapPython : {
-  language: 'python',
+      execbootstrapPython: {
+        language: 'python',
 
-  tests: `
+        tests: `
 
 import cv2 as cv
 
@@ -652,33 +640,26 @@ if __name__ == '__main__':
     print(testAlgo(nameExercice, resultat, nbMatriceResult))
   `,
 
-
-  functionTemplate: `
+        functionTemplate: `
 def doExercice(listPatternInit,size_matrice):
   #implement me
     `,
-}
+      },
     },
-
-
-
-
 
     {
       name: 'comparaisonRotation',
 
-      instructions: "Consigne: Vous disposez d'une liste d'image."+
-      "Implémentez la fonction doExercice afin de créer un algoritme capable de trouver le pattern de carrée"+
-      
-      "Donnée: Liste d'images a traiter => listMatrice"+
-              "le centre de la figure"+
-      "Réponse: vous devez retourner l'id de limage dans la liste (0, 1, 2 ...) correspondant à un carré"
-      ,
-        
-exebootstrapCpp : {
-  language: 'cpp',
+      instructions:
+        "Consigne: Vous disposez d'une liste d'image." +
+        'Implémentez la fonction doExercice afin de créer un algoritme capable de trouver le pattern de carrée' +
+        "Donnée: Liste d'images a traiter => listMatrice" +
+        'le centre de la figure' +
+        "Réponse: vous devez retourner l'id de limage dans la liste (0, 1, 2 ...) correspondant à un carré",
+      execbootstrapCpp: {
+        language: 'cpp',
 
-  tests: `
+        tests: `
   #include <stdio.h> 
   #include <opencv2/highgui.hpp>
   #include <string>
@@ -736,18 +717,18 @@ int main(int argc, char *argv[]){
     cout << testAlgo(nameExercice,resultat, nbMatriceResult) << endl;
 }
   `,
-  functionTemplate: `
+        functionTemplate: `
 int doExercice(vector<Matrice> listMatrice, Pixel XY1, Pixel XY2, Pixel XY3, Pixel XY4,  int start_X, int start_Y){
       //implement me 
     
     }
     `,
-},
+      },
 
-exebootstrapPython : {
-  language: 'python',
+      execbootstrapPython: {
+        language: 'python',
 
-  tests: `
+        tests: `
 
 
 from math import *
@@ -786,28 +767,26 @@ if __name__ == '__main__':
     print(testAlgo(nameExercice, resultat, nbMatriceResult))
 
   `,
-  functionTemplate: `
+        functionTemplate: `
   def doExercice(listMatrice, XY1, XY2, XY3, XY4,  start_X, start_Y):
     #implement me
     `,
-}
+      },
     },
-
 
     {
       name: 'comparaisonSegment',
 
-      instructions: "Consigne: Vous disposez d'une liste d'image."+
-      "Implémentez la fonction doExerciceBalayage afin de créer un algoritme capable de trouver le pattern de ligne tracé par l'algo de bresenham"+
-      "Donnée: Liste d'images a traiter => listMatrice"+
-      "        Les 2 pixels aux extrémité de la figure"+
-      "Réponse: vous devez retourner l'id de limage dans la liste (0, 1, 2 ...) correspondant à une ligne tracé avec l'algo de bresenham,"
-,
-        
-exebootstrapCpp : {
-  language: 'cpp',
+      instructions:
+        "Consigne: Vous disposez d'une liste d'image." +
+        "Implémentez la fonction doExerciceBalayage afin de créer un algoritme capable de trouver le pattern de ligne tracé par l'algo de bresenham" +
+        "Donnée: Liste d'images a traiter => listMatrice" +
+        '        Les 2 pixels aux extrémité de la figure' +
+        "Réponse: vous devez retourner l'id de limage dans la liste (0, 1, 2 ...) correspondant à une ligne tracé avec l'algo de bresenham,",
+      execbootstrapCpp: {
+        language: 'cpp',
 
-  tests: `
+        tests: `
   #include <stdio.h> 
   #include <opencv2/highgui.hpp>
   #include <string>
@@ -878,17 +857,17 @@ int main(int argc, char *argv[]){
     cout << testAlgo(nameExercice, resultat, nbMatriceResult) << endl;
 }
   `,
-  functionTemplate: `
+        functionTemplate: `
 int doExercice(vector<Matrice>listPattern, vector<Pixel> listPosStart ,vector<Pixel> listPosEnd ,int size_matrice){
   //implement me
 }
     `,
-},
+      },
 
-exebootstrapPython : {
-  language: 'python',
+      execbootstrapPython: {
+        language: 'python',
 
-  tests: `
+        tests: `
 import cv2 as cv
 import matplotlib
 import numpy
@@ -921,30 +900,26 @@ if __name__ == '__main__':
     nbMatriceResult = 0
     print(testAlgo(nameExercice, resultat, nbMatriceResult))
   `,
-  functionTemplate: `
+        functionTemplate: `
   def doExercice(listPattern, listPosStart ,listPosEnd ,size_matrice):
     #implement me
     `,
-}
+      },
     },
 
     {
       name: 'compteSegment',
 
-      instructions:"Consigne: Vous disposez d'une liste d'image."+
-      "Implémentez la fonction doExercice afin de créer un algoritme capable de compter le nombre de segment par image"+
-      
-      "Donnée: Liste d'images a traiter => listMatrice"+
-      
-      "Réponse: vous devez retourner un tableau contenant le nombre de segment pour chaque image. L'id de la case correspondra au numero de la figure"
-      
-      ,
+      instructions:
+        "Consigne: Vous disposez d'une liste d'image." +
+        'Implémentez la fonction doExercice afin de créer un algoritme capable de compter le nombre de segment par image' +
+        "Donnée: Liste d'images a traiter => listMatrice" +
+        "Réponse: vous devez retourner un tableau contenant le nombre de segment pour chaque image. L'id de la case correspondra au numero de la figure",
 
-        
-exebootstrapCpp : {
-  language: 'cpp',
+      execbootstrapCpp: {
+        language: 'cpp',
 
-  tests: `
+        tests: `
   #include <stdio.h> 
   #include <opencv2/highgui.hpp>
   #include <string>
@@ -997,18 +972,18 @@ int main(int argc, char *argv[]){
 }
 
   `,
-  functionTemplate: `
+        functionTemplate: `
 vector<int> doExercice(vector<Matrice> listPattern,int size_matrice){
       //implement me 
     
     }
     `,
-},
+      },
 
-exebootstrapPython : {
-  language: 'python',
+      execbootstrapPython: {
+        language: 'python',
 
-  tests: `
+        tests: `
 import cv2 as cv
 import numpy
   
@@ -1037,36 +1012,35 @@ if __name__ == '__main__':
     print(testAlgo(nameExercice, resultat, nbMatriceResult))
 
   `,
-  functionTemplate: `
+        functionTemplate: `
 def doExercice(listPattern, size_matrice, resultat_utilisateur):
   #implement me
     `,
-}
+      },
     },
 
     {
       name: 'dataForm',
 
-      instructions: "Consigne: Vous disposez d'une image contenant plusieurs formes."+
-      "Implémentez la fonction doExercice afin de créer un algoritme capable de déterminer si une forme est un :"+
-      "carré"+
-      "rectangle"+
-      "autre parallèlogramme"+
-      "triangle rectangle"+
-      "triangle équilatéral"+
-      "triangle isocèle"+
-      "triangle quelconque"+
-      "polygone à 5 coté"+
-      "polygone à 6 coté"+
-      "polygone à 7 coté"+
-      "Donnée: l'image contenant les fromes, la taille de l'image et un dictionnaire python à remplire à renvoyer"+
-      "Réponse: vous devez retourner le dictionnaire contenant le nom des formes en clé et leur nombre en valeur"
-,
-        
-exebootstrapCpp : {
-  language: 'cpp',
+      instructions:
+        "Consigne: Vous disposez d'une image contenant plusieurs formes." +
+        'Implémentez la fonction doExercice afin de créer un algoritme capable de déterminer si une forme est un :' +
+        'carré' +
+        'rectangle' +
+        'autre parallèlogramme' +
+        'triangle rectangle' +
+        'triangle équilatéral' +
+        'triangle isocèle' +
+        'triangle quelconque' +
+        'polygone à 5 coté' +
+        'polygone à 6 coté' +
+        'polygone à 7 coté' +
+        "Donnée: l'image contenant les fromes, la taille de l'image et un dictionnaire python à remplire à renvoyer" +
+        'Réponse: vous devez retourner le dictionnaire contenant le nom des formes en clé et leur nombre en valeur',
+      execbootstrapCpp: {
+        language: 'cpp',
 
-  tests: `
+        tests: `
   #include <stdio.h> 
   #include <opencv2/highgui.hpp>
   #include <string>
@@ -1137,17 +1111,17 @@ exebootstrapCpp : {
 
 }
   `,
-  functionTemplate: `
+        functionTemplate: `
   std::map<string, int> doExercice(vector<Matrice> listPattern, std::map<string, int> dict_resultat, int size){
     
     }
     `,
-},
+      },
 
-exebootstrapPython : {
-  language: 'python',
+      execbootstrapPython: {
+        language: 'python',
 
-  tests: `
+        tests: `
 import cv2 as cv
 import numpy
 import math
@@ -1208,25 +1182,25 @@ if __name__ == '__main__':
     nbMatriceResult = 0
     print(testAlgo(nameExercice, resultat, nbMatriceResult))
   `,
-  functionTemplate: `
+        functionTemplate: `
   def doExercice(listPattern,solutionUser, size_picture):
     #implement me
     `,
-}
+      },
     },
 
     {
       name: 'comparaisonKosh',
 
-      instructions: "Consigne:"+
-      "Implémentez la fonction doExercice afin de créer un algoritme capable de trouver la valeur d'une fonctionde kosh"+
-      "le résultat sera à donner sous forme de tableau",
+      instructions:
+        'Consigne:' +
+        "Implémentez la fonction doExercice afin de créer un algoritme capable de trouver la valeur d'une fonctionde kosh" +
+        'le résultat sera à donner sous forme de tableau',
 
-        
-exebootstrapCpp : {
-  language: 'cpp',
+      execbootstrapCpp: {
+        language: 'cpp',
 
-  tests: `
+        tests: `
   #include <stdio.h> 
   #include <opencv2/highgui.hpp>
   #include <string>
@@ -1274,17 +1248,17 @@ int main(int argc, char *argv[])
 
 }
   `,
-  functionTemplate: `
+        functionTemplate: `
   vector<int> doExercice(vector<Matrice> listPattern, int start_X, int start_Y, int size)
       //implement me 
     }
     `,
-},
+      },
 
-exebootstrapPython : {
-  language: 'python',
+      execbootstrapPython: {
+        language: 'python',
 
-  tests: `
+        tests: `
 
 import cv2 as cv
 from lib.bib import Matrice, Opencv, Exercice, Pixel
@@ -1313,15 +1287,13 @@ if __name__ == '__main__':
     print(testAlgo(nameExercice, resultat))
     
   `,
-  functionTemplate: `
+        functionTemplate: `
 def doExercice(listMatrice, pixelStartX, pixelStartY, size):
   #implement me
     `,
-}
+      },
     },
   ];
-
-
 
   @Command({
     command: 'seed:courses',
@@ -1368,32 +1340,124 @@ def doExercice(listMatrice, pixelStartX, pixelStartY, size):
     });
 
     const challenges = await Promise.all(
-      this.challenges.map((c) => {
-        return this.challengeService.create(
-          {
-            instructions: c.instructions,
-            name: c.name,
-            owner: createdUser._id.toString(),
-            isCourse: true,
-          },
-          [],
-        );
+      this.challenges.map(async (c) => {
+        const createChallenge = async () => {
+          const challenge = await this.challengeService.create(
+            {
+              instructions: c.instructions,
+              name: c.name,
+              owner: createdUser._id.toString(),
+              isCourse: true,
+            },
+            await get_bufferd_images(c.name),
+          );
+          await this.execBootstrapService.create({
+            challenge: challenge._id,
+            functionTemplate: c.execbootstrapPython.functionTemplate,
+            language: c.execbootstrapPython.language,
+            tests: c.execbootstrapPython.tests,
+          });
+
+          await this.execBootstrapService.create({
+            challenge: challenge._id,
+            functionTemplate: c.execbootstrapCpp.functionTemplate,
+            language: c.execbootstrapCpp.language,
+            tests: c.execbootstrapCpp.tests,
+          });
+
+          return challenge;
+        };
+
+        return createChallenge();
       }),
     );
 
+    // await Promise.all(
+    //   this.challenges.map((c) => {
+    //     const object = {
+    //       language: c['execbootstrapPython'].language,
+    //       tests: c['execbootstrapPython'].tests,
+    //       functionTemplate: c['execbootstrapPython'].functionTemplate,
+    //     };
+
+    //     return this.execBootstrapService.create({
+    //       ...object,
+    //       challenge: c._id.toString(),
+    //     });
+    //   }),
+    // );
+
+    // await Promise.all(
+    //   this.challenges.map((c) => {
+    //     const object = {
+    //       language: c['execbootstrapCpp'].language,
+    //       tests: c['execbootstrapCpp'].tests,
+    //       functionTemplate: c['execbootstrapCpp'].functionTemplate,
+    //     };
+
+    //     return this.execBootstrapService.create({
+    //       ...object,
+    //       challenge: c._id.toString(),
+    //     });
+    //   }),
+    // );
+
+    /*  
     await Promise.all(
       challenges.map((c) => {
         return this.execBootstrapService.create({
-          ...this.exebootstrap,
+          
+          ...c["execbootstrapCpp"],
           challenge: c._id.toString(),
         });
       }),
-    );
-
-
+    );*/
 
     await this.seriesService.update(serie._id, {
       challenges: challenges.map((c) => c._id),
     });
   }
+}
+
+async function get_bufferd_images(name_exercice: string) {
+  const table_buffer = [];
+  const folder = './src/seed/assets/' + name_exercice;
+
+  const files = await readdir(folder);
+  let nb_image = 0;
+  const name_tab = [];
+  let name = '';
+
+  for (const file of files) {
+    nb_image = nb_image + 1;
+    name = file;
+    name_tab.push(name);
+  }
+
+  let n = 0;
+
+  while (n <= nb_image) {
+    if (name_tab[n] != undefined) {
+      //const buffer = readFileSync(folder+"/"+name_tab[n]);
+
+      const buffer = {
+        fieldname: name_tab[n],
+
+        originalname: name_tab[n],
+
+        encoding: 'png',
+
+        size: 0,
+
+        buffer: name_tab[n],
+
+        mimetype: 'image/png',
+      };
+
+      table_buffer.push(buffer);
+    }
+    n++;
+  }
+
+  return table_buffer;
 }
