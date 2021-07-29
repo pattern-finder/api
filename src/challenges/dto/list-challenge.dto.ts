@@ -11,6 +11,8 @@ export class ListChallengeDTO {
 
   execBootstraps: ListExecBootstrapDTO[];
 
+  isCourse: boolean;
+
   editedAt?: Date;
 
   createdAt: Date;
@@ -26,6 +28,8 @@ export const listChallengeTemplate: ListChallengeDTO = {
   instructions: '',
 
   owner: '{}',
+
+  isCourse: false,
 
   execBootstraps: [],
 

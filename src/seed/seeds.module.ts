@@ -7,7 +7,7 @@ import { ExecBootstrapsModule } from 'src/exec-bootstrap/exec-bootstraps.module'
 import { LanguagesModule } from 'src/languages/languages.module';
 import { SeriesModule } from 'src/series/series.module';
 import { UsersModule } from 'src/users/users.module';
-import { CoursesCommand } from './courses.command';
+// import { CoursesCommand } from './courses.command';
 
 import { LanguagesCommand } from './languages.command';
 
@@ -21,7 +21,7 @@ import { LanguagesCommand } from './languages.command';
     forwardRef(() => SeriesModule),
     forwardRef(() => UsersModule),
   ],
-  providers: [LanguagesCommand, CoursesCommand],
-  exports: [LanguagesCommand, CoursesCommand],
+  providers: [LanguagesCommand],
+  exports: [LanguagesCommand],
 })
 export class SeedsModule {}

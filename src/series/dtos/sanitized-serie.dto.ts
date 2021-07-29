@@ -9,6 +9,8 @@ export class SanitizedSerieDTO {
 
   owner: string;
 
+  isCourse: boolean;
+
   editedAt?: Date;
 
   createdAt: Date;
@@ -21,6 +23,7 @@ export const sanitizedSerieTemplate: SanitizedSerieDTO = {
   name: '',
   challenges: [],
   owner: '',
+  isCourse: false,
   editedAt: new Date(),
   createdAt: new Date(),
   deletedAt: new Date(),
