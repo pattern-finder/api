@@ -1,5 +1,3 @@
-
-
-build: 
-    context: .
-    dockerfile: Dockerfile.dev
+build:
+  docker:
+    web: Dockerfile
