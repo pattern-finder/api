@@ -1,3 +1,27 @@
-build:
-  docker:
-    web: Dockerfile
+
+services:
+  picspy-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    networks:
+      - backend
+      - frontend
+    env_file: 
+      - .env
+    environment: 
+      MINIO_ACCESS_KEY: ${MINIO_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET}
+      USESSL: ${USESSL}
+      LIBS_DIR: /usr/src/app/libs
+    ports:
+      - "${API_EXTERNAL_PORT}:${API_INTERNAL_PORT}"
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./libs:/usr/src/app/libs
+      - ./conf:/usr/src/app/conf
+    depends_on: 
+      - picspy-mongo
+    networks: 
+      - backend
+      - frontend
