@@ -1,6 +1,6 @@
 
-services:
-  picspy-api:
+
+picspy-api:
     build: 
       context: .
       dockerfile: Dockerfile.dev
