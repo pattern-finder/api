@@ -49,4 +49,3 @@ RUN npm ci
 RUN npm i yargs
 
 CMD ["node", "main"]
-#cm
