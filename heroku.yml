@@ -1,6 +1,6 @@
 build:
   docker:
-    web: frontend/Dockerfile.frontend
+    web: ./frontend/Dockerfile.frontend
 
   config:
       REACT_APP_API_EXTERNAL_HOST: ${API_EXTERNAL_HOST}
