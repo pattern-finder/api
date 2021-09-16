@@ -1,7 +1,7 @@
 build:
   docker:
     web: 
-      dockerfile: heroku_deploy/Dockerfile.frontend
+      dockerfile: heroku_deploy/frontend/Dockerfile.frontend
 
   config:
       REACT_APP_API_EXTERNAL_HOST: ${API_EXTERNAL_HOST}
