@@ -1,1 +1,1 @@
-FROM tcatonet/mongo
+FROM mongo
