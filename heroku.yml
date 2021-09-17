@@ -11,7 +11,7 @@
 build:
   docker:
     web: 
-      dockerfile: Dockerfile.api
+      dockerfile: heroku_deploy/api/Dockerfile.api
 
   config:
       MINIO_ACCESS_KEY: ${MINIO_KEY}
