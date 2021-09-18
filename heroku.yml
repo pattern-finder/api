@@ -34,13 +34,10 @@
 
 
 
-#build:
-#  docker:
-#    web: 
-#      dockerfile: heroku_deploy/godbox/Dockerfile.godbox
+build:
+  docker:
+    web: 
+      dockerfile: heroku_deploy/godbox/Dockerfile.godbox
 
- # config:
-#      API_MAX_PAYLOAD_SIZE: ${API_MAX_PAYLOAD_SIZE}
-
-release:
-  image: tcatonet/api_picspy-godbox
+  config:
+      API_MAX_PAYLOAD_SIZE: ${API_MAX_PAYLOAD_SIZE}
