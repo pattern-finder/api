@@ -1,24 +1,24 @@
 
-#build:
-#  docker:
- #   web: 
- #     dockerfile: heroku_deploy/api/Dockerfile.api
-
- # config:
- #     MINIO_ACCESS_KEY: ${MINIO_KEY}
- #     MINIO_SECRET_KEY: ${MINIO_SECRET}
- #     USESSL: ${USESSL}
-#      LIBS_DIR: /usr/src/app/libs
-
 build:
   docker:
     web: 
-      dockerfile: heroku_deploy/frontend/Dockerfile.frontend
+      dockerfile: heroku_deploy/api/Dockerfile.api
 
   config:
-      REACT_APP_API_EXTERNAL_HOST: ${API_EXTERNAL_HOST}
-      REACT_APP_API_EXTERNAL_PORT: ${API_EXTERNAL_PORT}
-      REACT_APP_FRONTEND_EXTERNAL_PORT: ${FRONTEND_EXTERNAL_PORT}
+      MINIO_ACCESS_KEY: ${MINIO_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET}
+      USESSL: ${USESSL}
+      LIBS_DIR: /usr/src/app/libs
+
+#build:
+ # docker:
+ #   web: 
+ #     dockerfile: heroku_deploy/frontend/Dockerfile.frontend
+
+ # config:
+ #     REACT_APP_API_EXTERNAL_HOST: ${API_EXTERNAL_HOST}
+#      REACT_APP_API_EXTERNAL_PORT: ${API_EXTERNAL_PORT}
+#      REACT_APP_FRONTEND_EXTERNAL_PORT: ${FRONTEND_EXTERNAL_PORT}
 
 #build:
 #  docker:
