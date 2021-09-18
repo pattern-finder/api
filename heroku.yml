@@ -19,11 +19,11 @@ build:
       USESSL: ${USESSL}
       LIBS_DIR: /usr/src/app/libs
 
-build:
-  docker:
-    web: 
-      dockerfile: heroku_deploy/mongo/Dockerfile.mongo
+#build:
+#  docker:
+#    web: 
+#      dockerfile: heroku_deploy/mongo/Dockerfile.mongo
 
-  config:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+#  config:
+#      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+#      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
