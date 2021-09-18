@@ -1,14 +1,14 @@
 
-build:
-  docker:
-    web: 
-      dockerfile: heroku_deploy/api/Dockerfile.api
+#build:
+ # docker:
+  #  web: 
+  #    dockerfile: heroku_deploy/api/Dockerfile.api
 
-  config:
-      MINIO_ACCESS_KEY: ${MINIO_KEY}
-      MINIO_SECRET_KEY: ${MINIO_SECRET}
-      USESSL: ${USESSL}
-      LIBS_DIR: /usr/src/app/libs
+#  config:
+ #     MINIO_ACCESS_KEY: ${MINIO_KEY}
+ #     MINIO_SECRET_KEY: ${MINIO_SECRET}
+ #     USESSL: ${USESSL}
+ #     LIBS_DIR: /usr/src/app/libs
 
 #build:
  # docker:
@@ -20,11 +20,11 @@ build:
 #      REACT_APP_API_EXTERNAL_PORT: ${API_EXTERNAL_PORT}
 #      REACT_APP_FRONTEND_EXTERNAL_PORT: ${FRONTEND_EXTERNAL_PORT}
 
-#build:
-#  docker:
-#    web: 
-#      dockerfile: heroku_deploy/mongo/Dockerfile.mongo
+build:
+  docker:
+    web: 
+      dockerfile: heroku_deploy/mongo/Dockerfile.mongo
 
-#  config:
-#      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-#      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+  config:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
