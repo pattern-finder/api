@@ -20,11 +20,26 @@
 #      REACT_APP_API_EXTERNAL_PORT: ${API_EXTERNAL_PORT}
 #      REACT_APP_FRONTEND_EXTERNAL_PORT: ${FRONTEND_EXTERNAL_PORT}
 
+
+
+#build:
+#  docker:
+#    web: 
+ #     dockerfile: heroku_deploy/mongo/Dockerfile.mongo
+
+ # config:
+#      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+#      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+
+
+
+
 build:
   docker:
     web: 
-      image: mongo:4.2.0
+      dockerfile: heroku_deploy/godbox/Dockerfile.godbox
 
   config:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      API_MAX_PAYLOAD_SIZE: ${API_MAX_PAYLOAD_SIZE}
+
+
