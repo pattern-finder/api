@@ -1,14 +1,15 @@
 
-build:
-  docker:
-    web: 
-      dockerfile: heroku_deploy/api/Dockerfile.api
+#build:
+#  docker:
+ #   web: 
+ #     dockerfile: heroku_deploy/api/Dockerfile.api
 
-  config:
-      MINIO_ACCESS_KEY: ${MINIO_KEY}
-      MINIO_SECRET_KEY: ${MINIO_SECRET}
-      USESSL: ${USESSL}
-      LIBS_DIR: /usr/src/app/libs
+ # config:
+ #     MINIO_ACCESS_KEY: ${MINIO_KEY}
+ #     MINIO_SECRET_KEY: ${MINIO_SECRET}
+ #     USESSL: ${USESSL}
+#      LIBS_DIR: /usr/src/app/libs
+
 build:
   docker:
     web: 
