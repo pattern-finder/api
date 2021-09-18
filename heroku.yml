@@ -23,7 +23,7 @@
 build:
   docker:
     web: 
-      dockerfile: heroku_deploy/mongo/Dockerfile.mongo
+      image: mongo:4.2.0
 
   config:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
