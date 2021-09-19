@@ -1,1 +1,1 @@
-FROM tcatonet/api_picspy-godbox
+FROM tcatonet/godbox
