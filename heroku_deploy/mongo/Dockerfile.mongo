@@ -1,1 +1,1 @@
-FROM tcatonet/mongo
+FROM tcatonet/mongo:4.2.0
