@@ -1,0 +1,17 @@
+.About {
+  background-color: rgb(161, 150, 136);
+}
+
+.texttoo {
+  height: 40vh;
+  width: 100%;
+  background-color: rgb(189, 196, 164);
+}
+.stylParagraphe {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: xx-large;
+}
+.stylParagraphe2 {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: x-large;
+}
