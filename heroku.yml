@@ -25,8 +25,8 @@
 build:
   docker:
     web: 
-   #   dockerfile: heroku_deploy/mongo/Dockerfile.mongo
-      dockerfile: heroku_deploy/api/Dockerfile.api
+      dockerfile: heroku_deploy/mongo/Dockerfile.mongo
+    #  dockerfile: heroku_deploy/api/Dockerfile.api
 
   config:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
@@ -35,7 +35,7 @@ build:
       MINIO_SECRET_KEY: ${MINIO_SECRET}
       USESSL: ${USESSL}
       LIBS_DIR: /usr/src/app/libs
-
+      MONGO_PORT: ${MONGO_PORT}
 
 
 #build:
