@@ -28,6 +28,7 @@ build:
       dockerfile: heroku_deploy/api/Dockerfile.mongo
       dockerfile: heroku_deploy/api/Dockerfile.api
       dockerfile: heroku_deploy/frontend/Dockerfile.frontend
+      dockerfile: heroku_deploy/godbox/Dockerfile.godbox
 
   config:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
@@ -40,6 +41,7 @@ build:
       REACT_APP_API_EXTERNAL_HOST: ${API_EXTERNAL_HOST}
       REACT_APP_API_EXTERNAL_PORT: ${API_EXTERNAL_PORT}
       REACT_APP_FRONTEND_EXTERNAL_PORT: ${FRONTEND_EXTERNAL_PORT}
+      API_MAX_PAYLOAD_SIZE: ${API_MAX_PAYLOAD_SIZE}
 
 #build:
 #  docker:
