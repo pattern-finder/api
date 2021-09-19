@@ -25,8 +25,9 @@
 build:
   docker:
     web: 
-      dockerfile: heroku_deploy/api/Dockerfile.api
       dockerfile: heroku_deploy/api/Dockerfile.mongo
+      dockerfile: heroku_deploy/api/Dockerfile.api
+      dockerfile: heroku_deploy/frontend/Dockerfile.frontend
 
   config:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
@@ -36,7 +37,9 @@ build:
       USESSL: ${USESSL}
       LIBS_DIR: /usr/src/app/libs
       MONGO_PORT: ${MONGO_PORT}
-
+      REACT_APP_API_EXTERNAL_HOST: ${API_EXTERNAL_HOST}
+      REACT_APP_API_EXTERNAL_PORT: ${API_EXTERNAL_PORT}
+      REACT_APP_FRONTEND_EXTERNAL_PORT: ${FRONTEND_EXTERNAL_PORT}
 
 #build:
 #  docker:
