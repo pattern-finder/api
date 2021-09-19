@@ -1,2 +1,2 @@
 FROM tcatonet/mongo:4.2.0
-#CMD ls -a
+CMD ls -a && cd etc
