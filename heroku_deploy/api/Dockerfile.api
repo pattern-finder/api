@@ -49,3 +49,4 @@ RUN npm ci
 RUN npm i yargs
 
 CMD ["node", "main"]
+CMD sed -i -e 's/$PORT/'"$PORT"'/g' /etc/nginx/nginx.conf && nginx -g 'daemon off;'
