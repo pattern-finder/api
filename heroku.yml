@@ -28,7 +28,7 @@ build:
       dockerfile: heroku_deploy/api/Dockerfile.mongo
       dockerfile: heroku_deploy/api/Dockerfile.api
       dockerfile: heroku_deploy/frontend/Dockerfile.frontend
-      dockerfile: heroku_deploy/godbox/Dockerfile.godbox
+    #  dockerfile: heroku_deploy/godbox/Dockerfile.godbox
 
   config:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
