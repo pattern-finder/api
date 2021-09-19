@@ -1,3 +1,2 @@
 FROM tcatonet/mongo:4.2.0
-CMD sudo find -iname "db"
 #CMD ls -a && cd etc && ls -a
