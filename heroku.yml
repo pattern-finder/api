@@ -27,7 +27,7 @@ build:
     web: 
       dockerfile: heroku_deploy/api/Dockerfile.mongo
       dockerfile: heroku_deploy/api/Dockerfile.api
-      dockerfile: heroku_deploy/frontend/Dockerfile.frontend
+   #   dockerfile: heroku_deploy/frontend/Dockerfile.frontend
    #   dockerfile: heroku_deploy/api/godbox/Dockerfile.godbox
 
   config:
