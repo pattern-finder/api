@@ -1,3 +1,6 @@
 export const dbConfig = {
-  url: `${process.env.MONGO_URL}`,
+  url: 'mongodb://' + ${process.env.MONGO_USER} + ':' + 
+  ${process.env.MONGO_PASSWORD} + '@' + ${process.env.HOST} + '/' + 
+  ${process.env.MONGO_DB} + ${process.env.OPTION};
+
 };
