@@ -81,6 +81,10 @@ export class UsersService {
       );
     }
 
+    if (true) {
+      throw new UnprocessableEntityException(avatarUrl);
+    }
+
     return (
       await new this.userModel({
         ...createUserDTO,
