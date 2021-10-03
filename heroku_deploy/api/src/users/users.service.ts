@@ -67,9 +67,12 @@ export class UsersService {
     }
 
     let avatarUrl = undefined;
-    console.log("file")
-    console.log(file)
-   /* if (file) {
+
+    if (true) {
+      throw new UnprocessableEntityException(file);
+    }
+
+    if (file) {
       avatarUrl = await this.objectStorageService.upload(
         file,
         'raw',
@@ -84,7 +87,7 @@ export class UsersService {
         password: await encrypt(createUserDTO.password),
         avatarUrl,
       }).save()
-    ).toObject();*/
+    ).toObject();
   }
 
   async update(
