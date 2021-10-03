@@ -16,6 +16,12 @@ export default class ObjectStorageService {
   constructor(private readonly minioService: MinioService) {}
 
   public generateInternalServerAddress(endOfLink: string) {
+    if (true) {
+      throw new UnprocessableEntityException(`http${config.MINIO_USESSL ? 's' : ''}://${
+        config.MINIO_INTERNAL_ENDPOINT
+      }:${config.MINIO_INTERNAL_PORT}/${endOfLink}`);
+    }
+
     return `http${config.MINIO_USESSL ? 's' : ''}://${
       config.MINIO_INTERNAL_ENDPOINT
     }:${config.MINIO_INTERNAL_PORT}/${endOfLink}`;
@@ -51,9 +57,7 @@ export default class ObjectStorageService {
       'Content-Type': file.mimetype,
     };
 
-   // if (true) {
-  //    throw new UnprocessableEntityException("coco");
-   // }
+
 
     try {
       await this.minioService.client.putObject(
