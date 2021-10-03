@@ -23,7 +23,11 @@ export default class ObjectStorageService {
 
   public generateExternalServerAddress(endOfLink: string) {
 
-
+    if (true) {
+      throw new UnprocessableEntityException(`http${config.MINIO_USESSL ? 's' : ''}://${
+        config.MINIO_INTERNAL_ENDPOINT
+      }:${config.MINIO_INTERNAL_PORT}/`);
+    }
 
   //  https://minio.picspy.vagahbond.com/minio/picspy-challenges/AyoubTest/c5b3f69c-5222-4623-9993-792f7d8487491627296856152.PNG
     return `http${config.MINIO_USESSL ? 's' : ''}://${
