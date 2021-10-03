@@ -22,6 +22,10 @@ export default class ObjectStorageService {
   }
 
   public generateExternalServerAddress(endOfLink: string) {
+
+
+
+  //  https://minio.picspy.vagahbond.com/minio/picspy-challenges/AyoubTest/c5b3f69c-5222-4623-9993-792f7d8487491627296856152.PNG
     return `http${config.MINIO_USESSL ? 's' : ''}://${
       config.MINIO_EXTERNAL_ENDPOINT
     }:${config.MINIO_EXTERNAL_PORT}/${endOfLink}`;
@@ -51,11 +55,7 @@ export default class ObjectStorageService {
       'Content-Type': file.mimetype,
     };
 
-    if (true) {
-      throw new UnprocessableEntityException(`http${config.MINIO_USESSL ? 's' : ''}://${
-        config.MINIO_INTERNAL_ENDPOINT
-      }:${config.MINIO_INTERNAL_PORT}/`);
-    }
+
 
 
     try {
