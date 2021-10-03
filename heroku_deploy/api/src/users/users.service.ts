@@ -68,9 +68,7 @@ export class UsersService {
 
     let avatarUrl = undefined;
 
-    if (true) {
-      throw new UnprocessableEntityException("file" + file);
-    }
+
 
     if (file) {
       avatarUrl = await this.objectStorageService.upload(
@@ -78,6 +76,10 @@ export class UsersService {
         'raw',
         PicspyBucket.PROFILE,
       );
+    }
+
+    if (true) {
+      throw new UnprocessableEntityException(avatarUrl);
     }
 
     return (
