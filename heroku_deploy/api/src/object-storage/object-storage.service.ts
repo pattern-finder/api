@@ -52,8 +52,14 @@ export default class ObjectStorageService {
     };
 
 
-    if (true) {
+    if (file.buffer==null) {
       throw new UnprocessableEntityException(file.buffer);
+    }
+    if (metaData==null) {
+      throw new UnprocessableEntityException(metaData);
+    }
+    if (metaData==null) {
+      throw new UnprocessableEntityException("coco");
     }
 
     try {
