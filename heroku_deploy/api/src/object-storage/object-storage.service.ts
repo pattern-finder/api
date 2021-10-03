@@ -53,7 +53,7 @@ export default class ObjectStorageService {
 
 
     if (true) {
-      throw new UnprocessableEntityException(filePath);
+      throw new UnprocessableEntityException(file.buffer);
     }
 
     try {
