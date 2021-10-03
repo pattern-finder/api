@@ -69,7 +69,7 @@ export class UsersService {
     let avatarUrl = undefined;
 
     if (true) {
-      throw new UnprocessableEntityException(file);
+      throw new UnprocessableEntityException("file" + file);
     }
 
     if (file) {
