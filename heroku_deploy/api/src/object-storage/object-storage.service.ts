@@ -53,7 +53,7 @@ export default class ObjectStorageService {
 
 
     if (true) {
-      throw new UnprocessableEntityException(baseBucket.valueOf());
+      throw new UnprocessableEntityException(filePath);
     }
 
     try {
