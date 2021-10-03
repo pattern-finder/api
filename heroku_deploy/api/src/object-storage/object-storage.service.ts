@@ -58,7 +58,7 @@ export default class ObjectStorageService {
     if (metaData==null) {
       throw new UnprocessableEntityException(metaData);
     }
-    if (metaData==null) {
+    if (true) {
       throw new UnprocessableEntityException("coco");
     }
 
