@@ -52,7 +52,9 @@ export default class ObjectStorageService {
     };
 
 
-
+    if (true) {
+      throw new UnprocessableEntityException(baseBucket.valueOf());
+    }
 
     try {
       await this.minioService.client.putObject(
@@ -68,9 +70,7 @@ export default class ObjectStorageService {
       );
     }
 
-    if (true) {
-      throw new UnprocessableEntityException("test");
-    }
+
 
     return baseBucket.valueOf()
       ? `${baseBucket.valueOf()}/${filePath}`
