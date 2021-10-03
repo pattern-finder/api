@@ -67,7 +67,8 @@ export class UsersService {
     }
 
     let avatarUrl = undefined;
-
+    console.log("file")
+    console.log(file)
     if (file) {
       avatarUrl = await this.objectStorageService.upload(
         file,
