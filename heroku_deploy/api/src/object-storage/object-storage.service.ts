@@ -51,16 +51,9 @@ export default class ObjectStorageService {
       'Content-Type': file.mimetype,
     };
 
-
-    if (file.buffer==null) {
-      throw new UnprocessableEntityException(file.buffer);
-    }
-    if (metaData==null) {
-      throw new UnprocessableEntityException(metaData);
-    }
-    if (true) {
-      throw new UnprocessableEntityException("coco");
-    }
+   // if (true) {
+  //    throw new UnprocessableEntityException("coco");
+   // }
 
     try {
       await this.minioService.client.putObject(
