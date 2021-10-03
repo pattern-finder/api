@@ -67,19 +67,18 @@ export class UsersService {
     }
 
     let avatarUrl = undefined;
-
-
-
+    if (await this.findByUsername(createUserDTO.username)) {
+      throw new UnprocessableEntityException(
+        `Username ${createUserDTO.username} already taken.`,
+      );
+    }
+    
     if (file) {
       avatarUrl = await this.objectStorageService.upload(
         file,
         'raw',
         PicspyBucket.PROFILE,
       );
-    }
-
-    if (true) {
-      throw new UnprocessableEntityException(avatarUrl);
     }
 
     return (

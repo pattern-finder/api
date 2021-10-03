@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { MinioService } from 'nestjs-minio-client';
 import { BufferedFile } from 'src/common/dto/buffered-file.dto';
 import * as crypto from 'crypto';
@@ -36,6 +36,11 @@ export default class ObjectStorageService {
     subFolder: string,
     baseBucket: PicspyBucket,
   ): Promise<string> {
+
+    if (true) {
+      throw new UnprocessableEntityException("test");
+    }
+
     const hashedFileName = this.generateFileName();
     const ext = file.originalname.substring(
       file.originalname.lastIndexOf('.'),
