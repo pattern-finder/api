@@ -52,9 +52,7 @@ export default class ObjectStorageService {
     };
 
 
-    if (true) {
-      throw new UnprocessableEntityException("test");
-    }
+
 
     try {
       await this.minioService.client.putObject(
@@ -68,6 +66,10 @@ export default class ObjectStorageService {
         `Error uploading file: ${e}`,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
+    }
+
+    if (true) {
+      throw new UnprocessableEntityException("test");
     }
 
     return baseBucket.valueOf()
