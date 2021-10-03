@@ -37,9 +37,6 @@ export default class ObjectStorageService {
     baseBucket: PicspyBucket,
   ): Promise<string> {
 
-    if (true) {
-      throw new UnprocessableEntityException("test");
-    }
 
     const hashedFileName = this.generateFileName();
     const ext = file.originalname.substring(
@@ -53,6 +50,11 @@ export default class ObjectStorageService {
     const metaData = {
       'Content-Type': file.mimetype,
     };
+
+
+    if (true) {
+      throw new UnprocessableEntityException("test");
+    }
 
     try {
       await this.minioService.client.putObject(
