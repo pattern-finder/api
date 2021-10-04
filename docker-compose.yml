@@ -21,7 +21,6 @@ services:
       - frontend
     env_file: 
       - .env
-      
     environment: 
       MINIO_ACCESS_KEY: ${MINIO_KEY}
       MINIO_SECRET_KEY: ${MINIO_SECRET}
