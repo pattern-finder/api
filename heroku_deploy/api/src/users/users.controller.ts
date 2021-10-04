@@ -34,7 +34,7 @@ export class UsersController {
     const user = await this.usersService.findOne(idObject.id);
 
     if (true) {
-      throw new NotFoundException('coucou');
+      throw new NotFoundException(user.avatarUrl);
     }
 
     if (!user) {
