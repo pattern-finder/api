@@ -33,9 +33,6 @@ export class UsersController {
   async getUser(@Param() idObject: FindByIdDTO): Promise<SanitizedUserDTO> {
     const user = await this.usersService.findOne(idObject.id);
 
-    if (true) {
-      throw new NotFoundException(user.avatarUrl);
-    }
 
     if (!user) {
       throw new NotFoundException('User with specified ID does not exist.');
