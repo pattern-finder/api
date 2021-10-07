@@ -14,14 +14,13 @@ x-logging:
 services:
   picspy-api:
     build: 
-      context: ./api
-      dockerfile: Dockerfile.api
+      context: .
+      dockerfile: Dockerfile.dev
     networks:
       - backend
       - frontend
     env_file: 
       - .env
-      
     environment: 
       MINIO_ACCESS_KEY: ${MINIO_KEY}
       MINIO_SECRET_KEY: ${MINIO_SECRET}
