@@ -1,0 +1,9 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/pattern-finder/frontend.git
+[submodule "picspy-godbox"]
+	path = picspy-godbox
+	url = https://github.com/pattern-finder/picspy-godbox.git
+[submodule "libs"]
+	path = libs
+	url = https://github.com/pattern-finder/libs.git
