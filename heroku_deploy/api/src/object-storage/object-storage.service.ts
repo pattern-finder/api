@@ -22,6 +22,8 @@ export default class ObjectStorageService {
   }
 
   public generateExternalServerAddress(endOfLink: string) {
+    console.log("COUCOUTUTU")
+
   //  https://minio.picspy.vagahbond.com/minio/picspy-challenges/AyoubTest/c5b3f69c-5222-4623-9993-792f7d8487491627296856152.PNG
     return `http${config.MINIO_USESSL ? 's' : ''}://${
       config.MINIO_EXTERNAL_ENDPOINT
