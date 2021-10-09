@@ -61,19 +61,11 @@ export class GodBoxRepository {
     if (language.name === 'cpp') {
       zip.addLocalFile('/usr/src/app/conf/CMakeLists.txt');
     }
-    zip.addFile(`main${language.extension}`, Buffer.from(code));
-
-
+    zip.addFile(language.mainFileName, Buffer.from(code));
 
     const imageBuffers = await this.fetchImagesBuffers(bootstrap);
     // later add some format extension or something
-
-
-
     imageBuffers.map((image, index) => {
-      if(true){
-        throw new InternalServerErrorException(image.filename);
-      }
       zip.addFile(
         `pictures/${image.filename || `picture-${index}`}`,
         image.buffer,
@@ -83,24 +75,13 @@ export class GodBoxRepository {
     return zip.toBuffer().toString('base64');
   }
 
-  formatPhasesResults(phases: GodboxPhaseOutputDTO[]): GodboxPhaseOutputDTO {
-    const res = phases[phases.length - 1];
-    return {
-      ...res,
-      status: res.name === 'Execution' ? res.status : -1,
-    };
-  }
-
   async execute(
     code: string,
     bootstrap: ExecBootstrap,
   ): Promise<GodboxPhaseOutputDTO> {
     const language = await this.languagesService.findByName(bootstrap.language);
 
-    const completeCode = bootstrap.tests.includes('// USER_CODE')
-      ? bootstrap.tests.replace('// USER_CODE', code)
-      : `${bootstrap.tests}\n${code}`;
-
+    const completeCode = `${bootstrap.tests}\n${code}`;
     const payload = {
       phases: language.phases,
       files: await this.bundleExec(completeCode, language, bootstrap),
@@ -109,7 +90,7 @@ export class GodBoxRepository {
     try {
       const { data }: { data: { phases: GodboxPhaseOutputDTO[] } } =
         await axios.post(`${godboxConfig.baseUrl}/run`, payload);
-      return this.formatPhasesResults(data.phases);
+      return data.phases[data.phases.length - 1];
     } catch (err) {
       throw new InternalServerErrorException(
         err?.response?.data?.message || err?.message || 'Unkown reason.',
