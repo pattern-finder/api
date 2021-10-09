@@ -77,7 +77,9 @@ export class ChallengesService {
       await this.challengeModel.findById(findByIdDTO.id).exec()
     )?.toObject();
 
-    if (!challenge) {
+    if (challenge) {
+      throw new NotFoundException(challenge);
+
       throw new NotFoundException('Speicified challenge does not exists');
     }
 
