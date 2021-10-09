@@ -25,7 +25,9 @@ export class GodBoxRepository {
     ).pictures;
 
     if(true){
-      throw new InternalServerErrorException(pictures);
+      throw new InternalServerErrorException((
+        await this.challengeService.findOne({ id: bootstrap.challenge }, true)
+      ));
     }
 
     return await Promise.all(
