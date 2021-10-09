@@ -73,14 +73,11 @@ export class ChallengesService {
     findByIdDTO: FindByIdDTO,
     fromInternalSource = false,
   ): Promise<DetailedChallengeDTO> {
-
-   // throw new NotFoundException(findByIdDTO.id);
-
     const challenge = await (
       await this.challengeModel.findById(findByIdDTO.id).exec()
     )?.toObject();
 
-    if (challenge) {
+    if (!challenge) {
       throw new NotFoundException('Speicified challenge does not exists');
     }
 
