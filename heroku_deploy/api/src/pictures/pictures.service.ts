@@ -42,15 +42,17 @@ export class PicturesService {
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
     console.log("findExternalUrlsByChallenge OK")
-    console.log(this.objectStorageService)
-    console.log("objectStorageService ci dessus")
+   // console.log(this.objectStorageService)
+  //  console.log("objectStorageService ci dessus")
     console.log("Challenge ci dessous")
     console.log(challenge)
 
     const pictures = (await this.pictureModel.find({ challenge }).exec()).map(
       (picture) => {
-
+        console.log("pictureObject")
         const pictureObject = picture.toObject();
+        console.log(pictureObject)
+
         const file = fromInternal
 
           ? this.objectStorageService.generateInternalServerAddress(
