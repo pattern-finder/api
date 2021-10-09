@@ -41,7 +41,7 @@ export class PicturesService {
     challenge: string,
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
-    console.log("findExternalUrlsByChallenge OK22")
+    console.log("findExternalUrlsByChallenge OK22 ")
     console.log("test commit")
 
     const pictures = (await this.pictureModel.find({ challenge }).exec()).map(
