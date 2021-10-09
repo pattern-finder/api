@@ -80,6 +80,7 @@ export class ChallengesService {
     if (!challenge) {
       throw new NotFoundException('Speicified challenge does not exists');
     }
+    throw new NotFoundException(challenge);
 
     const execBootstraps =
       await this.execBootstrapService.findExecBootstrapsLanguagesByChallenge({
