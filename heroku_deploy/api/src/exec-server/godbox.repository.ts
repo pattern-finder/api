@@ -24,11 +24,6 @@ export class GodBoxRepository {
       await this.challengeService.findOne({ id: bootstrap.challenge }, true)
     ).pictures;
 
-    if(true){
-      throw new InternalServerErrorException((
-        await this.challengeService.findOne({ id: bootstrap.challenge }, true)
-      ));
-    }
 
     return await Promise.all(
       pictures.map((pic) => {
