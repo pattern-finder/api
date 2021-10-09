@@ -41,42 +41,22 @@ export class PicturesService {
     challenge: string,
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
-    console.log("findExternalUrlsByChallenge OK")
-   // console.log(this.objectStorageService)
-  //  console.log("objectStorageService ci dessus")
-    console.log("Challenge ci dessous v2")
-    console.log(challenge)
-  //  const picturesList = (await this.pictureModel.findAll())
-
-    const pictures = (await this.pictureModel.find({ challenge }, 'url').exec()).map(
-      (picture) => {
-        console.log("pictureObject")
-        const pictureObject = picture.toObject();
-        console.log(pictureObject)
-
-        const file = fromInternal
-
-          ? this.objectStorageService.generateInternalServerAddress(
-              pictureObject.url,
-            )
-          : this.objectStorageService.generateExternalServerAddress(
-              pictureObject.url,
-            );
-
-
-
-          console.log("findExternalUrlsByChallenge END 1 return")
-
-        return {
-          _id: pictureObject._id,
-          file: file,
-          execFileName: pictureObject.execFileName,
-        };
-      },
-    );
-
-    console.log(pictures)
-    console.log("findExternalUrlsByChallenge END 2nd return")
+    const pictures = (
+      await this.pictureModel.find({ challenge }, 'url').exec()
+    ).map((picture) => {
+      const pictureObject = picture.toObject();
+      const file = fromInternal
+        ? this.objectStorageService.generateInternalServerAddress(
+            pictureObject.url,
+          )
+        : this.objectStorageService.generateExternalServerAddress(
+            pictureObject.url,
+          );
+      return {
+        _id: pictureObject._id,
+        file: file,
+      };
+    });
     return pictures;
   }
 
