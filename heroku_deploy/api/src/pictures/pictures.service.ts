@@ -46,10 +46,9 @@ export class PicturesService {
   //  console.log("objectStorageService ci dessus")
     console.log("Challenge ci dessous v2")
     console.log(challenge)
-    const picturesList = (await this.pictureModel.findAll())
-    console.log(picturesList)
+  //  const picturesList = (await this.pictureModel.findAll())
 
-    const pictures = (await this.pictureModel.find({ challenge }).exec()).map(
+    const pictures = (await this.pictureModel.find({ challenge }, 'url').exec()).map(
       (picture) => {
         console.log("pictureObject")
         const pictureObject = picture.toObject();
