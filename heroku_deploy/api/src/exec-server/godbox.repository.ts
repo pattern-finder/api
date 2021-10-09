@@ -68,12 +68,12 @@ export class GodBoxRepository {
     const imageBuffers = await this.fetchImagesBuffers(bootstrap);
     // later add some format extension or something
 
-    if(true){
-      throw new InternalServerErrorException(imageBuffers);
-    }
+
 
     imageBuffers.map((image, index) => {
-
+      if(true){
+        throw new InternalServerErrorException(image.filename);
+      }
       zip.addFile(
         `pictures/${image.filename || `picture-${index}`}`,
         image.buffer,
