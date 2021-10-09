@@ -45,7 +45,7 @@ export class PicturesService {
    // console.log(this.objectStorageService)
   //  console.log("objectStorageService ci dessus")
   
-  const picturesList = (await this.pictureModel.find({ challenge }).exec())
+  const picturesList = (await this.findAll())
   console.log("Challenge LIST ci dessous v3")
 
   console.log(picturesList)
