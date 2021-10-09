@@ -41,10 +41,10 @@ export class PicturesService {
     challenge: string,
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
+    console.log("findExternalUrlsByChallenge OK")
 
     const pictures = (await this.pictureModel.find({ challenge }).exec()).map(
       (picture) => {
-        console.log("STOP")
 
         const pictureObject = picture.toObject();
         const file = fromInternal
@@ -55,8 +55,6 @@ export class PicturesService {
           : this.objectStorageService.generateExternalServerAddress(
               pictureObject.url,
             );
-
-        console.log(pictureObject)
 
         return {
           _id: pictureObject._id,
