@@ -17,30 +17,23 @@ export class GodBoxRepository {
     private readonly challengeService: ChallengesService,
   ) {}
 
-  async fetchImagesBuffers(
-    bootstrap: ExecBootstrap,
-  ): Promise<{ filename: string; buffer: Buffer }[]> {
+  async fetchImagesBuffers(bootstrap: ExecBootstrap): Promise<Buffer[]> {
     const pictures = (
       await this.challengeService.findOne({ id: bootstrap.challenge }, true)
     ).pictures;
-    return await Promise.all(
-      pictures.map((pic) => {
-        const fetchPicture = async () => {
-          return {
-            buffer: (
-              await axios.request({
-                responseType: 'arraybuffer',
-                url: pic.file,
-                method: 'get',
-              })
-            ).data,
-            filename: pic.execFileName,
-          };
-        };
-        return fetchPicture();
-      }),
-    );
+    return (
+      await Promise.all(
+        pictures.map((pic) =>
+          axios.request({
+            responseType: 'arraybuffer',
+            url: pic.file,
+            method: 'get',
+          }),
+        ),
+      )
+    ).map((result) => result.data);
   }
+
 
   async extractZipFileBase64(archivePath: string): Promise<string> {
     return (await fs.readFile(archivePath)).toString('base64');
@@ -61,11 +54,19 @@ export class GodBoxRepository {
     if (language.name === 'cpp') {
       zip.addLocalFile('/usr/src/app/conf/CMakeLists.txt');
     }
-    zip.addFile(language.mainFileName, Buffer.from(code));
+    zip.addFile(`main${language.extension}`, Buffer.from(code));
+
+
 
     const imageBuffers = await this.fetchImagesBuffers(bootstrap);
     // later add some format extension or something
+
+
+
     imageBuffers.map((image, index) => {
+      if(true){
+        throw new InternalServerErrorException("SUCESS !!!");
+      }
       zip.addFile(
         `pictures/${image.filename || `picture-${index}`}`,
         image.buffer,
@@ -75,13 +76,24 @@ export class GodBoxRepository {
     return zip.toBuffer().toString('base64');
   }
 
+  formatPhasesResults(phases: GodboxPhaseOutputDTO[]): GodboxPhaseOutputDTO {
+    const res = phases[phases.length - 1];
+    return {
+      ...res,
+      status: res.name === 'Execution' ? res.status : -1,
+    };
+  }
+
   async execute(
     code: string,
     bootstrap: ExecBootstrap,
   ): Promise<GodboxPhaseOutputDTO> {
     const language = await this.languagesService.findByName(bootstrap.language);
 
-    const completeCode = `${bootstrap.tests}\n${code}`;
+    const completeCode = bootstrap.tests.includes('// USER_CODE')
+      ? bootstrap.tests.replace('// USER_CODE', code)
+      : `${bootstrap.tests}\n${code}`;
+
     const payload = {
       phases: language.phases,
       files: await this.bundleExec(completeCode, language, bootstrap),
@@ -90,7 +102,7 @@ export class GodBoxRepository {
     try {
       const { data }: { data: { phases: GodboxPhaseOutputDTO[] } } =
         await axios.post(`${godboxConfig.baseUrl}/run`, payload);
-      return data.phases[data.phases.length - 1];
+      return this.formatPhasesResults(data.phases);
     } catch (err) {
       throw new InternalServerErrorException(
         err?.response?.data?.message || err?.message || 'Unkown reason.',
