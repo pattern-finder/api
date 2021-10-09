@@ -76,11 +76,11 @@ export class ChallengesService {
     const challenge = await (
       await this.challengeModel.findById(findByIdDTO.id).exec()
     )?.toObject();
-    console.log("COUCOU");
 
     if (!challenge) {
       throw new NotFoundException('Speicified challenge does not exists');
     }
+    console.log(challenge);
 
     const execBootstraps =
       await this.execBootstrapService.findExecBootstrapsLanguagesByChallenge({
