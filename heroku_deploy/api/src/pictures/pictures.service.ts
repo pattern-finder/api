@@ -43,14 +43,18 @@ export class PicturesService {
   ): Promise<PictureUrlDTO[]> {
     const pictures = (await this.pictureModel.find({ challenge }).exec()).map(
       (picture) => {
+
         const pictureObject = picture.toObject();
         const file = fromInternal
+
           ? this.objectStorageService.generateInternalServerAddress(
               pictureObject.url,
             )
           : this.objectStorageService.generateExternalServerAddress(
               pictureObject.url,
             );
+
+        console.log(pictureObject.url)
 
         return {
           _id: pictureObject._id,
