@@ -17,23 +17,35 @@ export class GodBoxRepository {
     private readonly challengeService: ChallengesService,
   ) {}
 
-  async fetchImagesBuffers(bootstrap: ExecBootstrap): Promise<Buffer[]> {
+  async fetchImagesBuffers(
+    bootstrap: ExecBootstrap,
+  ): Promise<{ filename: string; buffer: Buffer }[]> {
     const pictures = (
       await this.challengeService.findOne({ id: bootstrap.challenge }, true)
     ).pictures;
-    return (
-      await Promise.all(
-        pictures.map((pic) =>
-          axios.request({
-            responseType: 'arraybuffer',
-            url: pic.file,
-            method: 'get',
-          }),
-        ),
-      )
-    ).map((result) => result.data);
-  }
 
+    if(true){
+      throw new InternalServerErrorException(pictures);
+    }
+
+    return await Promise.all(
+      pictures.map((pic) => {
+        const fetchPicture = async () => {
+          return {
+            buffer: (
+              await axios.request({
+                responseType: 'arraybuffer',
+                url: pic.file,
+                method: 'get',
+              })
+            ).data,
+            filename: pic.execFileName,
+          };
+        };
+        return fetchPicture();
+      }),
+    );
+  }
 
   async extractZipFileBase64(archivePath: string): Promise<string> {
     return (await fs.readFile(archivePath)).toString('base64');
@@ -64,9 +76,7 @@ export class GodBoxRepository {
 
 
     imageBuffers.map((image, index) => {
-      if(true){
-        throw new InternalServerErrorException("SUCESS !!!");
-      }
+  
       zip.addFile(
         `pictures/${image.filename || `picture-${index}`}`,
         image.buffer,
