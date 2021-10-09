@@ -41,8 +41,9 @@ export class PicturesService {
     challenge: string,
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
-    console.log("findExternalUrlsByChallenge OK22 ")
-    console.log("test commit")
+    console.log("findExternalUrlsByChallenge OK")
+    console.log(this.objectStorageService)
+    console.log("objectStorageService ci dessus")
 
     const pictures = (await this.pictureModel.find({ challenge }).exec()).map(
       (picture) => {
@@ -59,7 +60,6 @@ export class PicturesService {
 
 
 
-          console.log(pictureObject.url)
           console.log("findExternalUrlsByChallenge END 1 return")
 
         return {
