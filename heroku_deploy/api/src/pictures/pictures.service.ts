@@ -56,9 +56,10 @@ export class PicturesService {
               pictureObject.url,
             );
 
-    console.log(pictureObject.url)
 
-    console.log("findExternalUrlsByChallenge END")
+
+          console.log(pictureObject.url)
+          console.log("findExternalUrlsByChallenge END 1 return")
 
         return {
           _id: pictureObject._id,
@@ -67,6 +68,9 @@ export class PicturesService {
         };
       },
     );
+
+    console.log(pictures)
+    console.log("findExternalUrlsByChallenge END 2nd return")
     return pictures;
   }
 
