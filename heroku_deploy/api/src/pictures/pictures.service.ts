@@ -41,6 +41,8 @@ export class PicturesService {
     challenge: string,
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
+    console.log("COUCOU1")
+
     const pictures = (await this.pictureModel.find({ challenge }).exec()).map(
       (picture) => {
 
