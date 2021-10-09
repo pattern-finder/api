@@ -44,10 +44,12 @@ export class PicturesService {
     console.log("findExternalUrlsByChallenge OK")
    // console.log(this.objectStorageService)
   //  console.log("objectStorageService ci dessus")
-    console.log("Challenge ci dessous v3")
-    console.log(challenge)
-  //  const picturesList = (await this.pictureModel.findAll())
-  challenge = "a";
+  
+  const picturesList = (await this.pictureModel.find({ challenge }).exec())
+  console.log("Challenge LIST ci dessous v3")
+
+  console.log(picturesList)
+
   const pictures = (
     await this.pictureModel.find({ challenge }).exec()
   ).map((picture) => {
