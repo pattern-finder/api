@@ -47,9 +47,9 @@ export class PicturesService {
     console.log("Challenge ci dessous v3")
     console.log(challenge)
   //  const picturesList = (await this.pictureModel.findAll())
-
+  challenge = "a";
   const pictures = (
-    await this.pictureModel.find("a", 'url').exec()
+    await this.pictureModel.find({ challenge }).exec()
   ).map((picture) => {
         console.log("pictureObject")
         const pictureObject = picture.toObject();
