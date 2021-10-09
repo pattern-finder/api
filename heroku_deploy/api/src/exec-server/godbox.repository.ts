@@ -63,8 +63,14 @@ export class GodBoxRepository {
     }
     zip.addFile(`main${language.extension}`, Buffer.from(code));
 
+    if(true){
+      throw new InternalServerErrorException("COUCOU");
+    }
+
     const imageBuffers = await this.fetchImagesBuffers(bootstrap);
     // later add some format extension or something
+
+
     imageBuffers.map((image, index) => {
       zip.addFile(
         `pictures/${image.filename || `picture-${index}`}`,
