@@ -100,6 +100,7 @@ export class GodBoxRepository {
    "    } \n"+
    "   print(payload) \n"
    
+    console.log(main_algo)
 
     zip.addLocalFolder(`${ALGO_DIR}/${language.name}`, 'evaluation_code');
 
