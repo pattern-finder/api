@@ -144,7 +144,6 @@ class Opencv:
     def getNumberImage(self):
 
         PATH = "pictures/"
-        print(os.listdir("/box"))
         cpt = 0
         for image in os.listdir(PATH):
             if image.endswith(".png"):
