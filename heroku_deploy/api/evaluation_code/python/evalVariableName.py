@@ -224,9 +224,9 @@ def excecEvalVariableName(filin):
     listVariable = []
 
     lignes = remove_comentary(lignes)
+    print(lignes)
 
     for ligne in lignes:
-            print(ligne)
 
             variables = ""
             variables = findVariableDeclare(ligne)
@@ -257,7 +257,6 @@ def excecEvalVariableName(filin):
 
 
     error = 0
-    print(listVariable)
     for var in listVariable:
         error = error + switch(var)
 

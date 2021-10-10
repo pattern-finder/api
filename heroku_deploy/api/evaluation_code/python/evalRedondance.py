@@ -208,7 +208,6 @@ def find_block(code):
                 blockCreate = False
                 blockCodes = ""
                 save = find_indentation(line)
-              #  print("START")
 
                 while not blockCreate and k < len(code):
 
@@ -216,10 +215,7 @@ def find_block(code):
                     sanitize_line = sanitize_line.replace("\n", "")
 
                     if len(sanitize_line) > 0:
-                    #    print(code[k])
-                  #      print(len(sanitize_line))
 
-                 #       print("next")
 
                         linebis = code[k]
                         newVal = find_indentation(linebis)
@@ -370,7 +366,6 @@ def sanitize_dict_(dict):
     sanitize_dict = {}
 
     for block in dict:
-      #  print(block)
         sanitizeBlock = block.replace('\n', ';@;')
         sanitizeBlock = sanitizeBlock.replace(' ', '')
         sanitize_dict = update_block(sanitizeBlock, sanitize_dict)
@@ -475,8 +470,6 @@ def excecEvalRedondance(filin):
     cptRedondance = 0
 
     for block in sanitize_dict:
-        print(block)
-
 
         if sanitize_dict[block] > 1:
             cptRedondance += sanitize_dict[block]-1
