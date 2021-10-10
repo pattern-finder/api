@@ -263,5 +263,4 @@ def excecEvalVariableName(filin):
 
 
     ###RESULTAT
-    filin.close()
     return error

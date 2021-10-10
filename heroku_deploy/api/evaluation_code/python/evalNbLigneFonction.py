@@ -121,5 +121,4 @@ def excecEvalNbLigneFonction(filin):
         if cpt_ligne-cpt_rm > 30:
             cpt_error +=1
 
-    filin.close()
     return cpt_error

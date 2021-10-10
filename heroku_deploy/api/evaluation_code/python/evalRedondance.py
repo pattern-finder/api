@@ -481,6 +481,5 @@ def excecEvalRedondance(filin):
         if sanitize_dict[block] > 1:
             cptRedondance += sanitize_dict[block]-1
             
-    filin.close()
     return cptRedondance
 

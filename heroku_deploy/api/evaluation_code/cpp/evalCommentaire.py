@@ -35,5 +35,5 @@ def excecEvalCommentaire(filin):
             res = "error"
     else:
         res = "ok"
-    filin.close()
+
     return res

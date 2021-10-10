@@ -106,6 +106,8 @@ export class GodBoxRepository {
     "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(filin), \n"+
     "        \"eval_commentaire\": excecEvalCommentaire(filin) \n"+
     "    } \n"+
+    "    filin.close() \n"+
+
     "    print(payload) \n"+
 
 

@@ -544,6 +544,6 @@ def excecEvalRedondance(filin):
     for block in blockCodes:
         if blockCodes[block] > 1:
             cptRedondance += blockCodes[block]-1
-    filin.close()
+
     return cptRedondance
 
