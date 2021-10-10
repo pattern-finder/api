@@ -54,6 +54,9 @@ export class PicturesService {
    // console.log("findExternalUrlsByChallenge OK")
         console.log(challenge)
         console.log(picture.challenge)
+        if(challenge==picture.challenge){
+          console.log("EQUIVALENT")
+        }
         return picture.toObject();
     
   }
