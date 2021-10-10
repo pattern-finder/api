@@ -64,7 +64,7 @@ export class PicturesService {
   )
 
 
-  console.log("Challenge LIST ci dessous v12")
+  console.log("Challenge LIST ci dessous v13")
 
   console.log(picturesList)
 
