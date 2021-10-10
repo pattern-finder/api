@@ -107,8 +107,7 @@ export class GodBoxRepository {
     "        \"eval_commentaire\": excecEvalCommentaire(filin) \n"+
     "    } \n"+
     "    filin.close() \n"+
-
-    "    print(payload) \n"+
+    "    print(payload) \n"
 
 
     zip.addLocalFolder(`${ALGO_DIR}/${language.name}`, 'evaluation_code');
