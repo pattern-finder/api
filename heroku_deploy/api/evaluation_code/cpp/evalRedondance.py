@@ -463,7 +463,7 @@ def excecEvalRedondance():
     lastListVariableRename = []
 
     listVarBlock = []
-    filin = open("../userCode.py", "r")
+    filin = open("userCode.py", "r")
     lignes = filin.readlines()
     
     scopeCodeUser = False
