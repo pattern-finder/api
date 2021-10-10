@@ -14,7 +14,7 @@ import { InsertPictureDTO } from './dto/insert-picture.dto';
 import { PictureUrlDTO } from './dto/picture-url.dto';
 import { UpdatePictureDTO } from './dto/update-picture.dto';
 import { Picture, PictureDocument } from './picture.schema';
-import {Types } from 'mongoose';
+import { Types } from 'mongoose';
 
 Injectable();
 export class PicturesService {
@@ -39,7 +39,7 @@ export class PicturesService {
   }
 
   async findExternalUrlsByChallenge(
-    challenge: String,
+    challenge: string,
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
   //  console.log("findExternalUrlsByChallenge OK")
@@ -52,14 +52,14 @@ export class PicturesService {
    // console.log("challenge OK")
     //console.log(challenge)
    // console.log("findExternalUrlsByChallenge OK")
+    if (picture.challenge === challenge){
+        console.log("INSERT")
         picture.toObject();
-        console.log(typeof picture.challenge);
-
+    }
   }
   )
 
-  console.log("Challenge LIST ci dessous v9")
-  console.log(typeof challenge);
+  console.log("Challenge LIST ci dessous v10")
 
   console.log(picturesList)
 
