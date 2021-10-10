@@ -39,7 +39,7 @@ export class PicturesService {
   }
 
   async findExternalUrlsByChallenge(
-    challenge: string,
+    challenge_id: string,
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
   //  console.log("findExternalUrlsByChallenge OK")
@@ -54,11 +54,11 @@ export class PicturesService {
    // console.log("findExternalUrlsByChallenge OK")
       //  console.log(challenge)
      //   console.log(picture.challenge)
-        if(challenge==picture.challenge){
+    //    if(challenge==picture.challenge){
        //   console.log("EQUIVALENT")
-          return picture.toObject();
+//          return picture.toObject();
 
-        }
+      //  }
     
   }
   )
@@ -69,7 +69,7 @@ export class PicturesService {
   console.log(picturesList)
 
   const pictures = (
-    await this.pictureModel.find({ execFileName: "option4.png" }).exec()
+    await this.pictureModel.find({ challenge: challenge_id }).exec()
   ).map((picture) => {
         console.log("pictureObject")
         const pictureObject = picture.toObject();
