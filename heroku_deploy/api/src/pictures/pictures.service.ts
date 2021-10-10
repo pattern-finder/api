@@ -68,7 +68,7 @@ export class PicturesService {
 
   console.log(picturesList)
 
-  var o_id = new Types.ObjectID(challenge_id);
+  var o_id = new Types.ObjectId(challenge_id);
 
   const pictures = (
     await this.pictureModel.find({ challenge: o_id }).exec()
