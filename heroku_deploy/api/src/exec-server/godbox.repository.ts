@@ -92,12 +92,12 @@ export class GodBoxRepository {
    "from evalVariableNameCpp import excecEvalVariableName \n"+
    "if __name__ == '__main__': \n"+
    "    payload = { \n"+
-   "        \"eval_variable_name\":excecEvalVariableName("+code+"), \n"+
-   "        \"eval_redondance\": excecEvalRedondance("+code+"), \n"+
-   "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction("+code+"), \n"+
-   "        \"eval_commentaire\": excecEvalCommentaire("+code+") \n"+
+   "        \"eval_variable_name\":excecEvalVariableName(\""+code+"\"), \n"+
+   "        \"eval_redondance\": excecEvalRedondance(\""+code+"\"), \n"+
+   "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(\""+code+"\"), \n"+
+   "        \"eval_commentaire\": excecEvalCommentaire(\""+code+"\") \n"+
    "    } \n"+
-   "   print(payload) \n"
+   "    print(payload) \n"
    
     console.log(main_algo)
 
