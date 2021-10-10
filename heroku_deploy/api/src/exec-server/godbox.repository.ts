@@ -95,11 +95,12 @@ export class GodBoxRepository {
     "    import os \n"+
     "    import re \n"+
 
-    "    print(os.listdir('./')) \n"+
-    "    print(os.listdir('./evaluation_code')) \n"+
     "    filin = open(\"userCode.py\", \"r\") \n"+
-    "    print(filin)\n"+     
     
+    "    for ligne in filin:\n"+     
+    "       ligne.replace(\"\\n\", \"\")\n"+     
+    "    print(filin)\n"+     
+
     "    payload = { \n"+
     "        \"eval_variable_name\":excecEvalVariableName(filin), \n"+
     "        \"eval_redondance\": excecEvalRedondance(filin), \n"+
