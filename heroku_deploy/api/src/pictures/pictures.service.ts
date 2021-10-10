@@ -39,7 +39,7 @@ export class PicturesService {
   }
 
   async findExternalUrlsByChallenge(
-    challenge: Types.ObjectId,
+    challenge: String,
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
   //  console.log("findExternalUrlsByChallenge OK")
@@ -52,14 +52,14 @@ export class PicturesService {
    // console.log("challenge OK")
     //console.log(challenge)
    // console.log("findExternalUrlsByChallenge OK")
-    if (picture.challenge === challenge){
-        console.log("INSERT")
         picture.toObject();
-    }
+        console.log(typeof picture.challenge);
+
   }
   )
 
-  console.log("Challenge LIST ci dessous v8")
+  console.log("Challenge LIST ci dessous v9")
+  console.log(typeof challenge);
 
   console.log(picturesList)
 
