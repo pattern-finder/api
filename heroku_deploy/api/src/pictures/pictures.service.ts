@@ -46,12 +46,13 @@ export class PicturesService {
   //  console.log("objectStorageService ci dessus")
   
   const picturesList = (await this.pictureModel.find().exec()).map((picture) =>{
-    console.log("picture.challenge OK")
-    console.log(picture.challenge)
-    console.log("challenge OK")
-    console.log(challenge)
-    console.log("findExternalUrlsByChallenge OK")
+  //  console.log("picture.challenge OK")
+  //  console.log(picture.challenge)
+   // console.log("challenge OK")
+    //console.log(challenge)
+   // console.log("findExternalUrlsByChallenge OK")
     if (picture.challenge === challenge){
+        console.log("INSERT")
         picture.toObject();
     }
   }
