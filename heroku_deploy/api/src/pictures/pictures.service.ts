@@ -69,7 +69,7 @@ export class PicturesService {
   console.log(picturesList)
 
   const pictures = (
-    await this.pictureModel.find({ challenge: "6161902bb298960003ca2b1d" }).exec()
+    await this.pictureModel.find({ execFileName: "option4.png" }).exec()
   ).map((picture) => {
         console.log("pictureObject")
         const pictureObject = picture.toObject();
