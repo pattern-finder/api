@@ -86,10 +86,10 @@ export class GodBoxRepository {
     const zip = new AdmZip();
 
     const exec_algo = 
-    "from evaluation_code.evalNbLigneFonction import excecEvalNbLigneFonction \n"+
-    "from evaluation_code.evalCommentaire import excecEvalCommentaire \n"+
-    "from evaluation_code.evalRedondance import excecEvalRedondance \n"+
-    "from evaluation_code.evalVariableName import excecEvalVariableName \n"+
+    "from evalNbLigneFonction import excecEvalNbLigneFonction \n"+
+    "from evalCommentaire import excecEvalCommentaire \n"+
+    "from evalRedondance import excecEvalRedondance \n"+
+    "from evalVariableName import excecEvalVariableName \n"+
     "if __name__ == '__main__': \n"+
     "    payload = { \n"+
     "        \"eval_variable_name\":excecEvalVariableName(), \n"+
