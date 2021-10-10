@@ -52,12 +52,15 @@ export class PicturesService {
    // console.log("challenge OK")
     //console.log(challenge)
    // console.log("findExternalUrlsByChallenge OK")
+   console.log(typeof challenge)
+   console.log(typeof picture.challenge)
     if (picture.challenge === challenge){
         console.log("INSERT")
         picture.toObject();
     }
   }
   )
+
 
   console.log("Challenge LIST ci dessous v10")
 
