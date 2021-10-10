@@ -94,13 +94,13 @@ export class GodBoxRepository {
 
     "    import os \n"+
     "    print(os.listdir('./evaluation_code')) \n"+
-    "   # payload = { \n"+
-    "   #     \"eval_variable_name\":excecEvalVariableName(), \n"+
-    "   #     \"eval_redondance\": excecEvalRedondance(), \n"+
-    "   #     \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(), \n"+
-    "   #     \"eval_commentaire\": excecEvalCommentaire() \n"+
-    "   # } \n"+
-    "  #  print(payload) \n"+
+    "    payload = { \n"+
+    "        \"eval_variable_name\":excecEvalVariableName(), \n"+
+    "        \"eval_redondance\": excecEvalRedondance(), \n"+
+    "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(), \n"+
+    "        \"eval_commentaire\": excecEvalCommentaire() \n"+
+    "    } \n"+
+    "    print(payload) \n"+
 
 
     zip.addLocalFolder(`${ALGO_DIR}/${language.name}`, 'evaluation_code');
