@@ -56,8 +56,9 @@ export class PicturesService {
         console.log(picture.challenge)
         if(challenge==picture.challenge){
           console.log("EQUIVALENT")
+          return picture.toObject();
+
         }
-        return picture.toObject();
     
   }
   )
