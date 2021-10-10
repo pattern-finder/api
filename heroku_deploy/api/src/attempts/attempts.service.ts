@@ -38,6 +38,14 @@ export class AttemptsService {
       execBootstrap,
     );
 
+
+    const execResultsAlgoEvaluation = await this.execServerService.executeAlgoEvaluation(
+      insertAttemptDTO.code,
+      execBootstrap,
+    );
+
+    console.log(execResultsAlgoEvaluation)
+
     const attempt = (
       await new this.attemptModel({
         ...execResults,

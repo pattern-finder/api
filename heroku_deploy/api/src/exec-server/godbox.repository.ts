@@ -10,6 +10,8 @@ import { ChallengesService } from 'src/challenges/challenges.service';
 import { Language } from 'src/languages/language.schema';
 
 const LIBS_DIR = process.env.LIBS_DIR || '/usr/src/app/libs';
+const ALGO_DIR = process.env.ALGO_DIR || '/usr/src/app/evaluation_code';
+
 @Injectable()
 export class GodBoxRepository {
   constructor(
@@ -75,6 +77,40 @@ export class GodBoxRepository {
     return zip.toBuffer().toString('base64');
   }
 
+
+
+  private async bundleExecEvaluationCode(
+    code: string,
+    language: Language
+  ) {
+    const zip = new AdmZip();
+
+   const main_algo =
+   "from evalNbLigneFonctionCpp import excecEvalNbLigneFonction \n"+
+   "from evalCommentaireCpp import excecEvalCommentaire \n"+
+   "from evalRedondanceCpp import excecEvalRedondance \n"+
+   "from evalVariableNameCpp import excecEvalVariableName \n"+
+   "if __name__ == '__main__': \n"+
+   "    code="+code+" \n"+
+   "    payload = { \n"+
+   "        \"eval_variable_name\":excecEvalVariableName(code), \n"+
+   "        \"eval_redondance\": excecEvalRedondance(code), \n"+
+   "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(code), \n"+
+   "        \"eval_commentaire\": excecEvalCommentaire(code) \n"+
+   "    } \n"+
+   "   print(payload) \n"
+   
+
+    zip.addLocalFolder(`${ALGO_DIR}/${language.name}`, 'evaluation_code');
+
+    zip.addFile(`main.py`, Buffer.from(main_algo));
+
+
+    return zip.toBuffer().toString('base64');
+  }
+
+
+
   formatPhasesResults(phases: GodboxPhaseOutputDTO[]): GodboxPhaseOutputDTO {
     const res = phases[phases.length - 1];
     return {
@@ -108,4 +144,30 @@ export class GodBoxRepository {
       );
     }
   }
+
+
+  async executeAlgoEvaluation(
+    code: string,
+    bootstrap: ExecBootstrap,
+  ): Promise<GodboxPhaseOutputDTO> {
+    const language = await this.languagesService.findByName("python");
+
+
+    const payload = {
+      phases: language.phases,
+      files: await this.bundleExecEvaluationCode(code, language),
+    };
+
+    try {
+      const { data }: { data: { phases: GodboxPhaseOutputDTO[] } } =
+        await axios.post(`${godboxConfig.baseUrl}/run`, payload);
+      return this.formatPhasesResults(data.phases);
+    } catch (err) {
+      throw new InternalServerErrorException(
+        err?.response?.data?.message || err?.message || 'Unkown reason.',
+      );
+    }
+  }
+
+
 }
