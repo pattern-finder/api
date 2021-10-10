@@ -50,9 +50,8 @@ export class PicturesService {
     console.log(picture.challenge)
     console.log("challenge OK")
     console.log(challenge)
-
     console.log("findExternalUrlsByChallenge OK")
-    if (picture.challenge == challenge){
+    if (picture.challenge === challenge){
         picture.toObject();
     }
   }
