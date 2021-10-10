@@ -42,32 +42,6 @@ export class PicturesService {
     challenge_id: string,
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
-  //  console.log("findExternalUrlsByChallenge OK")
-   // console.log(this.objectStorageService)
-  //  console.log("objectStorageService ci dessus")
-  
-  const picturesList = (await this.pictureModel.find().exec()).map((picture) =>{
-  //  console.log("picture.challenge OK")
-  //  console.log(picture.challenge)
-   // console.log("challenge OK")
-    //console.log(challenge)
-   // console.log("findExternalUrlsByChallenge OK")
-      //  console.log(challenge)
-     //   console.log(picture.challenge)
-    //    if(challenge==picture.challenge){
-       //   console.log("EQUIVALENT")
-//          return picture.toObject();
-
-      //  }
-    
-  }
-  )
-
-
-  console.log("Challenge LIST ci dessous v13")
-
-  console.log(picturesList)
-
 
   var mongo = require('mongodb');
   var o_id = new mongo.ObjectID(challenge_id);
@@ -75,9 +49,7 @@ export class PicturesService {
   const pictures = ( 
     await this.pictureModel.find({ challenge: o_id }).exec()
   ).map((picture) => {
-        console.log("pictureObject")
         const pictureObject = picture.toObject();
-        console.log(pictureObject)
 
         const file = fromInternal
 
@@ -87,7 +59,6 @@ export class PicturesService {
           : this.objectStorageService.generateExternalServerAddress(
               pictureObject.url,
             );
-          console.log("findExternalUrlsByChallenge END 1 return")
 
         return {
           _id: pictureObject._id,
@@ -97,10 +68,6 @@ export class PicturesService {
       },
     );
 
-
-
-    console.log(pictures)
-    console.log("findExternalUrlsByChallenge END 2nd return")
     return pictures;
   }
 
