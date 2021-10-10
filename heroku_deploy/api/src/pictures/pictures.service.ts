@@ -45,7 +45,7 @@ export class PicturesService {
   //  console.log("findExternalUrlsByChallenge OK")
    // console.log(this.objectStorageService)
   //  console.log("objectStorageService ci dessus")
-  
+  challenge = Types.ObjectId(challenge)
   const picturesList = (await this.pictureModel.find().exec()).map((picture) =>{
   //  console.log("picture.challenge OK")
   //  console.log(picture.challenge)
@@ -62,7 +62,7 @@ export class PicturesService {
   )
 
 
-  console.log("Challenge LIST ci dessous v10")
+  console.log("Challenge LIST ci dessous v11")
 
   console.log(picturesList)
 
