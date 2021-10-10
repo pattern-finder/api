@@ -68,8 +68,10 @@ export class PicturesService {
 
   console.log(picturesList)
 
+  var o_id = new Types.ObjectID(challenge_id);
+
   const pictures = (
-    await this.pictureModel.find({ challenge: challenge_id }).exec()
+    await this.pictureModel.find({ challenge: o_id }).exec()
   ).map((picture) => {
         console.log("pictureObject")
         const pictureObject = picture.toObject();
