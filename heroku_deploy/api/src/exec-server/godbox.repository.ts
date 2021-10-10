@@ -91,12 +91,11 @@ export class GodBoxRepository {
    "from evalRedondanceCpp import excecEvalRedondance \n"+
    "from evalVariableNameCpp import excecEvalVariableName \n"+
    "if __name__ == '__main__': \n"+
-   "    code=\""+code+"\" \n"+
    "    payload = { \n"+
-   "        \"eval_variable_name\":excecEvalVariableName(code), \n"+
-   "        \"eval_redondance\": excecEvalRedondance(code), \n"+
-   "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(code), \n"+
-   "        \"eval_commentaire\": excecEvalCommentaire(code) \n"+
+   "        \"eval_variable_name\":excecEvalVariableName("+code+"), \n"+
+   "        \"eval_redondance\": excecEvalRedondance("+code+"), \n"+
+   "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction("+code+"), \n"+
+   "        \"eval_commentaire\": excecEvalCommentaire("+code+") \n"+
    "    } \n"+
    "   print(payload) \n"
    
