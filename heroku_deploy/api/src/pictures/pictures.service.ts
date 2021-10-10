@@ -54,10 +54,10 @@ export class PicturesService {
    // console.log("findExternalUrlsByChallenge OK")
    console.log(typeof id_challenge)
    console.log(typeof picture.challenge)
-    if (picture.challenge == id_challenge){
+   // if (picture.challenge == id_challenge){
         console.log("INSERT")
         picture.toObject();
-    }
+   // }
   }
   )
 
