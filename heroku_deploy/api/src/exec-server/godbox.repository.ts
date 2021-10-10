@@ -98,7 +98,7 @@ export class GodBoxRepository {
     "    print(os.listdir('./')) \n"+
     "    print(os.listdir('./evaluation_code')) \n"+
     "    filin = open(\"userCode.py\", \"r\") \n"+
-
+    "    print(filin)\n"+     
     
     "    payload = { \n"+
     "        \"eval_variable_name\":excecEvalVariableName(filin), \n"+
