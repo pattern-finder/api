@@ -83,27 +83,27 @@ export class GodBoxRepository {
     code: string,
     language: Language
   ) {
-   const zip = new AdmZip();
+    const zip = new AdmZip();
 
-   const main_algo ="from evalNbLigneFonctionCpp import excecEvalNbLigneFonction \n"+
-   "from evalCommentaireCpp import excecEvalCommentaire \n"+
-   "from evalRedondanceCpp import excecEvalRedondance \n"+
-   "from evalVariableNameCpp import excecEvalVariableName \n"+
-   "if __name__ == '__main__': \n"+
-   "    payload = { \n"+
-   "        \"eval_variable_name\":excecEvalVariableName(), \n"+
-   "        \"eval_redondance\": excecEvalRedondance(), \n"+
-   "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(), \n"+
-   "        \"eval_commentaire\": excecEvalCommentaire() \n"+
-   "    } \n"+
-   "    print(payload) \n"
-   
-    console.log(main_algo) 
+    const exec_algo = 
+    "from evaluation_code.evalNbLigneFonctionCpp import excecEvalNbLigneFonction \n"+
+    "from evaluation_code.evalCommentaireCpp import excecEvalCommentaire \n"+
+    "from evaluation_code.evalRedondanceCpp import excecEvalRedondance \n"+
+    "from evaluation_code.evalVariableNameCpp import excecEvalVariableName \n"+
+    "if __name__ == '__main__': \n"+
+    "    payload = { \n"+
+    "        \"eval_variable_name\":excecEvalVariableName(), \n"+
+    "        \"eval_redondance\": excecEvalRedondance(), \n"+
+    "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(), \n"+
+    "        \"eval_commentaire\": excecEvalCommentaire() \n"+
+    "    } \n"+
+    "    print(payload) \n"+
 
+
+        
     zip.addLocalFolder(`${ALGO_DIR}/${language.name}`, 'evaluation_code');
-
-    zip.addFile(`main.py`, Buffer.from(main_algo));
     zip.addFile(`userCode.py`, Buffer.from(code));
+    zip.addFile(`main.py`, Buffer.from(exec_algo));
 
 
     return zip.toBuffer().toString('base64');
