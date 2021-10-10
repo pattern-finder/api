@@ -45,10 +45,10 @@ export class PicturesService {
    // console.log(this.objectStorageService)
   //  console.log("objectStorageService ci dessus")
   
-  const picturesList = (await this.pictureModel.find().exec()).map((picture) =>
+  const picturesList = (await this.pictureModel.find({ challenge }).exec()).map((picture) =>
   picture.toObject())
 
-  console.log("Challenge LIST ci dessous v6")
+  console.log("Challenge LIST ci dessous v7")
 
   console.log(picturesList)
 
