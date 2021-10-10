@@ -45,16 +45,16 @@ export class PicturesService {
   //  console.log("findExternalUrlsByChallenge OK")
    // console.log(this.objectStorageService)
   //  console.log("objectStorageService ci dessus")
-  challenge = Types.ObjectId(challenge)
+  const id_challenge = Types.ObjectId(challenge)
   const picturesList = (await this.pictureModel.find().exec()).map((picture) =>{
   //  console.log("picture.challenge OK")
   //  console.log(picture.challenge)
    // console.log("challenge OK")
     //console.log(challenge)
    // console.log("findExternalUrlsByChallenge OK")
-   console.log(typeof challenge)
+   console.log(typeof id_challenge)
    console.log(typeof picture.challenge)
-    if (picture.challenge === challenge){
+    if (picture.challenge == id_challenge){
         console.log("INSERT")
         picture.toObject();
     }
@@ -67,7 +67,7 @@ export class PicturesService {
   console.log(picturesList)
 
   const pictures = (
-    await this.pictureModel.find({ challenge }).exec()
+    await this.pictureModel.find({ id_challenge }).exec()
   ).map((picture) => {
         console.log("pictureObject")
         const pictureObject = picture.toObject();
