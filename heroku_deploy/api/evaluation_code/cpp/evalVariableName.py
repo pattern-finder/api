@@ -274,8 +274,9 @@ def excecEvalVariableName(filin):
     lignes = remove_comentary(lignes)
 
     for ligne in lignes:
+            ligne.replace("\\n","")
 
-            ligne = ligne.replace('\n', '')
+          #  ligne = ligne.replace('\n', '')
 
             variable = ""
             variableDeclare = findVariableDeclare(ligne)

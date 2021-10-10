@@ -8,6 +8,7 @@ def excecEvalCommentaire(filin):
     longComment = False
 
     for ligne in lignes:
+            ligne.replace("\\n","")
 
             if ligne != "":
               nbligne += 1

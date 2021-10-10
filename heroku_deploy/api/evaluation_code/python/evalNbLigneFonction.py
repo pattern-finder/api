@@ -99,6 +99,7 @@ def excecEvalNbLigneFonction(filin):
     lignes = remove_comentary(lignes)
 
     for ligne in lignes:
+            ligne.replace("\\n","")
 
             lignesCompacte.append(ligne)
 
