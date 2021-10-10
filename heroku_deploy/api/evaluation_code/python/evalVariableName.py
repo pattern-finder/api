@@ -217,7 +217,7 @@ def remove_comentary(lignes):
 
 
 
-def excecEvalVariableNamePython():
+def excecEvalVariableName():
 
     filin = open("../userCode.py", "r")
     lignes = filin.readlines()

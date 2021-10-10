@@ -79,7 +79,7 @@ def remove_comentary(lignes):
 
 
 
-def excecEvalNbLigneFonctionPy():
+def excecEvalNbLigneFonction():
 
     listFunction = []
     listVariableRename = []
