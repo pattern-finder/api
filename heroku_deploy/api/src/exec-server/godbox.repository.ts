@@ -96,16 +96,18 @@ export class GodBoxRepository {
     "    import re \n"+
 
     "    filin = open(\"userCode.py\", \"r\") \n"+
-    
-    "    for ligne in filin:\n"+     
-    "       ligne.replace(\"\\n\", \"\")\n"+     
-    "    print(filin)\n"+     
+    "    lignes = filin.readlines()\n"+   
+
+    "    for ligne in lignes:\n"+     
+    "       ligne.replace(\"\\n\", \"\")\n"+    
+
+    "    print(lignes)\n"+     
 
     "    payload = { \n"+
-    "        \"eval_variable_name\":excecEvalVariableName(filin), \n"+
-    "        \"eval_redondance\": excecEvalRedondance(filin), \n"+
-    "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(filin), \n"+
-    "        \"eval_commentaire\": excecEvalCommentaire(filin) \n"+
+    "        \"eval_variable_name\":excecEvalVariableName(lignes), \n"+
+    "        \"eval_redondance\": excecEvalRedondance(lignes), \n"+
+    "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(lignes), \n"+
+    "        \"eval_commentaire\": excecEvalCommentaire(lignes) \n"+
     "    } \n"+
     "    filin.close() \n"+
     "    print(payload) \n"

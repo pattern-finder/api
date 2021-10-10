@@ -260,9 +260,7 @@ def remove_comentary(lignes):
     return code_without_comentary
 
 
-def excecEvalVariableName(filin):
-
-    lignes = filin.readlines()
+def excecEvalVariableName(lignes):
     
     scopeCodeUser = False
     cpt = 0
@@ -274,7 +272,6 @@ def excecEvalVariableName(filin):
     lignes = remove_comentary(lignes)
 
     for ligne in lignes:
-            ligne.replace("\\n","")
 
           #  ligne = ligne.replace('\n', '')
 

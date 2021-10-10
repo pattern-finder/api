@@ -103,14 +103,13 @@ def remove_comentary(lignes):
     return code_without_comentary
 
 
-def excecEvalNbLigneFonction(filin):
+def excecEvalNbLigneFonction(lignes):
 
     listFunction = []
     listVariableRename = []
     lastListVariableRename = []
 
     listVarBlock = []
-    lignes = filin.readlines()
     
     scopeCodeUser = False
     firstInsert = False

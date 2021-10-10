@@ -215,19 +215,16 @@ def remove_comentary(lignes):
 
 
 
-def excecEvalVariableName(filin):
+def excecEvalVariableName(lignes):
 
-    lignes = filin.readlines()
     scopeCodeUser = False
     cpt = 0
 
     listVariable = []
 
     lignes = remove_comentary(lignes)
-    print(lignes)
 
     for ligne in lignes:
-            ligne.replace("\\n","")
             variables = ""
             variables = findVariableDeclare(ligne)
 

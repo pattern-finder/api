@@ -1,6 +1,5 @@
-def excecEvalCommentaire(filin):
+def excecEvalCommentaire(lignes):
 
-    lignes = filin.readlines()
     scopeCodeUser = False
 
     nbLigne = 0

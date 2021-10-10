@@ -1,6 +1,5 @@
-def excecEvalCommentaire(filin):
+def excecEvalCommentaire(lignes):
 
-    lignes = filin.readlines()
     scopeCodeUser = False
 
     nbligne = 0
@@ -8,7 +7,6 @@ def excecEvalCommentaire(filin):
     longComment = False
 
     for ligne in lignes:
-            ligne.replace("\\n","")
 
             if ligne != "":
               nbligne += 1

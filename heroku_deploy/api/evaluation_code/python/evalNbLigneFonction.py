@@ -79,14 +79,13 @@ def remove_comentary(lignes):
 
 
 
-def excecEvalNbLigneFonction(filin):
+def excecEvalNbLigneFonction(lignes):
 
     listFunction = []
     listVariableRename = []
     lastListVariableRename = []
 
     listVarBlock = []
-    lignes = filin.readlines()
 
     scopeCodeUser = False
     firstInsert = False
@@ -99,7 +98,6 @@ def excecEvalNbLigneFonction(filin):
     lignes = remove_comentary(lignes)
 
     for ligne in lignes:
-            ligne.replace("\\n","")
 
             lignesCompacte.append(ligne)
 

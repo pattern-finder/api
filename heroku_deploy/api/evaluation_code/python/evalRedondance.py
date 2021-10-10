@@ -413,14 +413,13 @@ def remove_comentary(lignes):
     return code_without_comentary
 
 
-def excecEvalRedondance(filin):
+def excecEvalRedondance(lignes):
 
     listFunction = []
     listVariableRename = []
     lastListVariableRename = []
 
     listVarBlock = []
-    lignes = filin.readlines()
 
     scopeCodeUser = False
     firstInsert = False
