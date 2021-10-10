@@ -90,12 +90,11 @@ export class GodBoxRepository {
    "from evalRedondanceCpp import excecEvalRedondance \n"+
    "from evalVariableNameCpp import excecEvalVariableName \n"+
    "if __name__ == '__main__': \n"+
-   "    code=\""+code+"\"  \n"+
    "    payload = { \n"+
-   "        \"eval_variable_name\":excecEvalVariableName(code), \n"+
-   "        \"eval_redondance\": excecEvalRedondance(code), \n"+
-   "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(code), \n"+
-   "        \"eval_commentaire\": excecEvalCommentaire(code) \n"+
+   "        \"eval_variable_name\":excecEvalVariableName(), \n"+
+   "        \"eval_redondance\": excecEvalRedondance(), \n"+
+   "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(), \n"+
+   "        \"eval_commentaire\": excecEvalCommentaire() \n"+
    "    } \n"+
    "    print(payload) \n"
    
@@ -104,6 +103,7 @@ export class GodBoxRepository {
     zip.addLocalFolder(`${ALGO_DIR}/${language.name}`, 'evaluation_code');
 
     zip.addFile(`main.py`, Buffer.from(main_algo));
+    zip.addFile(`userCode.py`, Buffer.from(code));
 
 
     return zip.toBuffer().toString('base64');

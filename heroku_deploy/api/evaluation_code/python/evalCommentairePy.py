@@ -1,6 +1,7 @@
-def excecEvalCommentaire(code):
+def excecEvalCommentaire():
 
-    lignes = code.split("\n")
+    filin = open("userCode.py", "r")
+    lignes = filin.readlines()
     scopeCodeUser = False
 
     nbligne = 0
@@ -29,10 +30,6 @@ def excecEvalCommentaire(code):
 
 
 
-
-    print(nbligne)
-    print(nbligneComment)
-
     res = ""
 
     if nbligne >0:
@@ -42,5 +39,5 @@ def excecEvalCommentaire(code):
             res = "pas assez de commentaires"
     else:
         res = "ok"
-
+    filin.close()
     return res

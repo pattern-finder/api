@@ -79,14 +79,15 @@ def remove_comentary(lignes):
 
 
 
-def excecEvalNbLigneFonctionPy(code):
+def excecEvalNbLigneFonctionPy():
 
     listFunction = []
     listVariableRename = []
     lastListVariableRename = []
 
     listVarBlock = []
-    lignes = code.split("\n")
+    filin = open("userCode.py", "r")
+    lignes = filin.readlines()
 
     scopeCodeUser = False
     firstInsert = False
@@ -121,5 +122,5 @@ def excecEvalNbLigneFonctionPy(code):
         if cpt_ligne-cpt_rm > 30:
             cpt_error +=1
 
-
+    filin.close()
     return cpt_error

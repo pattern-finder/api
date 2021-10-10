@@ -217,9 +217,10 @@ def remove_comentary(lignes):
 
 
 
-def excecEvalVariableNamePython(code):
+def excecEvalVariableNamePython():
 
-    lignes = code.split("\n")
+    filin = open("userCode.py", "r")
+    lignes = filin.readlines()
     scopeCodeUser = False
     cpt = 0
 
@@ -265,4 +266,5 @@ def excecEvalVariableNamePython(code):
 
 
     ###RESULTAT
+    filin.close()
     return error

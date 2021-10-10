@@ -456,15 +456,16 @@ def remove_comentary(lignes):
     return code_without_comentary
 
 
-def excecEvalRedondance(code):
+def excecEvalRedondance():
 
     listFunction = []
     listVariableRename = []
     lastListVariableRename = []
 
     listVarBlock = []
-    lignes = code.split("\n")
-
+    filin = open("userCode.py", "r")
+    lignes = filin.readlines()
+    
     scopeCodeUser = False
     firstInsert = False
     long_comment = False
@@ -544,6 +545,6 @@ def excecEvalRedondance(code):
     for block in blockCodes:
         if blockCodes[block] > 1:
             cptRedondance += blockCodes[block]-1
-
+    filin.close()
     return cptRedondance
 
