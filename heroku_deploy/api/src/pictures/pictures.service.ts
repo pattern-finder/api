@@ -72,10 +72,15 @@ export class PicturesService {
   }
 
   async findInternalUrlsByChallenge(
-    challenge: string,
+    challenge_id: string,
   ): Promise<PictureUrlDTO[]> {
+
+
+    var mongo = require('mongodb');
+    var o_id = new mongo.ObjectID(challenge_id);
+    
     const pictures = (
-      await this.pictureModel.find({ challenge }, 'url').exec()
+      await this.pictureModel.find({ o_id: o_id }).exec()
     ).map((picture) => {
       const pictureObject = picture.toObject();
       return {
