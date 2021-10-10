@@ -93,10 +93,15 @@ export class GodBoxRepository {
     "if __name__ == '__main__': \n"+
 
     "    import os \n"+
+    "    import re \n"+
+
     "    print(os.listdir('./')) \n"+
     "    print(os.listdir('./evaluation_code')) \n"+
+    "    filin = open(\"userCode.py\", \"r\") \n"+
+
+    
     "    payload = { \n"+
-    "        \"eval_variable_name\":excecEvalVariableName(), \n"+
+    "        \"eval_variable_name\":excecEvalVariableName(filin), \n"+
     "        \"eval_redondance\": excecEvalRedondance(), \n"+
     "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(), \n"+
     "        \"eval_commentaire\": excecEvalCommentaire() \n"+
@@ -105,7 +110,7 @@ export class GodBoxRepository {
 
 
     zip.addLocalFolder(`${ALGO_DIR}/${language.name}`, 'evaluation_code');
-    zip.addFile(`evaluation_code/userCode.py`, Buffer.from(code));
+    zip.addFile(`userCode.py`, Buffer.from(code));
     zip.addFile(`main.py`, Buffer.from(exec_algo));
 
 

@@ -1,7 +1,4 @@
 import re
-from userCode import *
-
-
 
 def findVariableInFuction(line):
     listVariable = []
@@ -218,10 +215,9 @@ def remove_comentary(lignes):
 
 
 
-def excecEvalVariableName():
+def excecEvalVariableName(filin):
     import os
-    os.path.join(os.path.abspath(__file__), "userCode.py")
-    filin = open("userCode.py", "r")
+
     lignes = filin.readlines()
     scopeCodeUser = False
     cpt = 0
