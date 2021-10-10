@@ -86,18 +86,21 @@ export class GodBoxRepository {
     const zip = new AdmZip();
 
     const exec_algo = 
-    "from evaluation_code."+language.name+".evalNbLigneFonction import excecEvalNbLigneFonction \n"+
-    "from evaluation_code."+language.name+".evalCommentaire import excecEvalCommentaire \n"+
-    "from evaluation_code."+language.name+".evalRedondance import excecEvalRedondance \n"+
-    "from evaluation_code."+language.name+".evalVariableName import excecEvalVariableName \n"+
+    "from evaluation_code.evalNbLigneFonction import excecEvalNbLigneFonction \n"+
+    "from evaluation_code.evalCommentaire import excecEvalCommentaire \n"+
+    "from evaluation_code.evalRedondance import excecEvalRedondance \n"+
+    "from evaluation_code.evalVariableName import excecEvalVariableName \n"+
     "if __name__ == '__main__': \n"+
-    "    payload = { \n"+
-    "        \"eval_variable_name\":excecEvalVariableName(), \n"+
-    "        \"eval_redondance\": excecEvalRedondance(), \n"+
-    "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(), \n"+
-    "        \"eval_commentaire\": excecEvalCommentaire() \n"+
-    "    } \n"+
-    "    print(payload) \n"+
+
+    "    import os \n"+
+    "    print(os.listdir('.')) \n"+
+    "   # payload = { \n"+
+    "   #     \"eval_variable_name\":excecEvalVariableName(), \n"+
+    "   #     \"eval_redondance\": excecEvalRedondance(), \n"+
+    "   #     \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(), \n"+
+    "   #     \"eval_commentaire\": excecEvalCommentaire() \n"+
+    "   # } \n"+
+    "  #  print(payload) \n"+
 
 
     zip.addLocalFolder(`${ALGO_DIR}/${language.name}`, 'evaluation_code');
