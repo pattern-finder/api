@@ -52,10 +52,10 @@ export class PicturesService {
    // console.log("challenge OK")
     //console.log(challenge)
    // console.log("findExternalUrlsByChallenge OK")
-        console.log(challenge)
-        console.log(picture.challenge)
+      //  console.log(challenge)
+     //   console.log(picture.challenge)
         if(challenge==picture.challenge){
-          console.log("EQUIVALENT")
+       //   console.log("EQUIVALENT")
           return picture.toObject();
 
         }
