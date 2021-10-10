@@ -1,6 +1,5 @@
-def excecEvalCommentaire():
+def excecEvalCommentaire(filin):
 
-    filin = open("userCode.py", "r")
     lignes = filin.readlines()
     scopeCodeUser = False
 

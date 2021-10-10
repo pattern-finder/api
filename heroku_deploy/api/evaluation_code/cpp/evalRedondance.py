@@ -456,14 +456,13 @@ def remove_comentary(lignes):
     return code_without_comentary
 
 
-def excecEvalRedondance():
+def excecEvalRedondance(filin):
 
     listFunction = []
     listVariableRename = []
     lastListVariableRename = []
 
     listVarBlock = []
-    filin = open("userCode.py", "r")
     lignes = filin.readlines()
     
     scopeCodeUser = False

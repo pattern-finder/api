@@ -260,9 +260,8 @@ def remove_comentary(lignes):
     return code_without_comentary
 
 
-def excecEvalVariableName():
+def excecEvalVariableName(filin):
 
-    filin = open("./userCode.py", "r")
     lignes = filin.readlines()
     
     scopeCodeUser = False

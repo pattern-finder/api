@@ -102,9 +102,9 @@ export class GodBoxRepository {
     
     "    payload = { \n"+
     "        \"eval_variable_name\":excecEvalVariableName(filin), \n"+
-    "        \"eval_redondance\": excecEvalRedondance(), \n"+
-    "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(), \n"+
-    "        \"eval_commentaire\": excecEvalCommentaire() \n"+
+    "        \"eval_redondance\": excecEvalRedondance(filin), \n"+
+    "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(filin), \n"+
+    "        \"eval_commentaire\": excecEvalCommentaire(filin) \n"+
     "    } \n"+
     "    print(payload) \n"+
 
