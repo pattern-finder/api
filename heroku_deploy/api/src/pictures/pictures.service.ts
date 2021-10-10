@@ -39,30 +39,26 @@ export class PicturesService {
   }
 
   async findExternalUrlsByChallenge(
-    string_challenge: string,
+    challenge: string,
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
   //  console.log("findExternalUrlsByChallenge OK")
    // console.log(this.objectStorageService)
   //  console.log("objectStorageService ci dessus")
-  const challenge = Types.ObjectId(string_challenge)
+  
   const picturesList = (await this.pictureModel.find().exec()).map((picture) =>{
   //  console.log("picture.challenge OK")
   //  console.log(picture.challenge)
    // console.log("challenge OK")
     //console.log(challenge)
    // console.log("findExternalUrlsByChallenge OK")
-   console.log(typeof challenge)
-   console.log(typeof picture.challenge)
-   // if (picture.challenge == id_challenge){
-        console.log("INSERT")
+
         picture.toObject();
-   // }
   }
   )
 
 
-  console.log("Challenge LIST ci dessous v11")
+  console.log("Challenge LIST ci dessous v10")
 
   console.log(picturesList)
 
