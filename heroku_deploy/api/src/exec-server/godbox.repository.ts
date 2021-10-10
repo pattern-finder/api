@@ -104,7 +104,7 @@ export class GodBoxRepository {
 
 
     zip.addLocalFolder(`${ALGO_DIR}/${language.name}`, 'evaluation_code');
-    zip.addFile(`userCode.py`, Buffer.from(code));
+    zip.addFile(`evaluation_code/userCode.py`, Buffer.from(code));
     zip.addFile(`main.py`, Buffer.from(exec_algo));
 
 
