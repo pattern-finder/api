@@ -86,10 +86,10 @@ export class GodBoxRepository {
     const zip = new AdmZip();
 
     const exec_algo = 
-    "from evalNbLigneFonction import excecEvalNbLigneFonction \n"+
-    "from evalCommentaire import excecEvalCommentaire \n"+
-    "from evalRedondance import excecEvalRedondance \n"+
-    "from evalVariableName import excecEvalVariableName \n"+
+    "from evaluation_code."+language.name+".evalNbLigneFonction import excecEvalNbLigneFonction \n"+
+    "from evaluation_code."+language.name+".evalCommentaire import excecEvalCommentaire \n"+
+    "from evaluation_code."+language.name+".evalRedondance import excecEvalRedondance \n"+
+    "from evaluation_code."+language.name+".evalVariableName import excecEvalVariableName \n"+
     "if __name__ == '__main__': \n"+
     "    payload = { \n"+
     "        \"eval_variable_name\":excecEvalVariableName(), \n"+
@@ -100,7 +100,6 @@ export class GodBoxRepository {
     "    print(payload) \n"+
 
 
-        
     zip.addLocalFolder(`${ALGO_DIR}/${language.name}`, 'evaluation_code');
     zip.addFile(`userCode.py`, Buffer.from(code));
     zip.addFile(`main.py`, Buffer.from(exec_algo));
