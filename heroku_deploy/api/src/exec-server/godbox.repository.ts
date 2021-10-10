@@ -94,6 +94,7 @@ export class GodBoxRepository {
 
     "    import os \n"+
     "    print(os.listdir('./')) \n"+
+    "    print(os.listdir('./evaluation_code')) \n"+
     "    payload = { \n"+
     "        \"eval_variable_name\":excecEvalVariableName(), \n"+
     "        \"eval_redondance\": excecEvalRedondance(), \n"+
