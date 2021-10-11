@@ -217,7 +217,7 @@ def remove_comentary(lignes):
 
 
 
-def excecEvalVariableNamePython(lignes):
+def excecEvalVariableName(lignes):
 
     scopeCodeUser = False
     cpt = 0
