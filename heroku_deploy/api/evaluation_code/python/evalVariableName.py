@@ -169,7 +169,7 @@ def findVariableFromList(line):
 
 
 def switch(variable):
-    print(variable)
+
     switcher = {
         len(variable) == 1: 1,              #teste si une varaible contient plus d'une lettre
         variable.lower() != variable and re.search(r'[A-Z]{' + str(len(variable)) + ',}',variable) == None : 1,  #teste si une varaible commence par une majuscule
@@ -225,8 +225,6 @@ def excecEvalVariableName(lignes):
     lignes = remove_comentary(lignes)
 
     for ligne in lignes:
-            print(ligne)
-            ligne = ligne.replace('\\n', '')
 
             variables = ""
             variables = findVariableDeclare(ligne)
@@ -240,8 +238,6 @@ def excecEvalVariableName(lignes):
 
 
 
-            print("variables")
-            print(listVariable)
 
             variable = ""
             functionListVariable = findVariableInFuction(ligne)
@@ -261,7 +257,6 @@ def excecEvalVariableName(lignes):
 
 
     error = 0
-    print(listVariable)
     for var in listVariable:
         error = error + switch(var)
 
