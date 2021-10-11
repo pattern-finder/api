@@ -154,7 +154,7 @@ def findVariableFromList(line):
                         findSpace = False
                         variable = ""
 
-                    variable += ligne[i]
+                    variable += line[i]
 
                 else:
                     findSpace = True
