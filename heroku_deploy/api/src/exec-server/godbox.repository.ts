@@ -104,7 +104,6 @@ export class GodBoxRepository {
     "       new_lignes.append(ligne)\n"+   
 
     "    lignes  =  new_lignes\n"+  
-    "    print(lignes)\n"+     
 
     "    payload = { \n"+
     "        \"eval_variable_name\":excecEvalVariableName(lignes), \n"+

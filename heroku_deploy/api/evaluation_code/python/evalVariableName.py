@@ -169,6 +169,7 @@ def findVariableFromList(line):
 
 
 def switch(variable):
+    print(variable)
     switcher = {
         len(variable) == 1: 1,              #teste si une varaible contient plus d'une lettre
         variable.lower() != variable and re.search(r'[A-Z]{' + str(len(variable)) + ',}',variable) == None : 1,  #teste si une varaible commence par une majuscule
@@ -181,10 +182,8 @@ def switch(variable):
 
 
 def remove_comentary(lignes):
-    """
-    :param liste_variable: représente la liste des variables du code
-    :return: retourne la liste des variables après avoir ajouté un espace après le type de la variable. Permet de différencier les types Matrice et collection<Matrice>
-    """
+
+
     long_comment = False
     code_without_comentary = []
 
@@ -216,7 +215,6 @@ def remove_comentary(lignes):
 
 
 
-
 def excecEvalVariableName(lignes):
 
     scopeCodeUser = False
@@ -232,6 +230,7 @@ def excecEvalVariableName(lignes):
             variables = ""
             variables = findVariableDeclare(ligne)
 
+
             for variable in variables:
 
                 if variables != "" and variable not in listVariable:
@@ -239,6 +238,9 @@ def excecEvalVariableName(lignes):
                         listVariable.append(variable)
 
 
+
+            print("variables")
+            print(listVariable)
 
             variable = ""
             functionListVariable = findVariableInFuction(ligne)
