@@ -1,5 +1,7 @@
 import re
 
+
+
 def findVariableInFuction(line):
     listVariable = []
     variable = ""
@@ -152,7 +154,7 @@ def findVariableFromList(line):
                         findSpace = False
                         variable = ""
 
-                    variable += line[i]
+                    variable += ligne[i]
 
                 else:
                     findSpace = True
@@ -215,7 +217,7 @@ def remove_comentary(lignes):
 
 
 
-def excecEvalVariableName(lignes):
+def excecEvalVariableNamePython(lignes):
 
     scopeCodeUser = False
     cpt = 0
@@ -225,6 +227,8 @@ def excecEvalVariableName(lignes):
     lignes = remove_comentary(lignes)
 
     for ligne in lignes:
+            print(ligne)
+
             variables = ""
             variables = findVariableDeclare(ligne)
 
@@ -254,9 +258,8 @@ def excecEvalVariableName(lignes):
 
 
     error = 0
+    print(listVariable)
     for var in listVariable:
         error = error + switch(var)
 
-
-    ###RESULTAT
     return error
