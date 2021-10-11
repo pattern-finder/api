@@ -226,6 +226,7 @@ def excecEvalVariableName(lignes):
 
     for ligne in lignes:
             print(ligne)
+            ligne = ligne.replace('\\n', '')
 
             variables = ""
             variables = findVariableDeclare(ligne)
