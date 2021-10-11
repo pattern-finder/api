@@ -98,9 +98,12 @@ export class GodBoxRepository {
     "    filin = open(\"userCode.py\", \"r\") \n"+
     "    lignes = filin.readlines()\n"+   
 
+    "    new_lignes = []\n"+  
     "    for ligne in lignes:\n"+     
     "       ligne.replace(\"\\n\", \"\")\n"+    
+    "       new_lignes.append(ligne)\n"+   
 
+    "    lignes  =  new_lignes\n"+  
     "    print(lignes)\n"+     
 
     "    payload = { \n"+
