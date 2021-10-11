@@ -44,7 +44,8 @@ export class AttemptsService {
       execBootstrap,
     );
 
-    console.log(execResultsAlgoEvaluation)
+    console.log(execResultsAlgoEvaluation["stdout"])
+    execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
 
     const attempt = (
       await new this.attemptModel({
