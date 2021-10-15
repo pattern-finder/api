@@ -90,7 +90,7 @@ export class GodBoxRepository {
     "from evaluation_code.evalCommentaire import excecEvalCommentaire \n"+
     "from evaluation_code.evalRedondance import excecEvalRedondance \n"+
     "from evaluation_code.evalVariableName import excecEvalVariableName \n"+
-    "from evaluation_code.excecEvalPlagiat import evalPlagiat \n"+
+    "from evaluation_code.evalPlagiat import excecEvalPlagiat \n"+
     "if __name__ == '__main__': \n"+
     "    import os \n"+
     "    import re \n"+
