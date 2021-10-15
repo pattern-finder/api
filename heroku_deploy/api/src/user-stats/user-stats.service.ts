@@ -22,8 +22,7 @@ export class UserStatsService {
     userIdDTO: FindByIdDTO,
   ): Promise<UserDefaultSeriesStatsDTO> {
     const defaultSeries = await this.seriesService.findDefaultSeries();
-    console.log("defaultSeries")
-    console.log(defaultSeries)
+
 
     const attemptsToStats = async (
       challengeId: string,
@@ -41,7 +40,7 @@ export class UserStatsService {
 
         console.log("challenge")
         console.log(challenge)
-        
+
         console.log("attempts")
         console.log(attempts)
 
