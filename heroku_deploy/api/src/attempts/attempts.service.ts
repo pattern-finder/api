@@ -43,9 +43,11 @@ export class AttemptsService {
       insertAttemptDTO.code,
       execBootstrap,
     );
+    console.log("COUCOUTEST ALGO")
 
     console.log(execResultsAlgoEvaluation["stdout"])
-    execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
+
+   // execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
 
     const attempt = (
       await new this.attemptModel({
