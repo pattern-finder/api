@@ -8,6 +8,8 @@ export class UserStatsController {
 
   @Get('default_series/:id')
   async completion(@Param() userIdObject: FindByIdDTO) {
+    console.log("userIdObject")
+    console.log(userIdObject)
     return await this.userStatsService.getCompletion(userIdObject);
   }
 
