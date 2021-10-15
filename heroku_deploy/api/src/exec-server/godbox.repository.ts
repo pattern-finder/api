@@ -90,6 +90,8 @@ export class GodBoxRepository {
     "from evaluation_code.evalCommentaire import excecEvalCommentaire \n"+
     "from evaluation_code.evalRedondance import excecEvalRedondance \n"+
     "from evaluation_code.evalVariableName import excecEvalVariableName \n"+
+    "from evaluation_code.evalPlagiat import excecEvalPlagiat \n"+
+
     "if __name__ == '__main__': \n"+
 
     "    import os \n"+
@@ -110,6 +112,7 @@ export class GodBoxRepository {
     "        \"eval_redondance\": excecEvalRedondance(lignes), \n"+
     "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(lignes), \n"+
     "        \"eval_commentaire\": excecEvalCommentaire(lignes) \n"+
+    "        \"eval_plagiat\": excecEvalPlagiat(lignes) \n"+
     "    } \n"+
     "    filin.close() \n"+
     "    print(payload) \n"
