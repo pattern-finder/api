@@ -534,7 +534,7 @@ def excecEvalPlagiat(code):
     lastListVariableRename = []
 
     listVarBlock = []
-    
+
     scopeCodeUser = False
     firstInsert = False
 
@@ -543,7 +543,7 @@ def excecEvalPlagiat(code):
     functionCode = ""
     listVarToRename = []
 
-    lignes = remove_comentary(lignes)
+    lignes = remove_comentary(code)
 
     for ligne in lignes:
 
