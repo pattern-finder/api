@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AttemptsController } from './attempts.controller';
 import { Attempt, AttemptSchema } from './attempt.schema';
-import { CodePlagiat, CodePlagiatSchema } from './evalPlagiat.schema';
 import { AttemptsService } from './attempts.service';
 import { ChallengesModule } from 'src/challenges/challenges.module';
 import { ExecServerModule } from 'src/exec-server/exec-server.module';
