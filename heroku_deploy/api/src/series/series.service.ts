@@ -49,7 +49,7 @@ export class SeriesService {
   }
 
   async findDefaultSeries(): Promise<Serie[]> {
-    return (await this.seriesModel.find({ isCourse: true }).exec()).map((a) =>
+    return (await this.seriesModel.find({ name: "default" }).exec()).map((a) =>
       a.toObject(),
     );
   }
@@ -58,7 +58,7 @@ export class SeriesService {
 
     console.log("createSerieDTO")
     console.log(createSerieDTO)
-    
+
     if (await this.findByName(createSerieDTO.name)) {
 
       throw new UnprocessableEntityException(
