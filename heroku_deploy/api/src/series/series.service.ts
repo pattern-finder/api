@@ -55,10 +55,11 @@ export class SeriesService {
   }
 
   async create(createSerieDTO: InsertSerieDTO): Promise<Serie> {
-    if (await this.findByName(createSerieDTO.name)) {
 
-      console.log("createSerieDTO")
-      console.log(createSerieDTO)
+    console.log("createSerieDTO")
+    console.log(createSerieDTO)
+    
+    if (await this.findByName(createSerieDTO.name)) {
 
       throw new UnprocessableEntityException(
         `Serie name ${createSerieDTO.name} has already been taken.`,
