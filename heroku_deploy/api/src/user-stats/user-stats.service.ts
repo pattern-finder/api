@@ -41,8 +41,10 @@ export class UserStatsService {
 
         console.log("challenge")
         console.log(challenge)
+        
         console.log("attempts")
         console.log(attempts)
+
       let bestTime: number;
       if (attempts.length > 0) {
         bestTime = attempts.reduce((prev, next) =>
