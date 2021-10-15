@@ -534,8 +534,7 @@ def excecEvalPlagiat(code):
     lastListVariableRename = []
 
     listVarBlock = []
-    lignes = code.split("\n")
-
+    
     scopeCodeUser = False
     firstInsert = False
 
