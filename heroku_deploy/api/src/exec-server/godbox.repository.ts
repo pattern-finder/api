@@ -90,29 +90,21 @@ export class GodBoxRepository {
     "from evaluation_code.evalCommentaire import excecEvalCommentaire \n"+
     "from evaluation_code.evalRedondance import excecEvalRedondance \n"+
     "from evaluation_code.evalVariableName import excecEvalVariableName \n"+
-    "from evaluation_code.evalPlagiat import excecEvalPlagiat \n"+
-
     "if __name__ == '__main__': \n"+
-
     "    import os \n"+
     "    import re \n"+
-
     "    filin = open(\"userCode.py\", \"r\") \n"+
     "    lignes = filin.readlines()\n"+   
-
     "    new_lignes = []\n"+  
     "    for ligne in lignes:\n"+     
     "       ligne.replace(\"\\n\", \"\")\n"+    
     "       new_lignes.append(ligne)\n"+   
-
     "    lignes  =  new_lignes\n"+  
-
     "    payload = { \n"+
     "        \"eval_variable_name\":excecEvalVariableName(lignes), \n"+
     "        \"eval_redondance\": excecEvalRedondance(lignes), \n"+
     "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(lignes), \n"+
     "        \"eval_commentaire\": excecEvalCommentaire(lignes) \n"+
-    "        \"eval_plagiat\": excecEvalPlagiat(lignes) \n"+
     "    } \n"+
     "    filin.close() \n"+
     "    print(payload) \n"
