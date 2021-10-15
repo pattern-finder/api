@@ -1,7 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { User } from 'src/users/user.schema';
-import { Document, Types } from 'mongoose';
-import { ExecBootstrap } from 'src/exec-bootstrap/exec-bootstrap.schema';
+import { Document} from 'mongoose';
 
 export type CodePlagiatDocument = CodePlagiat & Document;
 
