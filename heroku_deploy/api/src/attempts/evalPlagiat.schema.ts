@@ -3,7 +3,7 @@ import { User } from 'src/users/user.schema';
 import { Document, Types } from 'mongoose';
 import { ExecBootstrap } from 'src/exec-bootstrap/exec-bootstrap.schema';
 
-export type AttemptDocument = CodePlagiat & Document;
+export type CodePlagiatDocument = CodePlagiat & Document;
 
 @Schema()
 export class CodePlagiat {
