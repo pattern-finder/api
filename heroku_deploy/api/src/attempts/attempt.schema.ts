@@ -22,6 +22,9 @@ export class Attempt {
   phase: string;
 
   @Prop()
+  result: boolean;
+
+  @Prop()
   status: number;
 
   @Prop()
