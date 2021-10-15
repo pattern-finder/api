@@ -1,26 +1,18 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document} from 'mongoose';
+import { Document } from 'mongoose';
 
-export type CodePlagiatDocument = CodePlagiat & Document;
+export type CatDocument = Cat & Document;
 
 @Schema()
-export class CodePlagiat {
-  _id?: string;
-
-  @Prop({ required: true })
-  userId: string;
-
-  @Prop({ required: true })
-  exercice: string;
-
-  @Prop({ required: true })
-  code: string;
+export class Cat {
+  @Prop()
+  name: string;
 
   @Prop()
-  createdAt: Date;
+  age: number;
 
   @Prop()
-  deletedAt?: Date;
+  breed: string;
 }
 
-export const CodePlagiatSchema = SchemaFactory.createForClass(CodePlagiat);
+export const CatSchema = SchemaFactory.createForClass(Cat);
