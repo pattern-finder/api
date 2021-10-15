@@ -175,6 +175,8 @@ export class GodBoxRepository {
       files: await this.bundleExecEvaluationCode(code, language),
     };
 
+    console.log(payload)
+
     try {
       const { data }: { data: { phases: GodboxPhaseOutputDTO[] } } =
         await axios.post(`${godboxConfig.baseUrl}/run`, payload);
