@@ -12,7 +12,6 @@ import { ExecBootstrapsModule } from 'src/exec-bootstrap/exec-bootstraps.module'
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Attempt.name, schema: AttemptSchema }]),
-    MongooseModule.forFeature([{ name: CodePlagiat.name, schema: CodePlagiatSchema }]),
     ChallengesModule,
     ExecServerModule,
     LanguagesModule,
