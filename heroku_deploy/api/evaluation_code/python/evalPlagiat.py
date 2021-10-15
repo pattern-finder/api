@@ -1,591 +1,582 @@
 import re
 
-# PATERN_VARIABLE = [
-#     r'[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{1,}\s*',
-#     r'[A-Za-z0-9_]{1,}\s{0,}<[A-Za-z0-9_]{1,}>\s{0,}[A-Za-z0-9_]{1,}',
-#     r'[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{1,}',
+PATERN_VARIABLE = [
+    r'[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{1,}\s*',
+    r'[A-Za-z0-9_]{1,}\s{0,}<[A-Za-z0-9_]{1,}>\s{0,}[A-Za-z0-9_]{1,}',
+    r'[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{1,}',
+
+    r'[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{1,}\s{0,};',
+    r'[A-Za-z0-9_]{1,}\s*<[A-Za-z0-9_]{1,}>\s*[A-Za-z0-9_]{0,};',
+    r'[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{0,};',
+]
+
+
+
+
+
+
+dico_stemming = {
+    "def": "d",
+    "while": "w",
+    "for": "f",
+    "if": "i",
+    "elif": "ei",
+    "else": "e",
+    "<=": "c",
+    ">=": "c",
+    "<": "c",
+    ">": "c",
+    "def": "d",
+    "!=": "!",
+    "==": "-",
+    "and": "&",
+    "or": "|",
+    "var": "v",
+    "del": "d",
+    "from": "w",
+    "not": "n",
+    "while": "w",
+    "assert": "as",
+    "global": "gl",
+    "as": "as",
+    "break": "bk",
+    "continue": "ct",
+    "lambda": "lb",
+    "try": "t",
+    "with": "wh",
+    "except": "ex",
+    "pass": "ps",
+    "yield": "y",
+    "import": "ip",
+    "finally": "fn",
+    "class": "cl",
+    "raise": "rs",
+    "exec": "ex",
+    "is": "is",
+    "in": "in",
+    "print": "",
+    "True": "tr",
+    "False": "fl",
+}
 
-#     r'[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{1,}\s{0,};',
-#     r'[A-Za-z0-9_]{1,}\s*<[A-Za-z0-9_]{1,}>\s*[A-Za-z0-9_]{0,};',
-#     r'[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{0,};',
-# ]
+dico_supression = {
+    " ": "",
+    "{": "",
+    "}": "",
+    "(": "",
+    ")": "",
+    ";": "",
+    ":": ""
 
+}
 
 
+def delete_string(ligne):
+    delete = False
+    list_chain_to_remove = []
 
+    if ligne.count("\"") > 0:
 
+        i = 0
+        chain_to_remove = ""
 
+        while i < len(ligne):
 
+            if ligne[i] == '\"':
+                list_chain_to_remove.append(chain_to_remove)
+                chain_to_remove = ""
+                delete = not delete
 
+            if delete and ligne[i] != '"':
+                chain_to_remove = chain_to_remove + ligne[i]
 
+            i += 1
 
+    for chain in list_chain_to_remove:
+        ligne = ligne.replace(chain, "")
 
+    ligne = ligne.replace("\"\"", "\"")
 
+    return ligne
 
 
-# dico_stemming = {
-#     "def": "d",
-#     "while": "w",
-#     "for": "f",
-#     "if": "i",
-#     "elif": "ei",
-#     "else": "e",
-#     "<=": "c",
-#     ">=": "c",
-#     "<": "c",
-#     ">": "c",
-#     "def": "d",
-#     "!=": "!",
-#     "==": "-",
-#     "and": "&",
-#     "or": "|",
-#     "var": "v",
-#     "del": "d",
-#     "from": "w",
-#     "not": "n",
-#     "while": "w",
-#     "assert": "as",
-#     "global": "gl",
-#     "as": "as",
-#     "break": "bk",
-#     "continue": "ct",
-#     "lambda": "lb",
-#     "try": "t",
-#     "with": "wh",
-#     "except": "ex",
-#     "pass": "ps",
-#     "yield": "y",
-#     "import": "ip",
-#     "finally": "fn",
-#     "class": "cl",
-#     "raise": "rs",
-#     "exec": "ex",
-#     "is": "is",
-#     "in": "in",
-#     "print": "",
-#     "True": "tr",
-#     "False": "fl",
-# }
+def replace_by_new_content(ligne):
+    for key in dico_stemming:
+        ligne = ligne.replace(key, dico_stemming[key])
 
-# dico_supression = {
-#     " ": "",
-#     "{": "",
-#     "}": "",
-#     "(": "",
-#     ")": "",
-#     ";": "",
-#     ":": ""
+    return ligne
 
-# }
 
+def delete_unuse_content(ligne):
+    for key in dico_supression:
+        ligne = ligne.replace(key, dico_supression[key])
 
-# def delete_string(ligne):
-#     delete = False
-#     list_chain_to_remove = []
+    return ligne
 
-#     if ligne.count("\"") > 0:
 
-#         i = 0
-#         chain_to_remove = ""
+def sanitize_content(ligne):
+    filtered_content = ""
 
-#         while i < len(ligne):
+    ligne = delete_string(ligne)
+    filtered_content = filtered_content + (replace_by_new_content(ligne))
+    filtered_content = delete_unuse_content(filtered_content)
 
-#             if ligne[i] == '\"':
-#                 list_chain_to_remove.append(chain_to_remove)
-#                 chain_to_remove = ""
-#                 delete = not delete
+    return filtered_content
 
-#             if delete and ligne[i] != '"':
-#                 chain_to_remove = chain_to_remove + ligne[i]
 
-#             i += 1
 
-#     for chain in list_chain_to_remove:
-#         ligne = ligne.replace(chain, "")
+def findVariableInFuction(line):
+    listVariable = []
+    variable = ""
 
-#     ligne = ligne.replace("\"\"", "\"")
+    i = 0
+    if line.count('def') > 0:
+        start = False
+        end = False
 
-#     return ligne
+        while i < len(line):
 
+            if line[i] == "(":
+                start = True
+                i=i+1
 
-# def replace_by_new_content(ligne):
-#     for key in dico_stemming:
-#         ligne = ligne.replace(key, dico_stemming[key])
 
-#     return ligne
+            if start and not end:
 
+                if line[i] != "," and line[i] != ")":
 
-# def delete_unuse_content(ligne):
-#     for key in dico_supression:
-#         ligne = ligne.replace(key, dico_supression[key])
+                    if line[i] != " ":
+                        variable += line[i]
 
-#     return ligne
+                else:
+                    listVariable.append(variable)
+                    variable = ""
 
+            if line[i] == ")":
+                end = True
 
-# def sanitize_content(ligne):
-#     filtered_content = ""
+            i +=1
 
-#     ligne = delete_string(ligne)
-#     filtered_content = filtered_content + (replace_by_new_content(ligne))
-#     filtered_content = delete_unuse_content(filtered_content)
+    return listVariable
 
-#     return filtered_content
 
 
 
-# def findVariableInFuction(line):
-#     listVariable = []
-#     variable = ""
+def findVariableDeclare(ligne):
+    listVariable = []
 
-#     i = 0
-#     if line.count('def') > 0:
-#         start = False
-#         end = False
+    if "=" in ligne:
+        i = 0
+        find = False
 
-#         while i < len(line):
+        while i < len(ligne) and not find:
+            if ligne[i] == "=":
 
-#             if line[i] == "(":
-#                 start = True
-#                 i=i+1
+                notFind = True
+                findSeparator = True
+                permissionParcourtWord = False
 
+                k = i
+                var = ""
+                while k > 0 and notFind:
 
-#             if start and not end:
+                    if ligne[k] == " ":
+                        permissionParcourtWord = False
 
-#                 if line[i] != "," and line[i] != ")":
+                        if var != "":
+                            listVariable.append(var)
+                            var = ""
 
-#                     if line[i] != " ":
-#                         variable += line[i]
+                    if ligne[k] == ",":
 
-#                 else:
-#                     listVariable.append(variable)
-#                     variable = ""
+                        findSeparator = True
+                        permissionParcourtWord = False
 
-#             if line[i] == ")":
-#                 end = True
+                        if var != "":
+                            listVariable.append(var)
+                            var = ""
 
-#             i +=1
 
-#     return listVariable
+                    if ligne[k] != "," and ligne[k] != " " and k != i:
 
+                        if findSeparator or permissionParcourtWord:
+                            findSeparator = False
+                            permissionParcourtWord = True
+                            var = ligne[k]+var
 
+                        else:
+                            notFind = False
 
+                    k -= 1
 
-# def findVariableDeclare(ligne):
-#     listVariable = []
+            i += 1
 
-#     if "=" in ligne:
-#         i = 0
-#         find = False
+    if " in " in ligne:
+        findIn = False
+        notFind = True
+        permissionParcourtWord = False
 
-#         while i < len(ligne) and not find:
-#             if ligne[i] == "=":
+        p = 0
+        while p < len(ligne) and notFind:
+            if len(ligne) > p + 3:
+                if ligne[p] == " ":
+                    if ligne[p+1] == "i":
+                        if ligne[p + 2] == "n":
+                            if ligne[p + 3] == " ":
+                                findIn = True
 
-#                 notFind = True
-#                 findSeparator = True
-#                 permissionParcourtWord = False
+            if findIn:
+                var = ""
+                m=p
+                while m > 0:
 
-#                 k = i
-#                 var = ""
-#                 while k > 0 and notFind:
+                    if ligne[m] != " ":
+                        if not permissionParcourtWord:
+                            permissionParcourtWord = True
 
-#                     if ligne[k] == " ":
-#                         permissionParcourtWord = False
+                    elif permissionParcourtWord:
+                        notFind = False
+                        permissionParcourtWord = False
 
-#                         if var != "":
-#                             listVariable.append(var)
-#                             var = ""
+                        if var != "" and var not in listVariable:
+                            listVariable.append(var)
 
-#                     if ligne[k] == ",":
+                    if permissionParcourtWord and notFind:
+                        var = ligne[m]+var
 
-#                         findSeparator = True
-#                         permissionParcourtWord = False
 
-#                         if var != "":
-#                             listVariable.append(var)
-#                             var = ""
 
+                    m -=1
 
-#                     if ligne[k] != "," and ligne[k] != " " and k != i:
+            p +=1
 
-#                         if findSeparator or permissionParcourtWord:
-#                             findSeparator = False
-#                             permissionParcourtWord = True
-#                             var = ligne[k]+var
 
-#                         else:
-#                             notFind = False
 
-#                     k -= 1
+    return listVariable
 
-#             i += 1
 
-#     if " in " in ligne:
-#         findIn = False
-#         notFind = True
-#         permissionParcourtWord = False
+def update_block(newBlock, blockCodes):
+    if newBlock in blockCodes:
+        blockCodes[newBlock] += 1
 
-#         p = 0
-#         while p < len(ligne) and notFind:
-#             if len(ligne) > p + 3:
-#                 if ligne[p] == " ":
-#                     if ligne[p+1] == "i":
-#                         if ligne[p + 2] == "n":
-#                             if ligne[p + 3] == " ":
-#                                 findIn = True
+    else:
+        blockCodes.update({newBlock: 1})
 
-#             if findIn:
-#                 var = ""
-#                 m=p
-#                 while m > 0:
+    return blockCodes
 
-#                     if ligne[m] != " ":
-#                         if not permissionParcourtWord:
-#                             permissionParcourtWord = True
 
-#                     elif permissionParcourtWord:
-#                         notFind = False
-#                         permissionParcourtWord = False
+def find_indentation(line):
 
-#                         if var != "" and var not in listVariable:
-#                             listVariable.append(var)
+    cpt = 0
+    while cpt < len(line):
 
-#                     if permissionParcourtWord and notFind:
-#                         var = ligne[m]+var
+        symbole = line[cpt]
 
+        if symbole == " ":
+            cpt +=1
 
+        elif symbole == "":
+            return 0
 
-#                     m -=1
+        elif symbole == "\n":
+            return 0
 
-#             p +=1
+        elif symbole == "#":
+            return 0
 
+        else:
+            return cpt
 
 
-#     return listVariable
+    return cpt
 
 
-# def update_block(newBlock, blockCodes):
-#     if newBlock in blockCodes:
-#         blockCodes[newBlock] += 1
+def find_block(code):
+    """
+    :param: line: représente le code à analyser
+    :return retourne les différents blocks représentant ce code (fonction while for if ..)
+    """
+    listBlock = []
+    i = 0
+    lastIndentationValue=0
+    currentIndentationValue = 0
+    blockCodes = ""
+    save=0
 
-#     else:
-#         blockCodes.update({newBlock: 1})
+    for line in code:
 
-#     return blockCodes
+        sanitize_line = line.replace(" ", "")
+        sanitize_line = sanitize_line.replace("\n", "")
 
+        if len(sanitize_line) > 0:
 
-# def find_indentation(line):
+            lastIndentationValue = save
+            currentIndentationValue = find_indentation(line)
 
-#     cpt = 0
-#     while cpt < len(line):
+            if currentIndentationValue > lastIndentationValue :
 
-#         symbole = line[cpt]
+                k=i
 
-#         if symbole == " ":
-#             cpt +=1
 
-#         elif symbole == "":
-#             return 0
+                blockCreate = False
+                blockCodes = ""
+                save = find_indentation(line)
 
-#         elif symbole == "\n":
-#             return 0
+                while not blockCreate and k < len(code):
 
-#         elif symbole == "#":
-#             return 0
+                    sanitize_line = code[k].replace(" ", "")
+                    sanitize_line = sanitize_line.replace("\n", "")
 
-#         else:
-#             return cpt
+                    if len(sanitize_line) > 0:
 
+                        linebis = code[k]
+                        newVal = find_indentation(linebis)
 
-#     return cpt
+                        if newVal != -1:
+                            currentIndentationValue = newVal
 
 
-# def find_block(code):
-#     """
-#     :param: line: représente le code à analyser
-#     :return retourne les différents blocks représentant ce code (fonction while for if ..)
-#     """
-#     listBlock = []
-#     i = 0
-#     lastIndentationValue=0
-#     currentIndentationValue = 0
-#     blockCodes = ""
-#     save=0
+                            if currentIndentationValue > lastIndentationValue:
+                                blockCodes = blockCodes+linebis
 
-#     for line in code:
 
-#         sanitize_line = line.replace(" ", "")
-#         sanitize_line = sanitize_line.replace("\n", "")
+                            else:
+                                blockCreate = True
 
-#         if len(sanitize_line) > 0:
+                    k +=1
 
-#             lastIndentationValue = save
-#             currentIndentationValue = find_indentation(line)
+                listBlock.append(blockCodes)
 
-#             if currentIndentationValue > lastIndentationValue :
+            else:
+                if  find_indentation(line) != -1:
+                    save = find_indentation(line)
 
-#                 k=i
+        i +=1
 
 
-#                 blockCreate = False
-#                 blockCodes = ""
-#                 save = find_indentation(line)
+    return listBlock
 
-#                 while not blockCreate and k < len(code):
 
-#                     sanitize_line = code[k].replace(" ", "")
-#                     sanitize_line = sanitize_line.replace("\n", "")
 
-#                     if len(sanitize_line) > 0:
 
-#                         linebis = code[k]
-#                         newVal = find_indentation(linebis)
+def find_function(line):
+    """
+    :param: line: représente le code à analyser
+    :return retourne les différents blocks représentant ce code (fonction while for if ..)
+    """
 
-#                         if newVal != -1:
-#                             currentIndentationValue = newVal
+    blockCodes = []
+    i = 0
+    newBlock=""
+    addAblock = False
 
+    while i < len(line):
 
-#                             if currentIndentationValue > lastIndentationValue:
-#                                 blockCodes = blockCodes+linebis
+        if len(line)>i+4:
+            if line[i] == "d":
+                if line[i+1] == "e":
+                    if line[i + 1] == "f":
+                        if line[i + 1] == " ":
 
+                            if newBlock != "":
+                                blockCodes.append(newBlock)
+                                newBlock=""
 
-#                             else:
-#                                 blockCreate = True
+        newBlock += line[i]
+        i +=1
 
-#                     k +=1
+    return blockCodes
 
-#                 listBlock.append(blockCodes)
+def line_is_comment(line):
+    line.replace(" ","")
 
-#             else:
-#                 if  find_indentation(line) != -1:
-#                     save = find_indentation(line)
+    if len(line)>0:
+        if line[0] == "#":
+            return True
+        else:
+            return False
 
-#         i +=1
 
 
-#     return listBlock
 
 
+def rename_variable(line, listVariableRename):
 
+    i = 0
+    var = "var"
+    lineIndentation = find_indentation(line)
 
-# def find_function(line):
-#     """
-#     :param: line: représente le code à analyser
-#     :return retourne les différents blocks représentant ce code (fonction while for if ..)
-#     """
+    a = 0
+    espace = ""
+    while a < lineIndentation:
+        espace += " "
+        a +=1
 
-#     blockCodes = []
-#     i = 0
-#     newBlock=""
-#     addAblock = False
+    for variable in listVariableRename:
 
-#     while i < len(line):
+                    ###gestion var++ et var--
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}\+\+', var+"="+var+"+1", line)
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}\-\-', var+"="+var+"-1", line)
 
-#         if len(line)>i+4:
-#             if line[i] == "d":
-#                 if line[i+1] == "e":
-#                     if line[i + 1] == "f":
-#                         if line[i + 1] == " ":
+                    line = re.sub(r'\s{1,}'+variable+r'\s{1,}', var, line)
 
-#                             if newBlock != "":
-#                                 blockCodes.append(newBlock)
-#                                 newBlock=""
+                    ###gestion de opérateur mathématique
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}-', var+"-", line)
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}\+', var+"+", line)
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}\*', var+"*", line)
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}\\', var+"|divide|", line)
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}=', var+"=", line)
 
-#         newBlock += line[i]
-#         i +=1
+                    ###gestion des symbile []
+                    line = re.sub(r'\[\s{0,}'+variable+r'\s{0,}\]', "["+var+"]", line)
 
-#     return blockCodes
+                    ###gestion de symbole ;
+                  #  line = re.sub(r'\s{0,}'+variable+r'\s{0,};', var+";", line)
 
-# def line_is_comment(line):
-#     line.replace(" ","")
+                    ###gestion de symbole .
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}\.', var+".", line)
 
-#     if len(line)>0:
-#         if line[0] == "#":
-#             return True
-#         else:
-#             return False
+                    ###gestion de symbole [
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}\[', var+"[", line)
+                #    line = re.sub(r'=\s{0,}'+variable+r'\s{0,}\[int\]', type+"[", line)
 
+                    ###gestion des symboles < >
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}<', var+"<", line)
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}>', var+">", line)
+                    line = re.sub(r'>\s{0,}'+variable+r'\s{0,}>', ">"+var+">", line)
+                    line = re.sub(r'<\s{0,}'+variable+r'\s{0,}<', "<"+var+"<", line)
+                  #  line = re.sub(r'>\s{0,}'+variable+r'\s{0,}<', ">"+var+"<", line)
+                  #  line = re.sub(r'<\s{0,}'+variable+r'\s{0,}>', "<"+var+">", line)
 
+                    ###gestion du séparateur ","
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,},', var+",", line)
+                    line = re.sub(r',\s{0,}'+variable+r'\s{0,},', ","+var+",", line)
+                    line = re.sub(r',\s{0,}'+variable+r'\s{0,}=', ","+var+"=", line)
+                    line = re.sub(r',\s{0,}'+variable+r'\s{0,}\)', ","+var+")", line)
 
+                    ###gestion des symbole ( )
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}\)', var+")", line)
+                    line = re.sub(r'\(\s{0,}'+variable+r'\s{0,},', "("+var+",", line)
+                    line = re.sub(r'\(\s{0,}'+variable+r'\s{0,}\)', "("+var+")", line)
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}!', var+"!", line)
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}<', var+"<", line)
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}>', var+">", line)
 
+                    line = re.sub(r'\s{0,}'+variable+r'\s{0,}:', var+":", line)
 
-# def rename_variable(line, listVariableRename):
 
-#     i = 0
-#     var = "var"
-#     lineIndentation = find_indentation(line)
+    return line
 
-#     a = 0
-#     espace = ""
-#     while a < lineIndentation:
-#         espace += " "
-#         a +=1
 
-#     for variable in listVariableRename:
 
-#                     ###gestion var++ et var--
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}\+\+', var+"="+var+"+1", line)
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}\-\-', var+"="+var+"-1", line)
+def sanitize_dict_(dict):
+    """
+    :param liste_variable: représente la liste des variables du code
+    :return: retourne la liste des variables après avoir ajouté un espace après le type de la variable. Permet de différencier les types Matrice et collection<Matrice>
+    """
 
-#                     line = re.sub(r'\s{1,}'+variable+r'\s{1,}', var, line)
+    sanitize_dict = []
 
-#                     ###gestion de opérateur mathématique
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}-', var+"-", line)
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}\+', var+"+", line)
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}\*', var+"*", line)
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}\\', var+"|divide|", line)
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}=', var+"=", line)
+    for block in dict:
+        sanitizeBlock = sanitize_content(block)
+        sanitizeBlock = re.sub('[0-9]{1,}', '*', sanitizeBlock)
 
-#                     ###gestion des symbile []
-#                     line = re.sub(r'\[\s{0,}'+variable+r'\s{0,}\]', "["+var+"]", line)
+        if len(sanitizeBlock) > 75:
+            sanitize_dict.append(sanitizeBlock)
 
-#                     ###gestion de symbole ;
-#                   #  line = re.sub(r'\s{0,}'+variable+r'\s{0,};', var+";", line)
+    return sanitize_dict
 
-#                     ###gestion de symbole .
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}\.', var+".", line)
 
-#                     ###gestion de symbole [
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}\[', var+"[", line)
-#                 #    line = re.sub(r'=\s{0,}'+variable+r'\s{0,}\[int\]', type+"[", line)
 
-#                     ###gestion des symboles < >
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}<', var+"<", line)
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}>', var+">", line)
-#                     line = re.sub(r'>\s{0,}'+variable+r'\s{0,}>', ">"+var+">", line)
-#                     line = re.sub(r'<\s{0,}'+variable+r'\s{0,}<', "<"+var+"<", line)
-#                   #  line = re.sub(r'>\s{0,}'+variable+r'\s{0,}<', ">"+var+"<", line)
-#                   #  line = re.sub(r'<\s{0,}'+variable+r'\s{0,}>', "<"+var+">", line)
+def remove_comentary(lignes):
+    """
+    :param liste_variable: représente la liste des variables du code
+    :return: retourne la liste des variables après avoir ajouté un espace après le type de la variable. Permet de différencier les types Matrice et collection<Matrice>
+    """
+    long_comment = False
+    code_without_comentary = []
 
-#                     ###gestion du séparateur ","
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,},', var+",", line)
-#                     line = re.sub(r',\s{0,}'+variable+r'\s{0,},', ","+var+",", line)
-#                     line = re.sub(r',\s{0,}'+variable+r'\s{0,}=', ","+var+"=", line)
-#                     line = re.sub(r',\s{0,}'+variable+r'\s{0,}\)', ","+var+")", line)
+    for ligne in lignes:
 
-#                     ###gestion des symbole ( )
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}\)', var+")", line)
-#                     line = re.sub(r'\(\s{0,}'+variable+r'\s{0,},', "("+var+",", line)
-#                     line = re.sub(r'\(\s{0,}'+variable+r'\s{0,}\)', "("+var+")", line)
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}!', var+"!", line)
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}<', var+"<", line)
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}>', var+">", line)
+        if "#" in ligne:
+            tab_line = ligne.split("#")
 
-#                     line = re.sub(r'\s{0,}'+variable+r'\s{0,}:', var+":", line)
+            if "\n" not in tab_line[0]:
+                tab_line[0] = tab_line[0] + "\n"
 
+            code_without_comentary.append(tab_line[0])
 
-#     return line
+        elif ligne.count("\"\"\"") == 2:
+            tab_line = ligne.split("\"\"\"")
+            new_line = tab_line[0] + tab_line[len(tab_line)-1]
+            code_without_comentary.append(new_line)
 
+        elif "\"\"\"" in ligne:
+            tab_line = ligne.split("\"\"\"" )
+            code_without_comentary.append(tab_line[0])
+            long_comment = not long_comment
 
+        elif "\"\"\"" in ligne:
+            tab_line = ligne.split("\"\"\"" )
+            code_without_comentary.append(tab_line[len(tab_line)-1])
+            long_comment = not long_comment
 
-# def sanitize_dict_(dict):
-#     """
-#     :param liste_variable: représente la liste des variables du code
-#     :return: retourne la liste des variables après avoir ajouté un espace après le type de la variable. Permet de différencier les types Matrice et collection<Matrice>
-#     """
+        elif not long_comment:
+            code_without_comentary.append(ligne)
 
-#     sanitize_dict = []
-
-#     for block in dict:
-#         sanitizeBlock = sanitize_content(block)
-#         sanitizeBlock = re.sub('[0-9]{1,}', '*', sanitizeBlock)
-
-#         if len(sanitizeBlock) > 75:
-#             sanitize_dict.append(sanitizeBlock)
-
-#     return sanitize_dict
-
-
-
-# def remove_comentary(lignes):
-#     """
-#     :param liste_variable: représente la liste des variables du code
-#     :return: retourne la liste des variables après avoir ajouté un espace après le type de la variable. Permet de différencier les types Matrice et collection<Matrice>
-#     """
-#     long_comment = False
-#     code_without_comentary = []
-
-#     for ligne in lignes:
-
-#         if "#" in ligne:
-#             tab_line = ligne.split("#")
-
-#             if "\n" not in tab_line[0]:
-#                 tab_line[0] = tab_line[0] + "\n"
-
-#             code_without_comentary.append(tab_line[0])
-
-#         elif ligne.count("\"\"\"") == 2:
-#             tab_line = ligne.split("\"\"\"")
-#             new_line = tab_line[0] + tab_line[len(tab_line)-1]
-#             code_without_comentary.append(new_line)
-
-#         elif "\"\"\"" in ligne:
-#             tab_line = ligne.split("\"\"\"" )
-#             code_without_comentary.append(tab_line[0])
-#             long_comment = not long_comment
-
-#         elif "\"\"\"" in ligne:
-#             tab_line = ligne.split("\"\"\"" )
-#             code_without_comentary.append(tab_line[len(tab_line)-1])
-#             long_comment = not long_comment
-
-#         elif not long_comment:
-#             code_without_comentary.append(ligne)
-
-#     return code_without_comentary
+    return code_without_comentary
 
 
 def excecEvalPlagiat(code):
-    return 0
 
-    # listFunction = []
-    # listVariableRename = []
-    # lastListVariableRename = []
+    listFunction = []
+    listVariableRename = []
+    lastListVariableRename = []
 
-    # listVarBlock = []
-    # lignes = code.split("\n")
+    listVarBlock = []
+    lignes = code.split("\n")
 
-    # scopeCodeUser = False
-    # firstInsert = False
+    scopeCodeUser = False
+    firstInsert = False
 
-    # lignesCompacte = []
-    # newBlock = []
-    # functionCode = ""
-    # listVarToRename = []
+    lignesCompacte = []
+    newBlock = []
+    functionCode = ""
+    listVarToRename = []
 
-    # lignes = remove_comentary(lignes)
+    lignes = remove_comentary(lignes)
 
-    # for ligne in lignes:
+    for ligne in lignes:
 
-    #     if not line_is_comment(ligne):
-    #             ligneBis = ligne
+        if not line_is_comment(ligne):
+                ligneBis = ligne
 
-    #             listeVarInitFunction = findVariableInFuction(ligne)
-    #             listeVarContentFunction = []
+                listeVarInitFunction = findVariableInFuction(ligne)
+                listeVarContentFunction = []
 
-    #             if listeVarInitFunction == []:
-    #                 listeVarContentFunction = findVariableDeclare(ligne)
+                if listeVarInitFunction == []:
+                    listeVarContentFunction = findVariableDeclare(ligne)
 
-    #             listVarToRename = listeVarContentFunction + listeVarInitFunction
+                listVarToRename = listeVarContentFunction + listeVarInitFunction
 
-    #             i = 0
-    #             while i < len(listVarToRename):
+                i = 0
+                while i < len(listVarToRename):
 
-    #                 if listVarToRename[i] not in listVariableRename and listVarToRename[i] != "":
-    #                     listVariableRename.append(listVarToRename[i])
-    #                 i += 1
+                    if listVarToRename[i] not in listVariableRename and listVarToRename[i] != "":
+                        listVariableRename.append(listVarToRename[i])
+                    i += 1
 
-    #             lignesCompacte.append(ligneBis)
-
+                lignesCompacte.append(ligneBis)
 
 
-    # blockCodes = find_block(lignesCompacte)
+
+    blockCodes = find_block(lignesCompacte)
 
 
-    # renameBlock = []
-    # for block in blockCodes:
-    #     renameBlock.append(rename_variable(block, listVariableRename))
+    renameBlock = []
+    for block in blockCodes:
+        renameBlock.append(rename_variable(block, listVariableRename))
 
-    # sanitize_code_dict = sanitize_dict_(renameBlock)
+    sanitize_code_dict = sanitize_dict_(renameBlock)
 
-    # return sanitize_code_dict
+    return sanitize_code_dict
