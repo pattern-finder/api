@@ -1,7 +1,5 @@
 import re
 
-
-
 # PATERN_VARIABLE = [
 #     r'[A-Za-z0-9_]{1,}\s{1,}[A-Za-z0-9_]{1,}\s*',
 #     r'[A-Za-z0-9_]{1,}\s{0,}<[A-Za-z0-9_]{1,}>\s{0,}[A-Za-z0-9_]{1,}',
