@@ -106,6 +106,8 @@ export class GodBoxRepository {
     "        \"eval_redondance\": excecEvalRedondance(lignes), \n"+
     "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(lignes), \n"+
     "        \"eval_commentaire\": excecEvalCommentaire(lignes) \n"+
+    "        \"eval_plagiat\": excecEvalPlagiat(lignes) \n"+
+
     "    } \n"+
     "    filin.close() \n"+
     "    print(payload) \n"
