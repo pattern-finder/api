@@ -43,9 +43,8 @@ export class AttemptsService {
       insertAttemptDTO.code,
       execBootstrap,
     );
-    console.log("COUCOUTEST ALGO")
 
-    console.log(execResultsAlgoEvaluation["stdout"])
+    console.log(execResultsAlgoEvaluation)
 
    // execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
 
