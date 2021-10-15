@@ -2,23 +2,18 @@ import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { User } from 'src/users/user.schema';
 
-export type ChallengeDocument = Challenge & Document;
-
 @Schema()
-export class Challenge {
+export class EvalPlagiat {
   _id?: string;
 
   @Prop({ required: true, unique: true })
-  name: string;
+  toke: string;
 
   @Prop({ required: true })
-  instructions: string;
+  exercice: string;
 
-  @Prop({ type: Types.ObjectId, ref: User.name })
-  owner: string;
-
-  @Prop({ default: false })
-  isCourse: boolean;
+  @Prop({ required: true })
+  langage: string;
 
   @Prop()
   editedAt?: Date;
@@ -30,4 +25,4 @@ export class Challenge {
   deletedAt?: Date;
 }
 
-export const ChallengeSchema = SchemaFactory.createForClass(Challenge);
+export const EvalPlagiatCst = SchemaFactory.createForClass(EvalPlagiat);
