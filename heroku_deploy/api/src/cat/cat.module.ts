@@ -7,5 +7,6 @@ import { Cat, CatSchema } from './cat.schema';
 @Module({
   imports: [MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }])],
   providers: [CatsService],
+  exports: [CatsService],
 })
 export class CatsModule {}
