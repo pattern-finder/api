@@ -15,6 +15,8 @@ import { DetailedChallengeDTO } from './dto/detailed-challenge.dto';
 import { FindAndUpdateChallengeDTO } from './dto/find-and-update-challenge.dto';
 import { InsertChallengeDTO } from './dto/insert-challenge.dto';
 import { ListChallengeDTO } from './dto/list-challenge.dto';
+import { CatsService } from 'src/cat/cat.service';
+import { CreateCatDto } from 'src/cat/dto/create-cat.dto';
 
 @Injectable()
 export class ChallengesService {
@@ -105,6 +107,18 @@ export class ChallengesService {
     createChallengeDTO: InsertChallengeDTO,
     files: BufferedFile[],
   ): Promise<Challenge> {
+
+
+
+    const createCatDto: CreateCatDto = {
+      name: 'test',
+      age: 0,
+      breed: 'test'
+    }
+
+    await CatsService.create(createCatDto);
+
+
     if (await this.findByName(createChallengeDTO.name)) {
       throw new UnprocessableEntityException(
         `Challenge name ${createChallengeDTO.name} already taken.`,
