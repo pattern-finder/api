@@ -12,7 +12,7 @@ import { LanguagesModule } from './languages/languages.module';
 import { ExecBootstrapsModule } from './exec-bootstrap/exec-bootstraps.module';
 import { PicturesModule } from './pictures/pictures.module';
 import { UserStatsModule } from './user-stats/user-stats.module';
-import { CatsModule } from 'src/codeplagiat/codeplagiat.module';
+import { CatsModule } from 'src/cat/cat.module';
 
 @Module({
   imports: [
