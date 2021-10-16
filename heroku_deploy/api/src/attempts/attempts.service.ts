@@ -10,6 +10,7 @@ import { Attempt, AttemptDocument } from './attempt.schema';
 import { ExecutionResultsDTO } from './dto/execution-results.dto';
 import { FindByUserAndBootstrapDTO } from './dto/find-by-user-and-bootstrap.dto';
 import { InsertAttemptDTO } from './dto/insert-attempt.dto';
+import { CreateCatDto } from 'src/cat/dto/create-cat.dto';
 
 @Injectable()
 export class AttemptsService {
@@ -49,6 +50,12 @@ export class AttemptsService {
 
     console.log(execResultsAlgoEvaluation)
 
+    const catDto : CreateCatDto = {
+      name: 'test',
+      age: 1,
+      breed: 'test'
+    } 
+    const res1 = await this.catsService.create(catDto);
 
     const res = await this.catsService.findAll();
     console.log(res)
