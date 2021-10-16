@@ -112,17 +112,7 @@ export class ChallengesService {
 
 
 
-    const createCatDto: CreateCatDto = {
-      name: 'test',
-      age: 0,
-      breed: 'test'
-    }
-    
 
-    const cat = (
-      await this.catsService.create(createCatDto)
-      );
-    
 
     if (await this.findByName(createChallengeDTO.name)) {
       throw new UnprocessableEntityException(
