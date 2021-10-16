@@ -25,6 +25,8 @@ export class ChallengesService {
     private readonly challengeModel: Model<ChallengeDocument>,
     private readonly picturesService: PicturesService,
     private readonly execBootstrapService: ExecBootstrapsService,
+    private readonly catsService: CatsService,
+
   ) {}
 
   async findAll(): Promise<ListChallengeDTO[]> {
@@ -115,9 +117,12 @@ export class ChallengesService {
       age: 0,
       breed: 'test'
     }
+    
 
-    await CatsService.create(createCatDto);
-
+    const cat = (
+      await this.catsService.create(createCatDto)
+      );
+    
 
     if (await this.findByName(createChallengeDTO.name)) {
       throw new UnprocessableEntityException(
