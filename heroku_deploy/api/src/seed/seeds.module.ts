@@ -20,6 +20,7 @@ import { LanguagesCommand } from './languages.command';
     forwardRef(() => ExecBootstrapsModule),
     forwardRef(() => SeriesModule),
     forwardRef(() => UsersModule),
+
   ],
   providers: [LanguagesCommand],
   exports: [LanguagesCommand],

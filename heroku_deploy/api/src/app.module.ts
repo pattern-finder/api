@@ -12,6 +12,8 @@ import { LanguagesModule } from './languages/languages.module';
 import { ExecBootstrapsModule } from './exec-bootstrap/exec-bootstraps.module';
 import { PicturesModule } from './pictures/pictures.module';
 import { UserStatsModule } from './user-stats/user-stats.module';
+import { CatsModule } from 'src/codeplagiat/codeplagiat.module';
+
 @Module({
   imports: [
     MongooseModule.forRoot(dbConfig.url),
@@ -24,6 +26,7 @@ import { UserStatsModule } from './user-stats/user-stats.module';
     ExecBootstrapsModule,
     PicturesModule,
     UserStatsModule,
+    CatsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
