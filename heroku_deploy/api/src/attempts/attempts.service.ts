@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ChallengesService } from 'src/challenges/challenges.service';
+import { CatsService } from 'src/cat/cat.service';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
 import { ExecBootstrapsService } from 'src/exec-bootstrap/exec-bootstraps.service';
 import { GodBoxRepository } from 'src/exec-server/godbox.repository';
@@ -18,6 +19,8 @@ export class AttemptsService {
     private readonly execServerService: GodBoxRepository,
     private readonly execBootstrapService: ExecBootstrapsService,
     private readonly challengesService: ChallengesService,
+    private readonly catsService: CatsService,
+
   ) {}
 
   async create(
@@ -45,6 +48,10 @@ export class AttemptsService {
     );
 
     console.log(execResultsAlgoEvaluation)
+
+
+    const res = await this.catsService.findAll();
+    console.log(res)
 
    // execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
 
