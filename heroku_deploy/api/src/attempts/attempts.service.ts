@@ -50,7 +50,8 @@ export class AttemptsService {
 
 
     const evaluation = execResultsAlgoEvaluation['stdout']
-    const obj = JSON.parse(evaluation);
+    const string = JSON.stringify(evaluation)
+    const obj = JSON.parse(string);
     console.log(execResultsAlgoEvaluation['stdout'])
     console.log(obj)
 
