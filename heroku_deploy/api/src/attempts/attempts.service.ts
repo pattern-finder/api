@@ -52,8 +52,9 @@ export class AttemptsService {
     const evaluation = execResultsAlgoEvaluation['stdout']
     const string = JSON.stringify(evaluation)
     const obj = JSON.parse(string);
-    const listToken = obj['eval_plagiat']
+    const listToken = obj['eval_variable_name']
     
+    console.log(string)
     console.log(obj)
     console.log(listToken)
 
@@ -61,22 +62,46 @@ export class AttemptsService {
       id: execBootstrap.challenge,
     });
 
-    const plagiatCodeDto : CreateCatDto = {
-      tokenCode: 'test',
-      nameExo: challenge.name,
-      userId: insertAttemptDTO.user
-    } 
 
-    const affList = await this.evalPlagiatService.find(plagiatCodeDto);
+    let plagiaStringSize = 0
+    let stringSize = 0
 
 
-    if(affList.length > 0){
-      execResults["stdout"] = "PALGIAT"
-    }else{
-      const res = await this.evalPlagiatService.create(plagiatCodeDto);
-      execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
+    /*
+    listToken.forEach(async element => {
+        const plagiatCodeDto : CreateCatDto = {
+          tokenCode: element,
+          nameExo: challenge.name,
+          userId: insertAttemptDTO.user
+        }; 
+        
+        const affList = await this.evalPlagiatService.find(plagiatCodeDto);
 
-    }
+        stringSize = stringSize + affList.length
+
+        if(affList.length > 0){
+          plagiaStringSize = plagiaStringSize + affList.length
+        }else{
+          const res = await this.evalPlagiatService.create(plagiatCodeDto);
+    
+        }
+
+        if ((plagiaStringSize*100)/(plagiaStringSize+stringSize) >= 80){
+          execResults["stdout"] = "PALGIAT"
+        }else{
+          execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
+        }
+
+      }
+
+      );
+
+      */
+
+
+
+
+
 
 
     const attempt = (
