@@ -52,8 +52,9 @@ export class AttemptsService {
     const evaluation = execResultsAlgoEvaluation['stdout']
     const string = JSON.stringify(evaluation)
     const obj = JSON.parse(string);
-    console.log(execResultsAlgoEvaluation['stdout'])
-    console.log(obj)
+    const listToken = obj['eval_plagiat']
+
+    console.log(listToken)
 
     const challenge = await this.challengesService.findOne({
       id: execBootstrap.challenge,
