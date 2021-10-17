@@ -53,7 +53,8 @@ export class AttemptsService {
     const string = JSON.stringify(evaluation)
     const obj = JSON.parse(string);
     const listToken = obj['eval_plagiat']
-
+    
+    console.log(obj)
     console.log(listToken)
 
     const challenge = await this.challengesService.findOne({
