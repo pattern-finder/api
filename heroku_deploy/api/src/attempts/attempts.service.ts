@@ -50,14 +50,19 @@ export class AttemptsService {
 
     console.log(execResultsAlgoEvaluation)
 
+    const challenge = await this.challengesService.findOne({
+      id: execBootstrap.challenge,
+    });
+
     const plagiatCodeDto : CreateCatDto = {
       tokenCode: 'test',
-      nameExo: 'test',
-      userId: 'test'
+      nameExo: challenge.name,
+      userId: insertAttemptDTO.user
     } 
 
     const affList = await this.evalPlagiatService.find(plagiatCodeDto);
     console.log(affList)
+    console.log(insertAttemptDTO.user)
 
 
     if(affList.length > 0){
