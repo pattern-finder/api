@@ -57,10 +57,10 @@ export class AttemptsService {
     } 
     const res1 = await this.evalPlagiatService.create(plagiatCodeDto);
 
-    const res = await this.evalPlagiatService.findAll();
+    const res = await this.evalPlagiatService.find(plagiatCodeDto);
     console.log(res)
 
-   // execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
+    // execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
 
     const attempt = (
       await new this.attemptModel({

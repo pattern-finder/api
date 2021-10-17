@@ -8,15 +8,24 @@ import { CreateCatDto } from './dto/create-evalPlagiat.dto';
 @Injectable()
 export class EvalPlagiatService {
   
-  constructor(@InjectModel(EvalPlagiat.name) private catModel: Model<EvalPlagiatDocument>) {}
+  constructor(@InjectModel(EvalPlagiat.name) private evalPlagiatModel: Model<EvalPlagiatDocument>) {}
 
   async create(createCatDto: CreateCatDto): Promise<EvalPlagiat> {
-    const createdCat = new this.catModel(createCatDto);
+    const createdCat = new this.evalPlagiatModel(createCatDto);
     return createdCat.save();
   }
 
   async findAll(): Promise<EvalPlagiat[]> {
-    return this.catModel.find().exec();
+    return this.evalPlagiatModel.find().exec();
+  }
+
+  async find(plagiatCodeDto : CreateCatDto): Promise<EvalPlagiat[]> {
+    return this.evalPlagiatModel.find({
+      userId: {$in: [plagiatCodeDto.userId],
+      tokenCode:plagiatCodeDto.tokenCode, 
+      nameExo:plagiatCodeDto.nameExo, 
+
+      }})
   }
 }
 
