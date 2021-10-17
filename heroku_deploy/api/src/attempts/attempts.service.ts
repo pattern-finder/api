@@ -52,12 +52,14 @@ export class AttemptsService {
     const evaluation = execResultsAlgoEvaluation['stdout']
     const string = JSON.stringify(evaluation)
     const list_content_start = string.split('[');
-    const list_content_stop = list_content_start[0].split(']');
+    const list_content_stop = list_content_start[1].split(']');
     const list_content = list_content_stop[0];
     const elt = list_content.split(",")
 
-    console.log("elt")
-
+    console.log(string)
+    console.log(list_content_start)
+    console.log(list_content_stop)
+    console.log(list_content)
     console.log(elt)
 
     const challenge = await this.challengesService.findOne({
