@@ -4,7 +4,7 @@
 #include <opencv2/highgui.hpp>
 #include <dirent.h>
 #include <sys/types.h>
-
+#include <map>
 #include "Matrice.h"
 #include "Opencv.h"
 #include "Exercice.h"
