@@ -79,7 +79,6 @@ export class AttemptsService {
         const affList = await this.evalPlagiatService.find(plagiatCodeDto);
 
         stringSize = stringSize + element.length
-        console.log(stringSize)
 
         if(affList.length > 0){
           plagiaStringSize = plagiaStringSize + element.length
@@ -97,9 +96,9 @@ export class AttemptsService {
           execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
         }
  
+
         console.log("aaaa")
-        console.log("aaaa")
-      console.log((plagiaStringSize*100)/(plagiaStringSize+stringSize))
+      console.log((plagiaStringSize*100)/(stringSize))
       console.log("aaaa")
 
     const attempt = (
