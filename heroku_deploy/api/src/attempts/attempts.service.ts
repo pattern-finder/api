@@ -67,8 +67,9 @@ export class AttemptsService {
     let stringSize = 0
 
 
-    
-    elt.forEach(async element => {
+    let n = 0;
+    while(n<elt.length){
+      let element = elt[n]
         const plagiatCodeDto : CreateCatDto = {
           tokenCode: element,
           nameExo: challenge.name,
@@ -87,20 +88,19 @@ export class AttemptsService {
           const res = await this.evalPlagiatService.create(plagiatCodeDto);
     
         }
+        n = n+1;
+      }
+
 
         if ((plagiaStringSize*100)/(plagiaStringSize+stringSize) >= 80){
           execResults["stdout"] = "PALGIAT"
         }else{
           execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
         }
+ 
 
-      }
-
-      );
-
-  
       console.log((plagiaStringSize*100)/(plagiaStringSize+stringSize))
-
+      console.log("aaaa")
     const attempt = (
       await new this.attemptModel({
         ...execResults,
@@ -112,6 +112,8 @@ export class AttemptsService {
 
     return { ...execResults, id: attempt.id };
   }
+
+
 
   async findOne(findAttemptDTO: FindByIdDTO): Promise<Attempt> {
     const attempt: Attempt = (
