@@ -63,6 +63,7 @@ export class AttemptsService {
     const affList = await this.evalPlagiatService.find(plagiatCodeDto);
     console.log(affList)
     console.log(insertAttemptDTO.user)
+    console.log("testtest")
 
 
     if(affList.length > 0){
