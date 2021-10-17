@@ -75,7 +75,6 @@ export class AttemptsService {
           nameExo: challenge.name,
           userId: insertAttemptDTO.user
         }; 
-        console.log("stringSize")
 
         const affList = await this.evalPlagiatService.find(plagiatCodeDto);
 
@@ -92,7 +91,7 @@ export class AttemptsService {
       }
 
 
-        if ((plagiaStringSize*100)/(plagiaStringSize+stringSize) >= 80){
+        if ((plagiaStringSize*100)/(stringSize) >= 80){
           execResults["stdout"] = "PALGIAT"
         }else{
           execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
