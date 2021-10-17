@@ -55,12 +55,19 @@ export class AttemptsService {
       nameExo: 'test',
       userId: 'test'
     } 
-    const res1 = await this.evalPlagiatService.create(plagiatCodeDto);
 
-    const res = await this.evalPlagiatService.find(plagiatCodeDto);
-    console.log(res)
+    const affList = await this.evalPlagiatService.find(plagiatCodeDto);
+    console.log(affList)
 
-    // execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
+
+    if(affList.length > 0){
+      execResults["stdout"] = "PALGIAT"
+    }else{
+      const res = await this.evalPlagiatService.create(plagiatCodeDto);
+      execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
+
+    }
+
 
     const attempt = (
       await new this.attemptModel({
