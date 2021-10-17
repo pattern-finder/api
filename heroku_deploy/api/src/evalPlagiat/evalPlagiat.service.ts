@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { EvalPlagiat, EvalPlagiatDocument } from './evalPlagiat.schema';
-import { CreateCatDto } from './dto/create-cat.dto';
+import { CreateCatDto } from './dto/create-evalPlagiat.dto';
 
 @Injectable()
 export class EvalPlagiatService {

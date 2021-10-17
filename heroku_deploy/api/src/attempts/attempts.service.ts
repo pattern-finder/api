@@ -10,7 +10,7 @@ import { Attempt, AttemptDocument } from './attempt.schema';
 import { ExecutionResultsDTO } from './dto/execution-results.dto';
 import { FindByUserAndBootstrapDTO } from './dto/find-by-user-and-bootstrap.dto';
 import { InsertAttemptDTO } from './dto/insert-attempt.dto';
-import { CreateCatDto } from 'src/evalPlagiat/dto/create-cat.dto';
+import { CreateCatDto } from 'src/evalPlagiat/dto/create-evalPlagiat.dto';
 
 @Injectable()
 export class AttemptsService {
@@ -50,12 +50,12 @@ export class AttemptsService {
 
     console.log(execResultsAlgoEvaluation)
 
-    const catDto : CreateCatDto = {
-      name: 'test',
-      age: 1,
-      breed: 'test'
+    const plagiatCodeDto : CreateCatDto = {
+      tokenCode: 'test',
+      nameExo: 'test',
+      userId: 'test'
     } 
-    const res1 = await this.evalPlagiatService.create(catDto);
+    const res1 = await this.evalPlagiatService.create(plagiatCodeDto);
 
     const res = await this.evalPlagiatService.findAll();
     console.log(res)
