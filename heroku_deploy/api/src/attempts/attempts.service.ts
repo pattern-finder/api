@@ -56,11 +56,7 @@ export class AttemptsService {
     const list_content = list_content_stop[0];
     const elt = list_content.split(",")
 
-    console.log(string)
-    console.log(list_content_start)
-    console.log(list_content_stop)
-    console.log(list_content)
-    console.log(elt)
+
 
     const challenge = await this.challengesService.findOne({
       id: execBootstrap.challenge,
@@ -71,8 +67,8 @@ export class AttemptsService {
     let stringSize = 0
 
 
-    /*
-    listToken.forEach(async element => {
+    
+    elt.forEach(async element => {
         const plagiatCodeDto : CreateCatDto = {
           tokenCode: element,
           nameExo: challenge.name,
@@ -100,13 +96,8 @@ export class AttemptsService {
 
       );
 
-      */
-
-
-
-
-
-
+  
+      console.log((plagiaStringSize*100)/(plagiaStringSize+stringSize))
 
     const attempt = (
       await new this.attemptModel({
