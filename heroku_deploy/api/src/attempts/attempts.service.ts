@@ -53,10 +53,12 @@ export class AttemptsService {
     const string = JSON.stringify(evaluation)
     const obj = JSON.parse(string);
     const listToken = obj['eval_variable_name']
-    
+    const listToken2 = obj["eval_variable_name"]
+
     console.log(string)
     console.log(obj)
     console.log(listToken)
+    console.log(listToken2)
 
     const challenge = await this.challengesService.findOne({
       id: execBootstrap.challenge,
