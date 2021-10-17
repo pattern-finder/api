@@ -74,10 +74,12 @@ export class AttemptsService {
           nameExo: challenge.name,
           userId: insertAttemptDTO.user
         }; 
-        
+        console.log("stringSize")
+
         const affList = await this.evalPlagiatService.find(plagiatCodeDto);
 
         stringSize = stringSize + affList.length
+        console.log(stringSize)
 
         if(affList.length > 0){
           plagiaStringSize = plagiaStringSize + affList.length
