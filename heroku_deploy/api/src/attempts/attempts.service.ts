@@ -78,11 +78,11 @@ export class AttemptsService {
 
         const affList = await this.evalPlagiatService.find(plagiatCodeDto);
 
-        stringSize = stringSize + affList.length
+        stringSize = stringSize + element.length
         console.log(stringSize)
 
         if(affList.length > 0){
-          plagiaStringSize = plagiaStringSize + affList.length
+          plagiaStringSize = plagiaStringSize + element.length
         }else{
           const res = await this.evalPlagiatService.create(plagiatCodeDto);
     
