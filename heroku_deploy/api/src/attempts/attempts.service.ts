@@ -56,6 +56,7 @@ export class AttemptsService {
     const list_content = list_content_stop[0];
     const elt = list_content.split(",")
 
+    console.log("elt")
 
     console.log(elt)
 
