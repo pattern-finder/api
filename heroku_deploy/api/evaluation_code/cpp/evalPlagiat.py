@@ -101,6 +101,7 @@ dico_stemming = {
     "false": "fs",
     "typeid": "tp",
     "xor": "xr",
+    ",": "",
 
 }
 

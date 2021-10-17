@@ -57,6 +57,8 @@ dico_stemming = {
     "print": "",
     "True": "tr",
     "False": "fl",
+    ",": "",
+
 }
 
 dico_supression = {

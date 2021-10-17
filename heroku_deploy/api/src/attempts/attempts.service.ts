@@ -51,14 +51,13 @@ export class AttemptsService {
 
     const evaluation = execResultsAlgoEvaluation['stdout']
     const string = JSON.stringify(evaluation)
-    const obj = JSON.parse(string);
-    const listToken = obj['eval_variable_name']
-    const listToken2 = obj["eval_variable_name"]
+    const list_content_start = string.split('[');
+    const list_content_stop = list_content_start[0].split(']');
+    const list_content = list_content_stop[0];
+    const elt = list_content.split(",")
 
-    console.log(string)
-    console.log(obj)
-    console.log(listToken)
-    console.log(listToken2)
+
+    console.log(elt)
 
     const challenge = await this.challengesService.findOne({
       id: execBootstrap.challenge,
