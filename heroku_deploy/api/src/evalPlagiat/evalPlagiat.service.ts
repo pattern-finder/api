@@ -21,11 +21,11 @@ export class EvalPlagiatService {
 
   async find(plagiatCodeDto : CreateCatDto): Promise<EvalPlagiat[]> {
     return this.evalPlagiatModel.find({
-      userId: {$in: [plagiatCodeDto.userId],
+      userId: {$ne: plagiatCodeDto.userId},
       tokenCode:plagiatCodeDto.tokenCode, 
       nameExo:plagiatCodeDto.nameExo, 
 
-      }})
+      })
   }
 }
 
