@@ -104,13 +104,13 @@ std::string Exercice::assertResMult(std::vector<double> solution_user, std::vect
     }
 }
 
-std::string Exercice::assertResMultDict(const map<string, int> solution_user,const map<string, int> resultat){
+std::string Exercice::assertResMultDict(const map<std::string, int> solution_user,const map<std::string, int> resultat){
 
 
             if(solution_user.size() != resultat.size())
                 return "ERROR";
 
-            typename map<string,int>::const_iterator i, j;
+            typename map<std::string,int>::const_iterator i, j;
             for(i = solution_user.begin(), j = resultat.begin(); i != solution_user.end(); ++i, ++j)
             {
                 if(*i != *j)
