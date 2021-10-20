@@ -32,14 +32,13 @@ FROM node:14-alpine
 
 ENV NODE_ENV production
 
-# USER node
 WORKDIR /usr/src/app
 
 COPY --from=builder /usr/src/app/package*.json /usr/src/app/
 COPY --from=builder /usr/src/app/dist/ /usr/src/app/
 
-RUN apt-get update -y
-RUN apt-get install -y python
+#RUN apt-get update -y
+#RUN apt-get install -y python
 
 ENV LIBS_DIR=/usr/src/app/
 ENV ALGO_DIR=/usr/src/app/evaluation_code
