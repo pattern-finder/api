@@ -38,8 +38,8 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/package*.json /usr/src/app/
 COPY --from=builder /usr/src/app/dist/ /usr/src/app/
 
-RUN sudo apt-get update -y
-RUN sudo apt-get install -y python
+RUN apt-get update -y
+RUN apt-get install -y python
 
 ENV LIBS_DIR=/usr/src/app/
 ENV ALGO_DIR=/usr/src/app/evaluation_code
