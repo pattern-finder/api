@@ -23,6 +23,11 @@ export class UserStatsService {
   ): Promise<UserDefaultSeriesStatsDTO> {
     const defaultSeries = await this.seriesService.findDefaultSeries();
 
+    console.log("defaultSeries")
+    console.log(defaultSeries)
+    console.log("userIdDTO")
+    console.log(userIdDTO)
+
     const attemptsToStats = async (
       challengeId: string,
       userId: string,
@@ -31,11 +36,17 @@ export class UserStatsService {
         id: challengeId,
       });
 
+
       const attempts =
         await this.attemptsService.findValidatedByUserAndChallenge(
           userId,
           challengeId,
         );
+
+
+
+        console.log("attempts")
+        console.log(attempts)
 
       let bestTime: number;
       if (attempts.length > 0) {

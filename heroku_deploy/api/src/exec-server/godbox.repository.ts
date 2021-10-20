@@ -10,6 +10,8 @@ import { ChallengesService } from 'src/challenges/challenges.service';
 import { Language } from 'src/languages/language.schema';
 
 const LIBS_DIR = process.env.LIBS_DIR || '/usr/src/app/libs';
+const ALGO_DIR = process.env.ALGO_DIR || '/usr/src/app/evaluation_code';
+
 @Injectable()
 export class GodBoxRepository {
   constructor(
@@ -75,6 +77,52 @@ export class GodBoxRepository {
     return zip.toBuffer().toString('base64');
   }
 
+
+
+  private async bundleExecEvaluationCode(
+    code: string,
+    language: Language
+  ) {
+    const zip = new AdmZip();
+
+    const exec_algo = 
+    "from evaluation_code.evalNbLigneFonction import excecEvalNbLigneFonction \n"+
+    "from evaluation_code.evalCommentaire import excecEvalCommentaire \n"+
+    "from evaluation_code.evalRedondance import excecEvalRedondance \n"+
+    "from evaluation_code.evalVariableName import excecEvalVariableName \n"+
+    "from evaluation_code.evalPlagiat import excecEvalPlagiat \n"+
+    "if __name__ == '__main__': \n"+
+    "    import os \n"+
+    "    import re \n"+
+    "    filin = open(\"userCode.py\", \"r\") \n"+
+    "    lignes = filin.readlines()\n"+   
+    "    new_lignes = []\n"+  
+    "    for ligne in lignes:\n"+     
+    "       ligne.replace(\"\\n\", \"\")\n"+    
+    "       new_lignes.append(ligne)\n"+   
+    "    lignes  =  new_lignes\n"+  
+    "    payload = { \n"+
+    "        \"eval_variable_name\":excecEvalVariableName(lignes), \n"+
+    "        \"eval_redondance\": excecEvalRedondance(lignes), \n"+
+    "        \"eval_nb ligne_fonction\": excecEvalNbLigneFonction(lignes), \n"+
+    "        \"eval_commentaire\": excecEvalCommentaire(lignes), \n"+
+    "        \"eval_plagiat\": excecEvalPlagiat(lignes) \n"+
+
+    "    } \n"+
+    "    filin.close() \n"+
+    "    print(payload) \n"
+
+
+    zip.addLocalFolder(`${ALGO_DIR}/${language.name}`, 'evaluation_code');
+    zip.addFile(`userCode.py`, Buffer.from(code));
+    zip.addFile(`main.py`, Buffer.from(exec_algo));
+
+
+    return zip.toBuffer().toString('base64');
+  }
+
+
+
   formatPhasesResults(phases: GodboxPhaseOutputDTO[]): GodboxPhaseOutputDTO {
     const res = phases[phases.length - 1];
     return {
@@ -108,4 +156,31 @@ export class GodBoxRepository {
       );
     }
   }
+
+
+  async executeAlgoEvaluation(
+    code: string,
+    bootstrap: ExecBootstrap,
+  ): Promise<GodboxPhaseOutputDTO> {
+    const language = await this.languagesService.findByName("python");
+
+
+    const payload = {
+      phases: language.phases,
+      files: await this.bundleExecEvaluationCode(code, language),
+    };
+
+
+    try {
+      const { data }: { data: { phases: GodboxPhaseOutputDTO[] } } =
+        await axios.post(`${godboxConfig.baseUrl}/run`, payload);
+      return this.formatPhasesResults(data.phases);
+    } catch (err) {
+      throw new InternalServerErrorException(
+        err?.response?.data?.message || err?.message || 'Unkown reason.',
+      );
+    }
+  }
+
+
 }

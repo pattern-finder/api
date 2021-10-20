@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ChallengesService } from 'src/challenges/challenges.service';
+import { EvalPlagiatService } from 'src/evalPlagiat/evalPlagiat.service';
 import { FindByIdDTO } from 'src/common/dto/find-by-id.dto';
 import { ExecBootstrapsService } from 'src/exec-bootstrap/exec-bootstraps.service';
 import { GodBoxRepository } from 'src/exec-server/godbox.repository';
@@ -9,6 +10,7 @@ import { Attempt, AttemptDocument } from './attempt.schema';
 import { ExecutionResultsDTO } from './dto/execution-results.dto';
 import { FindByUserAndBootstrapDTO } from './dto/find-by-user-and-bootstrap.dto';
 import { InsertAttemptDTO } from './dto/insert-attempt.dto';
+import { CreateCatDto } from 'src/evalPlagiat/dto/create-evalPlagiat.dto';
 
 @Injectable()
 export class AttemptsService {
@@ -18,6 +20,8 @@ export class AttemptsService {
     private readonly execServerService: GodBoxRepository,
     private readonly execBootstrapService: ExecBootstrapsService,
     private readonly challengesService: ChallengesService,
+    private readonly evalPlagiatService: EvalPlagiatService,
+
   ) {}
 
   async create(
@@ -38,6 +42,65 @@ export class AttemptsService {
       execBootstrap,
     );
 
+
+    const execResultsAlgoEvaluation = await this.execServerService.executeAlgoEvaluation(
+      insertAttemptDTO.code,
+      execBootstrap,
+    );
+
+
+    const evaluation = execResultsAlgoEvaluation['stdout']
+    const string = JSON.stringify(evaluation)
+    const list_content_start = string.split('[');
+    const list_content_stop = list_content_start[1].split(']');
+    const list_content = list_content_stop[0];
+    const elt = list_content.split(",")
+
+
+
+    const challenge = await this.challengesService.findOne({
+      id: execBootstrap.challenge,
+    });
+
+
+    let plagiaStringSize = 0
+    let stringSize = 0
+
+
+    let n = 0;
+    while(n<elt.length){
+      let element = elt[n]
+        const plagiatCodeDto : CreateCatDto = {
+          tokenCode: element,
+          nameExo: challenge.name,
+          userId: insertAttemptDTO.user
+        }; 
+
+        const affList = await this.evalPlagiatService.find(plagiatCodeDto);
+
+        stringSize = stringSize + element.length
+
+        if(affList.length > 0){
+          plagiaStringSize = plagiaStringSize + element.length
+        }else{
+          const res = await this.evalPlagiatService.create(plagiatCodeDto);
+    
+        }
+        n = n+1;
+      }
+
+
+        if ((plagiaStringSize*100)/(stringSize) >= 80){
+          execResults["stdout"] = "PALGIAT"
+        }else{
+          execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
+        }
+ 
+
+        console.log("aaaa")
+      console.log((plagiaStringSize*100)/(stringSize))
+      console.log("aaaa")
+
     const attempt = (
       await new this.attemptModel({
         ...execResults,
@@ -49,6 +112,8 @@ export class AttemptsService {
 
     return { ...execResults, id: attempt.id };
   }
+
+
 
   async findOne(findAttemptDTO: FindByIdDTO): Promise<Attempt> {
     const attempt: Attempt = (

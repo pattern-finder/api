@@ -38,8 +38,11 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/package*.json /usr/src/app/
 COPY --from=builder /usr/src/app/dist/ /usr/src/app/
 
-ENV LIBS_DIR=/usr/src/app/libs
+ENV LIBS_DIR=/usr/src/app/
+ENV ALGO_DIR=/usr/src/app/evaluation_code
+
 COPY ./libs ${LIBS_DIR}
+COPY ./evaluation_code ${ALGO_DIR}
 
 COPY ./conf /usr/src/app/conf
 

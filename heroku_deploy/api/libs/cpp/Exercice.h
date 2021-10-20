@@ -13,7 +13,7 @@ public:
     std::string assertRes(int solution_user, int resultat);
     std::string assertResMult(std::vector<double> solution_user, std::vector<double> resultat);
     std::string assertResMultInt(std::vector<int> solution_user, std::vector<int> resultat);
-    std::string assertResMultDict(const std::map<string, int>  solution_user, const std::map<string, int> resultat);
+    std::string assertResMultDict(const std::map<std::string, int>  solution_user, const std::map<std::string, int> resultat);
 };
 
 #endif /* MY_CLASS_H */

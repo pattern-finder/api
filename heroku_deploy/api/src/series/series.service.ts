@@ -49,13 +49,18 @@ export class SeriesService {
   }
 
   async findDefaultSeries(): Promise<Serie[]> {
-    return (await this.seriesModel.find({ isCourse: true }).exec()).map((a) =>
+    return (await this.seriesModel.find({ name: "default" }).exec()).map((a) =>
       a.toObject(),
     );
   }
 
   async create(createSerieDTO: InsertSerieDTO): Promise<Serie> {
+
+    console.log("createSerieDTO")
+    console.log(createSerieDTO)
+
     if (await this.findByName(createSerieDTO.name)) {
+
       throw new UnprocessableEntityException(
         `Serie name ${createSerieDTO.name} has already been taken.`,
       );

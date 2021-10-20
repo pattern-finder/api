@@ -144,13 +144,12 @@ class Opencv:
     def getNumberImage(self):
 
         PATH = "pictures/"
-        print(os.getcwd())
-       # cpt = 0
-      #  for image in os.listdir(PATH):
-       #     if image.endswith(".png"):
-       #         cpt += 1
+        cpt = 0
+        for image in os.listdir(PATH):
+            if image.endswith(".png"):
+                cpt += 1
 
-      #  self.numberImage = cpt - self.nbMatriceResult
+        self.numberImage = cpt - self.nbMatriceResult
 
 
     def extractImage(self):

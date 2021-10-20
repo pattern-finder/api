@@ -14,6 +14,7 @@ import { InsertPictureDTO } from './dto/insert-picture.dto';
 import { PictureUrlDTO } from './dto/picture-url.dto';
 import { UpdatePictureDTO } from './dto/update-picture.dto';
 import { Picture, PictureDocument } from './picture.schema';
+import { Types } from 'mongoose';
 
 Injectable();
 export class PicturesService {
@@ -38,13 +39,20 @@ export class PicturesService {
   }
 
   async findExternalUrlsByChallenge(
-    challenge: string,
+    challenge_id: string,
     fromInternal = false,
   ): Promise<PictureUrlDTO[]> {
-    const pictures = (await this.pictureModel.find({ challenge }).exec()).map(
-      (picture) => {
+
+  var mongo = require('mongodb');
+  var o_id = new mongo.ObjectID(challenge_id);
+
+  const pictures = ( 
+    await this.pictureModel.find({ challenge: o_id }).exec()
+  ).map((picture) => {
         const pictureObject = picture.toObject();
+
         const file = fromInternal
+
           ? this.objectStorageService.generateInternalServerAddress(
               pictureObject.url,
             )
@@ -59,14 +67,20 @@ export class PicturesService {
         };
       },
     );
+
     return pictures;
   }
 
   async findInternalUrlsByChallenge(
-    challenge: string,
+    challenge_id: string,
   ): Promise<PictureUrlDTO[]> {
+
+
+    var mongo = require('mongodb');
+    var o_id = new mongo.ObjectID(challenge_id);
+    
     const pictures = (
-      await this.pictureModel.find({ challenge }, 'url').exec()
+      await this.pictureModel.find({ o_id: o_id }).exec()
     ).map((picture) => {
       const pictureObject = picture.toObject();
       return {
