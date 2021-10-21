@@ -31,7 +31,7 @@ export class EvalPlagiatService {
   async findByToken(verifCatDto : VerifCatDto): Promise<EvalPlagiat[]> {
     return this.evalPlagiatModel.find({
       userId: verifCatDto.userId,
-      nametokenCodeExo:verifCatDto.tokenCode, 
+      nametokenCodeExo:verifCatDto.token, 
       })
   }
 }
