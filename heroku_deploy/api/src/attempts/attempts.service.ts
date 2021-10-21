@@ -65,7 +65,7 @@ export class AttemptsService {
       console.log(data.toString())
 
     });
-
+    console.log("tokenCode")
     console.log(tokenCode)
     /*const evaluation = tokenCode
     const string = JSON.stringify(evaluation)
