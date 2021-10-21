@@ -75,20 +75,23 @@ export class AttemptsService {
     }; 
 
 
+    var stringPatter;
+    list_content.forEach(async user_pattern => {
+      stringPatter = stringPatter + ";;;" + user_pattern;
+    });
+
 
     const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
 
     listUserCode.forEach(user => {
 
 
-      list_content.forEach(async user_pattern => {
 
-        const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, user.tokenCode, user_pattern]);
+        const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, user.tokenCode, stringPatter]);
         console.log(user.tokenCode)
-        console.log(user_pattern)
 
 
-        await pythonProcess3.stdout.on('data', (data) => {
+        pythonProcess3.stdout.on('data', (data) => {
           console.log("start res")
           console.log(pythonProcess3)
           console.log(data.toString())
@@ -96,7 +99,6 @@ export class AttemptsService {
 
         });
 
-      });
 
 
     }
