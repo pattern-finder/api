@@ -85,7 +85,7 @@ export class AttemptsService {
 
     var retour = await this.evalPlagiat(code, stringPattern)
     var index = retour.indexOf("True");
-
+    console.log(index)
     if (index == -1){
         const verifCatDto : VerifCatDto = {
           token: insertAttemptDTO.code,
