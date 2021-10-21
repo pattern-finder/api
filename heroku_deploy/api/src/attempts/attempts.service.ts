@@ -50,9 +50,9 @@ export class AttemptsService {
 
     console.log("FINISH");
 
-   /* pythonProcess.stdout.on('data', (data) => {
+    pythonProcess.stdout.on('data', (data) => {
       console.log(data)
-    });*/
+    });
 
 
     const execResultsAlgoEvaluation = await this.execServerService.executeAlgoEvaluation(
