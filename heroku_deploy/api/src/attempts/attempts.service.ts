@@ -47,54 +47,38 @@ export class AttemptsService {
     const spawn = require("child_process").spawn;
     console.log(execBootstrap.language);
     const pythonProcess = spawn('python3',[`${ALGO_DIR}/${execBootstrap.language}/main.py`, insertAttemptDTO.code]);
-
+    var resulte_algo_eval_code;
     await pythonProcess.stdout.on('data', (data) => {
-
       console.log(data.toString())
-
+      resulte_algo_eval_code = data.toString()
     });
 
 
     const pythonProcess2 = spawn('python3',[`${ALGO_DIR}/${execBootstrap.language}/mainToken.py`, insertAttemptDTO.code]);
     var tokenCode:string = "";
-    
+    var list_content;
+
     await pythonProcess2.stdout.on('data', (data) => {
 
       tokenCode = data.toString()
       console.log(data.toString())
-
-
-
-
-
-
-      
-
+      list_content = tokenCode.split(';;;');
     });
     console.log("tokenCode")
     console.log(tokenCode)
-    /*const evaluation = tokenCode
-    const string = JSON.stringify(evaluation)
-    const list_content_start = string.split('[');
-    const list_content_stop = list_content_start[1].split(']');
-    const list_content = list_content_stop[0];
-
-    const elt = list_content.split(",")
-    console.log(elt)*/
-
 
     const challenge = await this.challengesService.findOne({
       id: execBootstrap.challenge,
     });
 
-/*
+
     let plagiaStringSize = 0
     let stringSize = 0
 
 
     let n = 0;
-    while(n<elt.length){
-      let element = elt[n]
+    while(n<list_content.length){
+      let element = list_content[n]
         const plagiatCodeDto : CreateCatDto = {
           tokenCode: element,
           nameExo: challenge.name,
@@ -117,14 +101,12 @@ export class AttemptsService {
 
         if ((plagiaStringSize*100)/(stringSize) >= 80){
           execResults["stdout"] = "PALGIAT"
-        }else{
-          execResults["stdout"]=execResults["stdout"]+execResultsAlgoEvaluation["stdout"]
         }
  
 
       console.log((plagiaStringSize*100)/(stringSize))
-*/
-    execResults["stdout"] = tokenCode
+
+    execResults["stdout"] = resulte_algo_eval_code
     const attempt = (
       await new this.attemptModel({
         ...execResults,
