@@ -62,17 +62,19 @@ export class AttemptsService {
     pythonProcess2.stdout.on('data', (data) => {
 
       tokenCode = data.toString()
+      console.log(data.toString())
+
     });
 
     console.log(tokenCode)
-    const evaluation = tokenCode
+    /*const evaluation = tokenCode
     const string = JSON.stringify(evaluation)
     const list_content_start = string.split('[');
     const list_content_stop = list_content_start[1].split(']');
     const list_content = list_content_stop[0];
 
     const elt = list_content.split(",")
-    console.log(elt)
+    console.log(elt)*/
 
 
     const challenge = await this.challengesService.findOne({
