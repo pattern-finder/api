@@ -63,6 +63,13 @@ export class AttemptsService {
       tokenCode = data.toString()
       console.log(data.toString())
 
+
+
+
+
+
+      
+
     });
     console.log("tokenCode")
     console.log(tokenCode)

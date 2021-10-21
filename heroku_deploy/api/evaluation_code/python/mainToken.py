@@ -9,6 +9,10 @@ if __name__ == '__main__':
 
     res = excecGetTokenizeCode(code, False)
 
-    
-    print(res)
+    stringres = ""
+
+    for l in res:
+        stringres += ";;;"+l
+
+    print(stringres)
     sys.stdout.flush()
