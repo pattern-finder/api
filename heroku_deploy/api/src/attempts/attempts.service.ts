@@ -12,6 +12,8 @@ import { FindByUserAndBootstrapDTO } from './dto/find-by-user-and-bootstrap.dto'
 import { InsertAttemptDTO } from './dto/insert-attempt.dto';
 import { CreateCatDto } from 'src/evalPlagiat/dto/create-evalPlagiat.dto';
 
+const ALGO_DIR = process.env.ALGO_DIR || '/usr/src/app/evaluation_code';
+
 @Injectable()
 export class AttemptsService {
   constructor(
@@ -43,7 +45,8 @@ export class AttemptsService {
     );
 
     const spawn = require("child_process").spawn;
-    const pythonProcess = spawn('python',["./test.py"]);
+    console.log(execBootstrap.language);
+    const pythonProcess = spawn('python',[`${ALGO_DIR}/test.py`]);
 
 
    /* pythonProcess.stdout.on('data', (data) => {
@@ -105,9 +108,7 @@ export class AttemptsService {
         }
  
 
-        console.log("aaaa")
       console.log((plagiaStringSize*100)/(stringSize))
-      console.log("aaaa")
 
     const attempt = (
       await new this.attemptModel({

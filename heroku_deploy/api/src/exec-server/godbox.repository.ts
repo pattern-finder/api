@@ -162,7 +162,7 @@ export class GodBoxRepository {
     code: string,
     bootstrap: ExecBootstrap,
   ): Promise<GodboxPhaseOutputDTO> {
-    const language = await this.languagesService.findByName("python");
+    const language = await this.languagesService.findByName(bootstrap.language);
 
 
     const payload = {
