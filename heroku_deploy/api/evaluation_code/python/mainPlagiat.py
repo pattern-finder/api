@@ -1,18 +1,13 @@
-from getTokenizeCode import excecGetTokenizeCode
+from evalPlagiat import excecEvalPlagiat
 
 import sys
 
 code = sys.argv[1]
+user_pattern = sys.argv[2]
 
 if __name__ == '__main__':
 
+    res = excecEvalPlagiat(code, user_pattern)
 
-    res = excecGetTokenizeCode(code, False)
-
-    stringres = ""
-
-    for l in res:
-        stringres += ";;;"+l
-
-    print(stringres)
+    print(res)
     sys.stdout.flush()

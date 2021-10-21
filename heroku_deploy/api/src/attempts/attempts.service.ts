@@ -64,12 +64,39 @@ export class AttemptsService {
       console.log(data.toString())
       list_content = tokenCode.split(';;;');
     });
-    console.log("tokenCode")
-    console.log(tokenCode)
 
     const challenge = await this.challengesService.findOne({
       id: execBootstrap.challenge,
     });
+
+    const plagiatCodeDto : CreateCatDto = {
+      nameExo: challenge.name,
+      userId: insertAttemptDTO.user
+    }; 
+
+
+
+    const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
+
+    listUserCode.forEach(usercode => {
+
+      console.log(usercode)
+
+      list_content.forEach(async user_pattern => {
+
+        const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, usercode, user_pattern]);
+
+        await pythonProcess3.stdout.on('data', (data) => {
+
+          console.log(data.toString())
+          
+        });
+
+      });
+
+
+    }
+    );
 
 /*
     let plagiaStringSize = 0
@@ -79,7 +106,6 @@ export class AttemptsService {
     let n = 0;
     while(n<list_content.length){
 
-      const pythonProcess2 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, insertAttemptDTO.code]);
 
 
 

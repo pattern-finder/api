@@ -1,6 +1,5 @@
 
 export class CreateCatDto {
-  tokenCode: string;
 
   nameExo: string;
 
