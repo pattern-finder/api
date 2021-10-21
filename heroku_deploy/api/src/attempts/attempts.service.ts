@@ -82,6 +82,8 @@ export class AttemptsService {
       code = code + ";;;" + user.tokenCode;
     });
 
+    console.log("code")
+    console.log(code)
 
     var retour = await this.evalPlagiat(code, stringPattern)
     var index = retour.indexOf("True");
