@@ -1,13 +1,28 @@
-from evaluation_code.evalNbLigneFonctionCpp import excecEvalNbLigneFonction
-from evaluation_code.evalCommentaireCpp import excecEvalCommentaire
-from evaluation_code.evalRedondanceCpp import excecEvalRedondance
-from evaluation_code.evalVariableNameCpp import excecEvalVariableName
+from evalNbLigneFonction import excecEvalNbLigneFonction
+from evalCommentaire import excecEvalCommentaire
+from evalRedondance import excecEvalRedondance
+from evalVariableName import excecEvalVariableName
+import sys
+
+code = sys.argv[1]
 
 if __name__ == '__main__':
+    import os
+    import re
+
+    lignes = code.split("\n")
+    new_lignes = []
+
+    for ligne in lignes:   
+       ligne.replace("\n","")
+       new_lignes.append(ligne) 
+
+    lignes  =  new_lignes
     payload = {
-        "eval_variable_name\":excecEvalVariableName(),
-        "eval_redondance\": excecEvalRedondance(),
-        "eval_nb ligne_fonction\": excecEvalNbLigneFonction(),
-        "eval_commentaire\": excecEvalCommentaire()
+        "eval_variable_name":excecEvalVariableName(lignes),
+        "eval_redondance": excecEvalRedondance(lignes),
+        "eval_nb ligne_fonction": excecEvalNbLigneFonction(lignes),
+        "eval_commentaire": excecEvalCommentaire(lignes),
     }
     print(payload)
+    sys.stdout.flush()
