@@ -46,7 +46,7 @@ export class AttemptsService {
 
     const spawn = require("child_process").spawn;
     console.log(execBootstrap.language);
-    const pythonProcess = spawn('python3',[`${ALGO_DIR}/${execBootstrap.language}/test.py`]);
+    const pythonProcess = spawn('python3',[`${ALGO_DIR}/${execBootstrap.language}/main.py`]);
 
     console.log("FINISH");
 
