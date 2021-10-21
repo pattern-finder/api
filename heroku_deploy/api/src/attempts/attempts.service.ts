@@ -45,18 +45,15 @@ export class AttemptsService {
     );
 
     const exec = require("child_process").execSync;
-
-    var resulte_algo_eval_code;
-    var result = exec("python3 "+ALGO_DIR+"/"+execBootstrap.language+"/main.py \'"+insertAttemptDTO.code+"\'");
-    resulte_algo_eval_code = result.toString()
+    var resulte_algo_eval_code = await this.evalCode(execBootstrap.language, insertAttemptDTO.code)
 
 
-    var tokenCode:string = "";
+
     var list_content;
-    var resulte_algo_eval_code;
-    var result = exec("python3 "+ALGO_DIR+"/"+execBootstrap.language+"/mainToken.py \'"+insertAttemptDTO.code+"\'");
-    resulte_algo_eval_code = tokenCode.toString()
+    var tokenCode = await this.getTokenCode(execBootstrap.language, insertAttemptDTO.code)
     list_content = tokenCode.split(';;;');
+
+
     console.log("list_content")
     console.log(list_content)
 
@@ -70,8 +67,8 @@ export class AttemptsService {
     }; 
 
 
-    var stringPattern;
-    list_content.forEach(async user_pattern => {
+    var stringPattern = "";
+    list_content.forEach(user_pattern => {
       stringPattern = stringPattern + ";;;" + user_pattern;
     });
 
@@ -80,7 +77,7 @@ export class AttemptsService {
     console.log("len listUserCode"+ listUserCode.length)
 
     var code ="";
-    listUserCode.forEach(async user => {
+    listUserCode.forEach(user => {
       code = code + ";;;" + user.tokenCode;
     });
 
@@ -131,6 +128,7 @@ export class AttemptsService {
     console.log(JSON.stringify(retour))
 
     execResults["stdout"] = resulte_algo_eval_code
+    console.log(resulte_algo_eval_code)
     console.log("PROG END")
     const attempt = (
       await new this.attemptModel({
@@ -169,13 +167,32 @@ export class AttemptsService {
     var result = exec("python3 "+ALGO_DIR+"/python/mainPlagiat.py \'"+code+"\' \'"+stringPattern+"\'");
     return result.toString()
 
-    /*await pythonProcess3.stdout.on('data', (data) => {
-      res= data.toString()
-    });
+  }
 
-    return res */
+
+
+  async getTokenCode(language: string, code: string): Promise<string> {
+    const exec = require("child_process").execSync;
+    var tokenCode:string = "";
+    var list_content;
+    var resulte_algo_eval_code;
+    var result = exec("python3 "+ALGO_DIR+"/"+language+"/mainToken.py \'"+code+"\'");
+    resulte_algo_eval_code = tokenCode.toString()
+    return resulte_algo_eval_code
 
   }
+
+
+  async evalCode(language: string, code: string): Promise<string> {
+    const exec = require("child_process").execSync;
+    var resulte_algo_eval_code;
+    var result = exec("python3 "+ALGO_DIR+"/"+language+"/main.py \'"+code+"\'");
+    resulte_algo_eval_code = result.toString()
+    return resulte_algo_eval_code
+  }
+
+
+
 
   async findByUserAndBootstrap(findAttemptDTO: FindByUserAndBootstrapDTO) {
     return (
