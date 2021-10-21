@@ -78,13 +78,12 @@ export class AttemptsService {
 
     const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
 
-    listUserCode.forEach(usercode => {
+    listUserCode.forEach(user => {
 
-      console.log(usercode)
 
       list_content.forEach(async user_pattern => {
 
-        const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, usercode, user_pattern]);
+        const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, user.tokenCode, user_pattern]);
 
         await pythonProcess3.stdout.on('data', (data) => {
 
@@ -140,6 +139,7 @@ export class AttemptsService {
       */
 
     execResults["stdout"] = resulte_algo_eval_code
+    console.log("PROG END")
     const attempt = (
       await new this.attemptModel({
         ...execResults,
