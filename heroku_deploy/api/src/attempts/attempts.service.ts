@@ -171,13 +171,17 @@ export class AttemptsService {
   async evalPlagiat(code: string, stringPattern: string): Promise<string> {
     const spawn = require("child_process").spawn;
     const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, code, stringPattern]);
-    var res = "oo"
 
-    await pythonProcess3.stdout.on('data', (data) => {
+    const exec = require("child_process").execSync;
+
+    var result = exec(`python3 ${ALGO_DIR}/python/mainPlagiat.py ${code} ${stringPattern}`);
+    return result
+
+    /*await pythonProcess3.stdout.on('data', (data) => {
       res= data.toString()
     });
 
-    return res
+    return res */
 
   }
 
