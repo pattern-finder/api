@@ -1,14 +1,17 @@
-from evaluation_code.evalNbLigneFonction import excecEvalNbLigneFonction
-from evaluation_code.evalCommentaire import excecEvalCommentaire
-from evaluation_code.evalRedondance import excecEvalRedondance
-from evaluation_code.evalVariableName import excecEvalVariableName
-from evaluation_code.evalPlagiat import excecEvalPlagiat
+from evalNbLigneFonction import excecEvalNbLigneFonction
+from evalCommentaire import excecEvalCommentaire
+from evalRedondance import excecEvalRedondance
+from evalVariableName import excecEvalVariableName
+from evalPlagiat import excecEvalPlagiat
+import sys
+
+code = sys.argv(1)
 
 if __name__ == '__main__':
     import os
     import re
-    filin = open("userCode.py","r")
-    lignes = filin.readlines()
+
+    lignes = code.split("\n")
     new_lignes = []
 
     for ligne in lignes:   
@@ -23,5 +26,5 @@ if __name__ == '__main__':
         "eval_commentaire": excecEvalCommentaire(lignes),
         "eval_plagiat": excecEvalPlagiat(lignes)
     }
-    filin.close()
-    print(payload)
+    print("dataToSendBack")
+    sys.stdout.flush()
