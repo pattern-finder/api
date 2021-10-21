@@ -46,13 +46,13 @@ export class AttemptsService {
 
     const spawn = require("child_process").spawn;
     console.log(execBootstrap.language);
-    var print = "PRINT COUCOU"
     const pythonProcess = spawn('python3',[`${ALGO_DIR}/${execBootstrap.language}/main.py`, insertAttemptDTO.code]);
 
-    console.log("FINISH");
 
     pythonProcess.stdout.on('data', (data) => {
+
       console.log(data.toString())
+
     });
 
 
@@ -67,8 +67,9 @@ export class AttemptsService {
     const list_content_start = string.split('[');
     const list_content_stop = list_content_start[1].split(']');
     const list_content = list_content_stop[0];
-    const elt = list_content.split(",")
 
+    const elt = list_content.split(",")
+    console.log(elt)
 
 
     const challenge = await this.challengesService.findOne({

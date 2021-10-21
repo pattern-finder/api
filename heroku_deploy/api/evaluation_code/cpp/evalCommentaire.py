@@ -30,8 +30,8 @@ def excecEvalCommentaire(lignes):
 
         if (nbComment/nbLigne)*100 >= 10:
             res = "ok"
-        else:
-            res = "error"
+        else:            
+            res = "pas assez de commentaires"
     else:
         res = "ok"
 
