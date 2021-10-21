@@ -79,7 +79,7 @@ export class AttemptsService {
       id: execBootstrap.challenge,
     });
 
-
+/*
     let plagiaStringSize = 0
     let stringSize = 0
 
@@ -115,7 +115,7 @@ export class AttemptsService {
  
 
       console.log((plagiaStringSize*100)/(stringSize))
-
+*/
     const attempt = (
       await new this.attemptModel({
         ...execResults,
