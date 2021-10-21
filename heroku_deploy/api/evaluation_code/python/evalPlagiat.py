@@ -143,4 +143,4 @@ def excecEvalPlagiat(code, user_pattern):
         if len(pattern) <= len(code) and len(pattern) >= 25:
             result = result or search(pattern, code, q)
 
-    return 
+    return result
