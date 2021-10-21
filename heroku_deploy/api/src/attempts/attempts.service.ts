@@ -48,6 +48,7 @@ export class AttemptsService {
     console.log(execBootstrap.language);
     const pythonProcess = spawn('echo',[`${ALGO_DIR}/${execBootstrap.language}/test.py`]);
 
+    console.log("FINISH");
 
    /* pythonProcess.stdout.on('data', (data) => {
       console.log(data)
