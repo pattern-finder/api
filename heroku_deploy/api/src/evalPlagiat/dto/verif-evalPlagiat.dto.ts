@@ -1,5 +1,5 @@
 
-export class CreateCatDto {
+export class VerifCatDto {
 
   token: string;
 
