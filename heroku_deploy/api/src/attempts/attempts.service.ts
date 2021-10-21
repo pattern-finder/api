@@ -44,26 +44,21 @@ export class AttemptsService {
       execBootstrap,
     );
 
-    const spawn = require("child_process").spawn;
-    console.log(execBootstrap.language);
-    const pythonProcess = spawn('python3',[`${ALGO_DIR}/${execBootstrap.language}/main.py`, insertAttemptDTO.code]);
+    const exec = require("child_process").execSync;
+
     var resulte_algo_eval_code;
-    await pythonProcess.stdout.on('data', (data) => {
-      console.log(data.toString())
-      resulte_algo_eval_code = data.toString()
-    });
+    var result = exec("python3 "+ALGO_DIR+"/"+execBootstrap.language+"/main.py \'"+insertAttemptDTO.code+"\'");
+    resulte_algo_eval_code = result.toString()
 
 
-    const pythonProcess2 = spawn('python3',[`${ALGO_DIR}/${execBootstrap.language}/mainToken.py`, insertAttemptDTO.code]);
     var tokenCode:string = "";
     var list_content;
-
-    await pythonProcess2.stdout.on('data', (data) => {
-
-      tokenCode = data.toString()
-      console.log(data.toString())
-      list_content = tokenCode.split(';;;');
-    });
+    var resulte_algo_eval_code;
+    var result = exec("python3 "+ALGO_DIR+"/"+execBootstrap.language+"/mainToken.py \'"+insertAttemptDTO.code+"\'");
+    resulte_algo_eval_code = tokenCode.toString()
+    list_content = tokenCode.split(';;;');
+    console.log("list_content")
+    console.log(list_content)
 
     const challenge = await this.challengesService.findOne({
       id: execBootstrap.challenge,
@@ -169,11 +164,8 @@ export class AttemptsService {
   }
 
   async evalPlagiat(code: string, stringPattern: string): Promise<string> {
-    const spawn = require("child_process").spawn;
-    const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, code, stringPattern]);
 
     const exec = require("child_process").execSync;
-
     var result = exec("python3 "+ALGO_DIR+"/python/mainPlagiat.py \'"+code+"\' \'"+stringPattern+"\'");
     return result.toString()
 
