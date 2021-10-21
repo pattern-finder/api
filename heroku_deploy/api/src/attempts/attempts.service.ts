@@ -49,7 +49,7 @@ export class AttemptsService {
     const pythonProcess = spawn('python3',[`${ALGO_DIR}/${execBootstrap.language}/main.py`, insertAttemptDTO.code]);
 
 
-    pythonProcess.stdout.on('data', (data) => {
+    await pythonProcess.stdout.on('data', (data) => {
 
       console.log(data.toString())
 
@@ -59,7 +59,7 @@ export class AttemptsService {
     const pythonProcess2 = spawn('python3',[`${ALGO_DIR}/${execBootstrap.language}/mainToken.py`, insertAttemptDTO.code]);
     var tokenCode:String;
     
-    pythonProcess2.stdout.on('data', (data) => {
+    await pythonProcess2.stdout.on('data', (data) => {
 
       tokenCode = data.toString()
       console.log(data.toString())
