@@ -5,7 +5,7 @@
 # from evalPlagiat import excecEvalPlagiat
 import sys
 
-code = sys.argv(1)
+#code = sys.argv(1)
 
 if __name__ == '__main__':
     # import os
@@ -26,5 +26,5 @@ if __name__ == '__main__':
     #     "eval_commentaire": excecEvalCommentaire(lignes),
     #     "eval_plagiat": excecEvalPlagiat(lignes)
     # }
-    print("coucou" + str(code))
+    print("coucou")
     sys.stdout.flush()
