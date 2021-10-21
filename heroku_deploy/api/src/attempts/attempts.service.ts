@@ -71,13 +71,19 @@ export class AttemptsService {
       id: execBootstrap.challenge,
     });
 
-
+/*
     let plagiaStringSize = 0
     let stringSize = 0
 
 
     let n = 0;
     while(n<list_content.length){
+
+      const pythonProcess2 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, insertAttemptDTO.code]);
+
+
+
+
       let element = list_content[n]
         const plagiatCodeDto : CreateCatDto = {
           tokenCode: element,
@@ -105,6 +111,7 @@ export class AttemptsService {
  
 
       console.log((plagiaStringSize*100)/(stringSize))
+      */
 
     execResults["stdout"] = resulte_algo_eval_code
     const attempt = (
