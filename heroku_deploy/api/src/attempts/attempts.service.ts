@@ -83,6 +83,9 @@ export class AttemptsService {
 
     const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
     console.log("len listUserCode"+ listUserCode.length)
+
+    var retour : string = ""
+
     listUserCode.forEach(user => {
 
 
@@ -93,6 +96,12 @@ export class AttemptsService {
           console.log("start res")
           console.log(data.toString())
           console.log("end res")
+
+          if (data.toString() == "True"){
+            retour="plagiat"
+            console.log("EST PLAGIAT")
+          }
+
 
         });
 
@@ -141,6 +150,7 @@ export class AttemptsService {
 
       console.log((plagiaStringSize*100)/(stringSize))
       */
+    console.log(retour)
 
     execResults["stdout"] = resulte_algo_eval_code
     console.log("PROG END")
