@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
     res = False
     for c in code:
-        res = excecEvalPlagiat(code, user_pattern)
+        res = excecEvalPlagiat(c, user_pattern)
 
-    print(code +"  \n" + user_pattern)
+    print(res)
     sys.stdout.flush()
