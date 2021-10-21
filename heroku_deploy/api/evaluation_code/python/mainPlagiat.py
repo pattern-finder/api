@@ -9,5 +9,5 @@ if __name__ == '__main__':
     user_pattern = user_pattern.split(";;;")
     res = excecEvalPlagiat(code, user_pattern)
 
-    print(res)
+    print("responce plagiat"+str(user_pattern)+ str(code))
     sys.stdout.flush()

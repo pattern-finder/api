@@ -82,18 +82,15 @@ export class AttemptsService {
 
 
     const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
-
+    console.log("len listUserCode"+ listUserCode.length)
     listUserCode.forEach(user => {
 
 
 
         const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, user.tokenCode, stringPatter]);
-        console.log(user.tokenCode)
-
 
         pythonProcess3.stdout.on('data', (data) => {
           console.log("start res")
-          console.log(pythonProcess3)
           console.log(data.toString())
           console.log("end res")
 
