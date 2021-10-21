@@ -132,7 +132,7 @@ export class AttemptsService {
 
       console.log((plagiaStringSize*100)/(stringSize))
       */
-    console.log("retour" + retour)
+    console.log("retour" + retour.toString())
 
     execResults["stdout"] = resulte_algo_eval_code
     console.log("PROG END")
