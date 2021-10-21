@@ -84,11 +84,16 @@ export class AttemptsService {
       list_content.forEach(async user_pattern => {
 
         const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, user.tokenCode, user_pattern]);
+        console.log(user.tokenCode)
+        console.log(user_pattern)
+
 
         await pythonProcess3.stdout.on('data', (data) => {
-
+          console.log("start res")
+          console.log(pythonProcess3)
           console.log(data.toString())
-          
+          console.log("end res")
+
         });
 
       });
