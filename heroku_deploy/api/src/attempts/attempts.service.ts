@@ -204,7 +204,7 @@ export class AttemptsService {
     userId: string,
     challengeId: string,
   ): Promise<Attempt[]> {
-    const bootstraps = await (
+    const bootstraps = (
       await this.challengesService.findOne({ id: challengeId })
     ).execBootstraps;
     const attempts = (
