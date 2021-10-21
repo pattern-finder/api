@@ -5,9 +5,9 @@
 # from evalPlagiat import excecEvalPlagiat
 import sys
 
-code1 = sys.argv(0)
-code2 = sys.argv(1)
-code3 = sys.argv(2)
+#code1 = sys.argv(0)
+code2 = sys.argv[1]
+#code3 = sys.argv(2)
 
 if __name__ == '__main__':
     # import os
@@ -28,5 +28,5 @@ if __name__ == '__main__':
     #     "eval_commentaire": excecEvalCommentaire(lignes),
     #     "eval_plagiat": excecEvalPlagiat(lignes)
     # }
-    print("test :"+str(code1) + str(code2)+ str(code3))
+    print("test :"+str(code2))
     sys.stdout.flush()
