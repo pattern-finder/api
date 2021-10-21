@@ -175,7 +175,7 @@ export class AttemptsService {
     const exec = require("child_process").execSync;
 
     var result = exec("python3 "+ALGO_DIR+"/python/mainPlagiat.py \'"+code+"\' \'"+stringPattern+"\'");
-    return result
+    return result.toString()
 
     /*await pythonProcess3.stdout.on('data', (data) => {
       res= data.toString()
