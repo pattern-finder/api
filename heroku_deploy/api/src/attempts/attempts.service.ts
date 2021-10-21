@@ -11,6 +11,7 @@ import { ExecutionResultsDTO } from './dto/execution-results.dto';
 import { FindByUserAndBootstrapDTO } from './dto/find-by-user-and-bootstrap.dto';
 import { InsertAttemptDTO } from './dto/insert-attempt.dto';
 import { CreateCatDto } from 'src/evalPlagiat/dto/create-evalPlagiat.dto';
+import { VerifCatDto } from 'src/evalPlagiat/dto/verif-evalPlagiat.dto';
 
 const ALGO_DIR = process.env.ALGO_DIR || '/usr/src/app/evaluation_code';
 
@@ -83,7 +84,25 @@ export class AttemptsService {
 
 
     var retour = await this.evalPlagiat(code, stringPattern)
+    var index = retour.indexOf("True");
 
+    if (index == -1){
+        const verifCatDto : VerifCatDto = {
+          nameExo: challenge.name,
+          userId: insertAttemptDTO.user
+        }; 
+
+        const affList = await this.evalPlagiatService.findByToken(verifCatDto);
+
+        if(affList.length == 0){
+          const res = await this.evalPlagiatService.create(plagiatCodeDto);
+        }else{
+          console.log("code use previously")
+        }
+
+    }else{
+      resulte_algo_eval_code = "Plagiat"
+    }
 /*
     let plagiaStringSize = 0
     let stringSize = 0

@@ -24,5 +24,5 @@ if __name__ == '__main__':
         "eval_nb ligne_fonction": excecEvalNbLigneFonction(lignes),
         "eval_commentaire": excecEvalCommentaire(lignes),
     }
-    print(payload)payload
+    print(payload)
     sys.stdout.flush()
