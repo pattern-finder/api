@@ -192,11 +192,9 @@ export class AttemptsService {
 
   async getTokenCode(language: string, code: string): Promise<string> {
     const exec = require("child_process").execSync;
-    var tokenCode:string = "";
-    var list_content;
     var resulte_algo_eval_code;
     var result = exec("python3 "+ALGO_DIR+"/"+language+"/mainToken.py \'"+code+"\'");
-    resulte_algo_eval_code = tokenCode.toString()
+    resulte_algo_eval_code = result.toString()
     return resulte_algo_eval_code
 
   }
