@@ -56,13 +56,16 @@ export class AttemptsService {
     });
 
 
-    const execResultsAlgoEvaluation = await this.execServerService.executeAlgoEvaluation(
-      insertAttemptDTO.code,
-      execBootstrap,
-    );
+    const pythonProcess2 = spawn('python3',[`${ALGO_DIR}/${execBootstrap.language}/mainToken.py`, insertAttemptDTO.code]);
+    var tokenCode:String;
+    
+    pythonProcess2.stdout.on('data', (data) => {
 
+      tokenCode = data.toString()
+    });
 
-    const evaluation = execResultsAlgoEvaluation['stdout']
+    console.log(tokenCode)
+    const evaluation = tokenCode
     const string = JSON.stringify(evaluation)
     const list_content_start = string.split('[');
     const list_content_stop = list_content_start[1].split(']');
