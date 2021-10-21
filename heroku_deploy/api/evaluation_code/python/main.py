@@ -2,7 +2,6 @@ from evalNbLigneFonction import excecEvalNbLigneFonction
 from evalCommentaire import excecEvalCommentaire
 from evalRedondance import excecEvalRedondance
 from evalVariableName import excecEvalVariableName
-from evalPlagiat import excecEvalPlagiat
 import sys
 
 code = sys.argv[1]
@@ -24,7 +23,6 @@ if __name__ == '__main__':
         "eval_redondance": excecEvalRedondance(lignes),
         "eval_nb ligne_fonction": excecEvalNbLigneFonction(lignes),
         "eval_commentaire": excecEvalCommentaire(lignes),
-        "eval_plagiat": excecEvalPlagiat(lignes)
     }
-    print(payload)
+    print(lignes)
     sys.stdout.flush()
