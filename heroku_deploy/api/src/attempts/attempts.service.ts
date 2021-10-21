@@ -84,27 +84,13 @@ export class AttemptsService {
     const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
     console.log("len listUserCode"+ listUserCode.length)
 
-    var retour : string = ""
     var code ="";
     listUserCode.forEach(async user => {
       code = code + ";;;" + user.tokenCode;
     });
 
 
-    const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, code, stringPattern]);
-
-    await pythonProcess3.stdout.on('data', (data) => {
-          console.log("start res")
-          console.log(data.toString())
-          console.log("end res")
-
-          if (data.toString() == "True"){
-            retour="plagiat"
-            console.log("EST PLAGIAT")
-          }
-
-
-        });
+    var retour = await this.evalPlagiat(code, stringPattern)
 
 
 /*
@@ -164,6 +150,11 @@ export class AttemptsService {
   }
 
 
+  async findAll(): Promise<Attempt[]> {
+    return (await this.attemptModel.find().exec()).map((attempt) =>
+      attempt.toObject(),
+    );
+  }
 
   async findOne(findAttemptDTO: FindByIdDTO): Promise<Attempt> {
     const attempt: Attempt = (
@@ -177,10 +168,27 @@ export class AttemptsService {
     return attempt;
   }
 
-  async findAll(): Promise<Attempt[]> {
-    return (await this.attemptModel.find().exec()).map((attempt) =>
-      attempt.toObject(),
-    );
+  async evalPlagiat(code: string, stringPattern: string): Promise<string> {
+    const spawn = require("child_process").spawn;
+
+    var retour = "False";
+    const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, code, stringPattern]);
+
+    await pythonProcess3.stdout.on('data', (data) => {
+          console.log("start res")
+          console.log(data.toString())
+          console.log("end res")
+
+          if (data.toString() == "True"){
+            retour="plagiat"
+            console.log("EST PLAGIAT")
+          }
+
+
+        });
+
+        return retour;
+
   }
 
   async findByUserAndBootstrap(findAttemptDTO: FindByUserAndBootstrapDTO) {
