@@ -56,7 +56,7 @@ export class AttemptsService {
 
 
     const pythonProcess2 = spawn('python3',[`${ALGO_DIR}/${execBootstrap.language}/mainToken.py`, insertAttemptDTO.code]);
-    var tokenCode:string;
+    var tokenCode:string = "";
     
     await pythonProcess2.stdout.on('data', (data) => {
 
@@ -117,7 +117,7 @@ export class AttemptsService {
 
       console.log((plagiaStringSize*100)/(stringSize))
 */
-    execResults["stdout"]= tokenCode
+    execResults["stdout"] = tokenCode
     const attempt = (
       await new this.attemptModel({
         ...execResults,
