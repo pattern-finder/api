@@ -92,7 +92,6 @@ export class AttemptsService {
 
     var retour = await this.evalPlagiat(code, stringPattern)
 
-
 /*
     let plagiaStringSize = 0
     let stringSize = 0
@@ -170,24 +169,8 @@ export class AttemptsService {
 
   async evalPlagiat(code: string, stringPattern: string): Promise<string> {
     const spawn = require("child_process").spawn;
-
-    var retour = "False";
     const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, code, stringPattern]);
-
-    await pythonProcess3.stdout.on('data', (data) => {
-          console.log("start res")
-          console.log(data.toString())
-          console.log("end res")
-
-          if (data.toString() == "True"){
-            retour="plagiat"
-            console.log("EST PLAGIAT")
-          }
-
-
-        });
-
-        return retour;
+    return await pythonProcess3.stdout.on('data', (data) => data.toString());
 
   }
 
