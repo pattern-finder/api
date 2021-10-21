@@ -75,9 +75,9 @@ export class AttemptsService {
     }; 
 
 
-    var stringPatter;
+    var stringPattern;
     list_content.forEach(async user_pattern => {
-      stringPatter = stringPatter + ";;;" + user_pattern;
+      stringPattern = stringPattern + ";;;" + user_pattern;
     });
 
 
@@ -85,14 +85,15 @@ export class AttemptsService {
     console.log("len listUserCode"+ listUserCode.length)
 
     var retour : string = ""
+    var code ="";
+    listUserCode.forEach(async user => {
+      code = code + ";;;" + user.tokenCode;
+    });
 
-    listUserCode.forEach(user => {
 
+    const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, code, stringPattern]);
 
-
-        const pythonProcess3 = spawn('python3',[`${ALGO_DIR}/python/mainPlagiat.py`, user.tokenCode, stringPatter]);
-
-        pythonProcess3.stdout.on('data', (data) => {
+    await pythonProcess3.stdout.on('data', (data) => {
           console.log("start res")
           console.log(data.toString())
           console.log("end res")
@@ -107,7 +108,6 @@ export class AttemptsService {
 
 
 
-    }
     );
 
 /*
@@ -150,7 +150,7 @@ export class AttemptsService {
 
       console.log((plagiaStringSize*100)/(stringSize))
       */
-    console.log(retour)
+    console.log("retour" + retour)
 
     execResults["stdout"] = resulte_algo_eval_code
     console.log("PROG END")
