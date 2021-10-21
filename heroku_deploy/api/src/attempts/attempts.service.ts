@@ -88,7 +88,7 @@ export class AttemptsService {
 
     if (index == -1){
         const verifCatDto : VerifCatDto = {
-          nameExo: challenge.name,
+          token: insertAttemptDTO.code,
           userId: insertAttemptDTO.user
         }; 
 
