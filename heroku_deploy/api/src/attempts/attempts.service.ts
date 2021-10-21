@@ -107,9 +107,6 @@ export class AttemptsService {
         });
 
 
-
-    );
-
 /*
     let plagiaStringSize = 0
     let stringSize = 0
