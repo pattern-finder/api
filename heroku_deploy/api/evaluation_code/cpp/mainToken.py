@@ -19,5 +19,5 @@ if __name__ == '__main__':
     res = excecGetTokenizeCode(lignes, False)
 
     
-    print(payload)
+    print(res)
     sys.stdout.flush()
