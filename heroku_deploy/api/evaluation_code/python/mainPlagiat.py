@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     for c in code:
         c = c.replace("\n", "")
-        c = c.replace("\", "")
+        c = c.replace("\\", "")
 
         res = excecEvalPlagiat(c, tab_pattern)
         test.append(c)
