@@ -707,6 +707,6 @@ def excecGetTokenizeCode(code, all_code):
             sanitize_code.append(sanitize_content(function))
 
     else:
-        sanitize_code=sanitize_content(lignesCompacte)
+        sanitize_code=sanitize_content(codeRename)
 
     return sanitize_code
