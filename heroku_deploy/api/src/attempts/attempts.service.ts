@@ -60,9 +60,9 @@ export class AttemptsService {
     const plagiatCodeDto : CreateCatDto = {
       nameExo: challenge.name,
       userId: insertAttemptDTO.user,
-      token:codeToSave
+      tokenCode:codeToSave
     }; 
-    
+
     const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
     console.log("len listUserCode"+ listUserCode.length)
     console.log(tokenCode)
@@ -99,7 +99,7 @@ export class AttemptsService {
         const plagiatCodeDto : CreateCatDto = {
           nameExo: challenge.name,
           userId: insertAttemptDTO.user,
-          token:codeToSave
+          tokenCode:codeToSave
         }; 
     
         const verifCatDto : VerifCatDto = {

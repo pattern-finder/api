@@ -13,8 +13,10 @@ export class EvalPlagiatService {
 
   async create(createCatDto: CreateCatDto): Promise<EvalPlagiat> {
     console.log("createCatDto.token")
-    console.log(createCatDto.token)
+    console.log(createCatDto.tokenCode)
     const createdCat = new this.evalPlagiatModel(createCatDto);
+    console.log(createdCat)
+
     return createdCat.save();
   }
 
