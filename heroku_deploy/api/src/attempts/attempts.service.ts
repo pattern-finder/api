@@ -52,8 +52,8 @@ export class AttemptsService {
 
     var list_content;
     var tokenCode = await this.getTokenCode(execBootstrap.language, insertAttemptDTO.code)
+    tokenCode = tokenCode.replace('\n', '');  
     list_content = tokenCode.split('|separator|');
-    list_content = list_content.replace('\n', '');  
 
     console.log("list_content")
     console.log(list_content)
