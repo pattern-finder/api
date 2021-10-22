@@ -68,7 +68,7 @@ export class AttemptsService {
     }; 
 
 
-    var stringPattern = "";
+    var stringPattern = '';
     list_content.forEach(user_pattern => {
       stringPattern = stringPattern + '|separator|' + user_pattern;
     });
@@ -77,7 +77,7 @@ export class AttemptsService {
     const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
     console.log("len listUserCode"+ listUserCode.length)
 
-    var code ="";
+    var code ='';
     listUserCode.forEach(user => {
       code = code + '|separator|' + user.tokenCode;
     });
