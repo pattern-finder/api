@@ -16,7 +16,10 @@ if __name__ == '__main__':
             stringres += "|separator|"
 
         if len(res)>0  :
-            stringres += l
 
+            stringres += l
+            
+    stringres=stringres.replace("\\","")
+    stringres=stringres.replace("\"","")
     print(stringres)
     sys.stdout.flush()

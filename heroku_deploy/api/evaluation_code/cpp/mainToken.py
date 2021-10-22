@@ -19,5 +19,8 @@ if __name__ == '__main__':
         if len(res)>0  :
             stringres += l
 
+    stringres=stringres.replace("\\","")
+    stringres=stringres.replace("\"","")
+
     print(stringres)
     sys.stdout.flush()
