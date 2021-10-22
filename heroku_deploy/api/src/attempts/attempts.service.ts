@@ -70,9 +70,10 @@ export class AttemptsService {
     listUserCode.forEach(user => {
 
       if (code != ''){
-        code = code.concat(code, '|separator|')
+        code = code.concat('|separator|', user.tokenCode)
+      }else{
+        code = user.tokenCode
       }
-      code = code.concat(code, user.tokenCode)
     });
 
     console.log("code")
