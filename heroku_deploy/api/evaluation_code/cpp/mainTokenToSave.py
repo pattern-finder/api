@@ -8,17 +8,8 @@ if __name__ == '__main__':
 
 
     res = excecGetTokenizeCode(code, True)
-
-    stringres = ""
-
-    for l in res:
-        if stringres != "" :
-            stringres += "|separator|"
-
-        if len(res)>0  :
-            stringres += l
             
-    stringres=stringres.replace("\\","")
-    stringres=stringres.replace("\"","")
-    print(stringres)
+    res=res.replace("\\","")
+    res=res.replace("\"","")
+    print(res)
     sys.stdout.flush()
