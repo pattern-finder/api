@@ -12,7 +12,8 @@ if __name__ == '__main__':
     stringres = ""
 
     for l in res:
-        stringres += ";;;"+l
+        if len(res)>0:
+            stringres += "|separator|"+l
 
     print(stringres)
     sys.stdout.flush()
