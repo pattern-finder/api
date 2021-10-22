@@ -70,7 +70,7 @@ export class AttemptsService {
 
     var stringPattern = "";
     list_content.forEach(user_pattern => {
-      stringPattern = stringPattern + ";;;" + user_pattern;
+      stringPattern = stringPattern + "|separator|" + user_pattern;
     });
 
 
@@ -79,7 +79,7 @@ export class AttemptsService {
 
     var code ="";
     listUserCode.forEach(user => {
-      code = code + ";;;" + user.tokenCode;
+      code = code + "|separator|" + user.tokenCode;
     });
 
     console.log("code")

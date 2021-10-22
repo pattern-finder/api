@@ -6,8 +6,8 @@ code = sys.argv[1]
 user_pattern = sys.argv[2]
 
 if __name__ == '__main__':
-    user_pattern = user_pattern.split(";;;")
-    code = code.split(";;;")
+    user_pattern = user_pattern.split("|separator|")
+    code = code.split("|separator|")
 
     res = False
     test = []
