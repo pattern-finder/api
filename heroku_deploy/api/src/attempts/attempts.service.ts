@@ -179,6 +179,8 @@ export class AttemptsService {
   async evalPlagiat(code: string, stringPattern: string): Promise<string> {
 
     const exec = require("child_process").execSync;
+    code = code.replace('\'', '');  
+
     var result = exec("python3 "+ALGO_DIR+"/python/mainPlagiat.py \'"+code+"\' \'"+stringPattern+"\'");
     return result.toString()
 
