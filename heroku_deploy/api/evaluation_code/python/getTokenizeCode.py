@@ -608,7 +608,7 @@ def excecGetTokenizeCode(code, all_code):
                 sn = sanitize_content("def"+function)
                 vall_code = vall_code + sn
 
-        sanitize_code.append(vall_code)
+        sanitize_code=vall_code
 
     return sanitize_code
 
