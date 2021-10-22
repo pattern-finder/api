@@ -71,12 +71,14 @@ export class AttemptsService {
 
     listUserCode.forEach(user => {
       console.log(user.tokenCode)
-      if (code != ''){
-        code = code.concat('|separator|', user.tokenCode)
-        code = code.replace('\'', '');  
+      if(user.tokenCode != undefined){
+        if (code != ''){
+          code = code.concat('|separator|', user.tokenCode)
+          code = code.replace('\'', '');  
 
-      }else{
-        code = user.tokenCode
+        }else{
+          code = user.tokenCode
+        }
       }
     });
 
@@ -89,6 +91,10 @@ export class AttemptsService {
     if (index == -1){
 
         var codeToSave = await this.getTokenCodeToSave(execBootstrap.language, insertAttemptDTO.code)
+
+        console.log("codeToSave")
+        console.log(codeToSave)
+
         const verifCatDto : VerifCatDto = {
           token: codeToSave,
           userId: insertAttemptDTO.user
