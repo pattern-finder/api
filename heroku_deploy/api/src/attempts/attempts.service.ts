@@ -163,7 +163,7 @@ export class AttemptsService {
     console.log("retour")
     console.log(JSON.stringify(retour))
 
-    execResults["stdout"] = resulte_algo_eval_code
+    execResults["stdout"] = execResults["stdout"] + resulte_algo_eval_code  
     console.log(resulte_algo_eval_code)
     console.log("PROG END")
     const attempt = (
