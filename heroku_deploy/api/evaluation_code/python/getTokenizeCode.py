@@ -580,12 +580,17 @@ def excecGetTokenizeCode(code, all_code):
 
 
     sanitize_code = []
-    line = ""
 
-    for l in lignesCompacte:
-        line=line+l
+    listFunction.append(listVariableRename)
 
-    list_function = code.split("def ")
+    listFunctionCode = find_function(lignesCompacte)
+
+
+    renameCode = rename_variable(code, listVariableRename)
+
+
+
+    list_function = renameCode.split("def ")
 
     vall_code=""
 
@@ -606,5 +611,4 @@ def excecGetTokenizeCode(code, all_code):
         sanitize_code.append(vall_code)
 
     return sanitize_code
-
 

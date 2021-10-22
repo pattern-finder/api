@@ -610,6 +610,8 @@ def remove_comentary(lignes):
     return code_without_comentary
 
 
+
+
 def excecGetTokenizeCode(code, all_code):
 
     listFunction = []
@@ -676,8 +678,25 @@ def excecGetTokenizeCode(code, all_code):
 
                 lignesCompacte +=ligne
 
+
     listFunction.append(listVariableRename)
+
+    blockCodesWithRenameVariable = []
     listFunctionCode = find_function(lignesCompacte)
+
+
+    for function in listFunctionCode:
+        blockCodesWithRenameVariable.append(function)
+
+    codeRename = ""
+    i=0
+    for elt in blockCodesWithRenameVariable:
+        codeRename += rename_variable(elt, listFunction[i])
+        i +=1
+
+
+
+    listFunctionCode = find_function(codeRename)
 
     sanitize_code = []
 

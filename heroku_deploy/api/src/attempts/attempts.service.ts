@@ -67,8 +67,10 @@ export class AttemptsService {
     console.log(tokenCode)
 
     var code ='';
-    listUserCode.forEach(user => {
+    console.log("user.tokenCode")
 
+    listUserCode.forEach(user => {
+      console.log(user.tokenCode)
       if (code != ''){
         code = code.concat('|separator|', user.tokenCode)
         code = code.replace('\'', '');  
@@ -85,8 +87,10 @@ export class AttemptsService {
     var index = retour.indexOf("True");
     console.log(index)
     if (index == -1){
+
+        var codeToSave = await this.getTokenCodeToSave(execBootstrap.language, insertAttemptDTO.code)
         const verifCatDto : VerifCatDto = {
-          token: insertAttemptDTO.code,
+          token: codeToSave,
           userId: insertAttemptDTO.user
         }; 
 
@@ -193,6 +197,15 @@ export class AttemptsService {
     const exec = require("child_process").execSync;
     var resulte_algo_eval_code;
     var result = exec("python3 "+ALGO_DIR+"/"+language+"/mainToken.py \'"+code+"\'");
+    resulte_algo_eval_code = result.toString()
+    return resulte_algo_eval_code
+
+  }
+
+  async getTokenCodeToSave(language: string, code: string): Promise<string> {
+    const exec = require("child_process").execSync;
+    var resulte_algo_eval_code;
+    var result = exec("python3 "+ALGO_DIR+"/"+language+"/mainTokenToSave.py \'"+code+"\'");
     resulte_algo_eval_code = result.toString()
     return resulte_algo_eval_code
 
