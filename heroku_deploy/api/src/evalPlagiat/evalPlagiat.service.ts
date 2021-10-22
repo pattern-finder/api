@@ -12,6 +12,7 @@ export class EvalPlagiatService {
   constructor(@InjectModel(EvalPlagiat.name) private evalPlagiatModel: Model<EvalPlagiatDocument>) {}
 
   async create(createCatDto: CreateCatDto): Promise<EvalPlagiat> {
+    console.log("createCatDto.token")
     console.log(createCatDto.token)
     const createdCat = new this.evalPlagiatModel(createCatDto);
     return createdCat.save();
