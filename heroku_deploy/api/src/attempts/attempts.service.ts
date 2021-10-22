@@ -80,7 +80,7 @@ export class AttemptsService {
         }
       }
     });
-    code = code.replace("\'", "");  
+    code = code.replace('\'', '');  
 
     console.log("code")
     console.log(code)
