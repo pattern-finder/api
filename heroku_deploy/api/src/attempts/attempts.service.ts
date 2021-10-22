@@ -74,13 +74,13 @@ export class AttemptsService {
       if(user.tokenCode != undefined){
         if (code != ''){
           code = code.concat('|separator|', user.tokenCode)
-          code = code.replace('\'', '');  
 
         }else{
           code = user.tokenCode
         }
       }
     });
+    code = code.replace('\'', '');  
 
     console.log("code")
     console.log(code)
