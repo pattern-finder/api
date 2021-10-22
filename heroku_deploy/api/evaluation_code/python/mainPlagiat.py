@@ -19,11 +19,12 @@ if __name__ == '__main__':
         p = p.replace("\\", "")
         tab_pattern.append(p)
 
+    test  = []
     for c in code:
         c = c.replace("\n", "")
         c = c.replace("\\", "")
-
+        test.append(c)
         res = excecEvalPlagiat(c, tab_pattern)
 
-    print(str(tab_pattern) +" "+ str(c) +" "+str(res))
+    print(str(tab_pattern) +" "+ str(test) +" "+str(res))
     sys.stdout.flush()
