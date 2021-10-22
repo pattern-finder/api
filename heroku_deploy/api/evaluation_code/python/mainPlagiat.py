@@ -10,9 +10,11 @@ if __name__ == '__main__':
     code = code.split(";;;")
 
     res = False
+    test = []
     for c in code:
         c = c.replace("\n", "")
         res = excecEvalPlagiat(c, user_pattern)
+        test.append(c)
 
-    print(user_pattern +"\n"+ code +"\n"+res)
+    print(str(user_pattern) +"\n"+ str(test) +"\n"+str(res))
     sys.stdout.flush()
