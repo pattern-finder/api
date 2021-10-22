@@ -163,6 +163,7 @@ def sanitize_content(ligne):
     ligne = delete_string(ligne)
     filtered_content = filtered_content + (replace_by_new_content(ligne))
     filtered_content = delete_unuse_content(filtered_content)
+    filtered_content = re.sub('[0-9]{1,}', '*', filtered_content)
     return filtered_content
 
 
