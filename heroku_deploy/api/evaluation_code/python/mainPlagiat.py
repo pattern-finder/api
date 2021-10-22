@@ -16,8 +16,8 @@ if __name__ == '__main__':
 
 
     for p in user_pattern:
-        p = p.splitreplace("\n", "")
-        p = p.splitreplace("\", "")
+        p = p.replace("\n", "")
+        p = p.replace("\", "")
         tab_pattern.append(p)
 
     for c in code:
