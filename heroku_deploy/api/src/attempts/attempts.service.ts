@@ -77,7 +77,7 @@ export class AttemptsService {
 
     const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
     console.log("len listUserCode"+ listUserCode.length)
-    console.log(stringPattern)
+    console.log(tokenCode)
 
     var code ='';
     listUserCode.forEach(user => {
@@ -87,7 +87,7 @@ export class AttemptsService {
     console.log("code")
     console.log(code)
 
-    var retour = await this.evalPlagiat(code, stringPattern)
+    var retour = await this.evalPlagiat(code, tokenCode)
     var index = retour.indexOf("True");
     console.log(index)
     if (index == -1){
