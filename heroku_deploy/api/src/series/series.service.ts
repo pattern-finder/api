@@ -56,8 +56,7 @@ export class SeriesService {
 
   async create(createSerieDTO: InsertSerieDTO): Promise<Serie> {
 
-    console.log("createSerieDTO")
-    console.log(createSerieDTO)
+
 
     if (await this.findByName(createSerieDTO.name)) {
 
@@ -68,6 +67,7 @@ export class SeriesService {
     return (
       await new this.seriesModel({
         ...createSerieDTO,
+        isCourse: true,
         createdAt: new Date(),
       }).save()
     ).toObject();
