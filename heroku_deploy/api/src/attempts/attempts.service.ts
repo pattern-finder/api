@@ -50,13 +50,8 @@ export class AttemptsService {
 
 
 
-    var list_content;
     var tokenCode = await this.getTokenCode(execBootstrap.language, insertAttemptDTO.code)
     tokenCode = tokenCode.replace('\n', '');  
-    list_content = tokenCode.split('|separator|');
-
-    console.log("list_content")
-    console.log(list_content)
 
     const challenge = await this.challengesService.findOne({
       id: execBootstrap.challenge,
@@ -67,21 +62,17 @@ export class AttemptsService {
       userId: insertAttemptDTO.user
     }; 
 
-
-    var stringPattern = '';
-    list_content.forEach(user_pattern => {
-      stringPattern = stringPattern.concat(stringPattern, '|separator|')
-      stringPattern = stringPattern.concat(stringPattern, user_pattern)
-    });
-
-
     const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
     console.log("len listUserCode"+ listUserCode.length)
     console.log(tokenCode)
 
     var code ='';
     listUserCode.forEach(user => {
-      code = code + '|separator|' + user.tokenCode;
+
+      if (code != ''){
+        code = code.concat(code, '|separator|')
+      }
+      code = code.concat(code, user.tokenCode)
     });
 
     console.log("code")

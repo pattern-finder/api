@@ -9,11 +9,15 @@ if __name__ == '__main__':
 
     res = excecGetTokenizeCode(code, False)
 
+
     stringres = ""
 
     for l in res:
-        if len(res)>0:
-            stringres += "|separator|"+l
+        if stringres != "" :
+            stringres += "|separator|"
+
+        if len(res)>0  :
+            stringres += l
 
     print(stringres)
     sys.stdout.flush()
