@@ -67,7 +67,6 @@ export class SeriesService {
     return (
       await new this.seriesModel({
         ...createSerieDTO,
-        isCourse: true,
         createdAt: new Date(),
       }).save()
     ).toObject();
