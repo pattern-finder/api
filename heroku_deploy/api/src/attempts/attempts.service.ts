@@ -59,9 +59,10 @@ export class AttemptsService {
 
     const plagiatCodeDto : CreateCatDto = {
       nameExo: challenge.name,
-      userId: insertAttemptDTO.user
+      userId: insertAttemptDTO.user,
+      token:codeToSave
     }; 
-
+    
     const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
     console.log("len listUserCode"+ listUserCode.length)
     console.log(tokenCode)
@@ -95,6 +96,12 @@ export class AttemptsService {
         console.log("codeToSave")
         console.log(codeToSave)
 
+        const plagiatCodeDto : CreateCatDto = {
+          nameExo: challenge.name,
+          userId: insertAttemptDTO.user,
+          token:codeToSave
+        }; 
+    
         const verifCatDto : VerifCatDto = {
           token: codeToSave,
           userId: insertAttemptDTO.user
@@ -104,6 +111,8 @@ export class AttemptsService {
 
         if(affList.length == 0){
           const res = await this.evalPlagiatService.create(plagiatCodeDto);
+          console.log("code save!")
+
         }else{
           console.log("code use previously")
         }
