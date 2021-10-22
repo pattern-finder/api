@@ -25,5 +25,5 @@ if __name__ == '__main__':
 
         res = excecEvalPlagiat(c, tab_pattern)
 
-    print(str(user_pattern) +" "+ str(code) +" "+str(res))
+    print(str(tab_pattern) +" "+ str(c) +" "+str(res))
     sys.stdout.flush()
