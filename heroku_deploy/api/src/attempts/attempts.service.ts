@@ -70,12 +70,14 @@ export class AttemptsService {
 
     var stringPattern = '';
     list_content.forEach(user_pattern => {
-      stringPattern = stringPattern + '|separator|' + user_pattern;
+      stringPattern = stringPattern.concat(stringPattern, '|separator|')
+      stringPattern = stringPattern.concat(stringPattern, user_pattern)
     });
 
 
     const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
     console.log("len listUserCode"+ listUserCode.length)
+    console.log(stringPattern)
 
     var code ='';
     listUserCode.forEach(user => {
