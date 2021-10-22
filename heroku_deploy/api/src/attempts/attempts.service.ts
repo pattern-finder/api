@@ -64,11 +64,8 @@ export class AttemptsService {
     }; 
 
     const listUserCode = await this.evalPlagiatService.find(plagiatCodeDto);
-    console.log("len listUserCode"+ listUserCode.length)
-    console.log(tokenCode)
 
     var code ='';
-    console.log("user.tokenCode")
 
     listUserCode.forEach(user => {
       console.log(user.tokenCode)
@@ -85,6 +82,8 @@ export class AttemptsService {
 
     console.log("code")
     console.log(code)
+    console.log("code")
+    console.log(tokenCode)
 
     var retour = await this.evalPlagiat(code, tokenCode)
     var index = retour.indexOf("True");
@@ -223,7 +222,7 @@ export class AttemptsService {
     var result = exec("python3 "+ALGO_DIR+"/"+language+"/mainTokenToSave.py \'"+code+"\'");
     resulte_algo_eval_code = result.toString()
     return resulte_algo_eval_code
-
+ 
   }
 
 

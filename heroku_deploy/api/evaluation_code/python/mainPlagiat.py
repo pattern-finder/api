@@ -9,8 +9,7 @@ if __name__ == '__main__':
     user_pattern = user_pattern.split("|separator|")
     code = code.split("|separator|")
 
-    res = False
-    test = []
+    res = None
 
     tab_pattern = []
 
@@ -25,7 +24,6 @@ if __name__ == '__main__':
         c = c.replace("\\", "")
 
         res = excecEvalPlagiat(c, tab_pattern)
-        test.append(c)
 
-    print(str(user_pattern) +"\n"+ str(test) +"\n"+str(res))
+    print(str(tab_pattern) +" "+ str(code) +" "+str(res))
     sys.stdout.flush()
