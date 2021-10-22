@@ -11,9 +11,20 @@ if __name__ == '__main__':
 
     res = False
     test = []
+
+    tab_pattern = []
+
+
+    for p in user_pattern:
+        p = p.splitreplace("\n", "")
+        p = p.splitreplace("\", "")
+        tab_pattern.append(p)
+
     for c in code:
         c = c.replace("\n", "")
-        res = excecEvalPlagiat(c, user_pattern)
+        c = c.replace("\", "")
+
+        res = excecEvalPlagiat(c, tab_pattern)
         test.append(c)
 
     print(str(user_pattern) +"\n"+ str(test) +"\n"+str(res))
